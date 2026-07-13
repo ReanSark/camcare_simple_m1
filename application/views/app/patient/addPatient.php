@@ -148,13 +148,13 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td width="12%"><?php echo $this->lang->line("lastname")?> <font color="#FF0000">*</font></td>
+                                                    	<td width="12%">Last Name <?php echo $this->lang->line("lastname")?> <font color="#FF0000">*</font></td>
                                                         <td width="88%">
                                                         <?php echo form_input('lastname',set_value('lastname'),'id="lastname" class="form-control input-sm" placeholder="Last Name" style="width: 250px;" required');?>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td><?php echo $this->lang->line("firstname")?> <font color="#FF0000">*</font></td>
+                                                    	<td>First Name <?php echo $this->lang->line("firstname")?> <font color="#FF0000">*</font></td>
                                                         <td>
                                                         <?php echo form_input('firstname',set_value('firstname'),'id="firstname" class="form-control input-sm" placeholder="First Name" style="width: 250px;" required');?>
                                                         </td>
