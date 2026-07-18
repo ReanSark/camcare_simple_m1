@@ -67,6 +67,7 @@
                             
                             			<center>
                                             <img src="<?php echo base_url()?>public/company_logo/<?php echo $companyInfo->logo?>" height="45"><br>
+                                            <p class="lead">នូន</p><br>
 	<font size="+1"><?php echo $companyInfo->company_name;?></font></b><br>                   
     <?php echo $companyInfo->company_address;?><br>     
     <?php echo $companyInfo->company_contactNo;?><br><br>
