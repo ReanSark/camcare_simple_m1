@@ -9,7 +9,7 @@
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "+07:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -240,7 +240,7 @@ CREATE TABLE `company_info` (
 --
 
 INSERT INTO `company_info` (`company_name`, `company_address`, `company_contactNo`, `TIN`, `logo`) VALUES
-('DEMO HOSPITAL CENTER', 'Somewhere', ' 331 9233', '123-456-789', 'logo.jpg');
+('CamCare Clinic', '#HA177, BD05, HA173, HA175, NB Street, Khan Chroy Changva, Songkat Bak Kheng (Borey Golden Park, Bridge 9), Phnom Penh, Cambodia', '099 8000 68 / 096 2 8000 68', 'N/A', 'camcare-color-favicon.png');
 
 -- --------------------------------------------------------
 
@@ -331,16 +331,7 @@ CREATE TABLE `declaredor` (
   `InActive` int(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `declaredor`
---
 
-INSERT INTO `declaredor` (`id`, `receipt_no`, `invoice_no`, `old_receipt_no`, `dDate`, `iop_id`, `patient_no`, `payment_type`, `discount`, `subtotal`, `total_amount`, `amountPaid`, `change`, `total_purchased`, `InActive`) VALUES
-(5, 'OR-1', 'SI-000027', 'OR-000011', '2014-07-31', 'OR-000011', '000001', 'cash', 600.00, 9600.00, 9000.00, 10000.00, 400.00, 2, 0),
-(6, 'OR-02', 'SI-000028', 'OR-000012', '2014-07-31', 'OR-000012', '000011', 'cash', 55.00, 155.00, 100.00, 160.00, 5.00, 3, 1),
-(7, 'OR-2', 'SI-000028', 'OR-000012', '2014-07-31', 'OR-000012', '000011', 'cash', 0.00, 150.00, 150.00, 160.00, 5.00, 3, 0);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `department`
@@ -359,44 +350,7 @@ CREATE TABLE `department` (
 
 INSERT INTO `department` (`department_id`, `dept_code`, `dept_name`, `InActive`) VALUES
 (1, 'MIS', 'Management Information System', 0),
-(2, 'Front Desk', 'Front Desk', 0),
-(3, 'asd2', 'asd23', 1),
-(4, 'Cardiology', 'Cardiology', 0),
-(5, 'Anaesthetics', 'Anaesthetics', 0),
-(6, 'Assistants', 'Assistants', 1),
-(7, 'sdf', 'sdf', 1),
-(8, 'Casualty', 'Casualty', 0),
-(9, 'Breast screenin', 'Breast screening', 0),
-(10, 'Chaplaincy', 'Chaplaincy', 0),
-(11, 'Intensive Care Unit (ICU)', 'Intensive Care Unit (ICU)', 0),
-(12, 'Radiography', 'Radiography', 0),
-(13, 'Discharge lounge', 'Discharge lounge', 0),
-(14, 'Ear nose and throat (ENT)', 'Ear nose and throat (ENT)', 0),
-(15, 'Elderly services department', 'Elderly services department', 0),
-(16, 'Gastroenterology', 'Gastroenterology', 0),
-(17, 'General surgery', 'General surgery', 0),
-(18, 'Gynaecology', 'Gynaecology', 0),
-(19, 'Maternity departments', 'Maternity departments', 0),
-(20, 'Microbiology', 'Microbiology', 0),
-(21, 'Neonatal unit', 'Neonatal unit', 0),
-(22, 'Nephrology', 'Nephrology', 0),
-(23, 'Neurology', 'Neurology', 0),
-(24, 'Nutrition and dietetics', 'Nutrition and dietetics', 0),
-(25, 'Obstetrics and gynaecology units', 'Obstetrics and gynaecology units', 0),
-(26, 'Occupational therapy', 'Occupational therapy', 0),
-(27, 'Oncology', 'Oncology', 0),
-(28, 'Ophthalmology', 'Ophthalmology', 0),
-(29, 'Orthopaedics', 'Orthopaedics', 0),
-(30, 'Physiotherapy', 'Physiotherapy', 0),
-(31, 'Radiotherapy', 'Radiotherapy', 0),
-(32, 'Renal unit', 'Renal unit', 0),
-(33, 'Rheumatology', 'Rheumatology', 0),
-(34, 'Genitourinary Department', 'Sexual health (genitourinary medicine)', 0),
-(35, 'Urology', 'Urology', 0),
-(36, 'Dental Department', 'Dental Department', 0),
-(37, 'a', 'a', 1),
-(38, 'BILLING', 'BILLING', 0),
-(39, 'IT DEPARTMENT', 'IT DEPARTMENT', 0);
+(2, 'Front Desk', 'Front Desk', 0);
 
 -- --------------------------------------------------------
 
@@ -422,7 +376,7 @@ INSERT INTO `designation` (`designation_id`, `designation`, `description`, `InAc
 (5, 'Nurse', 'Nurse', 0),
 (6, 'Pharmacist', 'Pharmacist', 0),
 (7, 'Pathologist', 'Pathologist', 0),
-(8, 'CASHIER', 'CASHIER', 0);
+(8, 'CASHIER', 'Cashier', 0);
 
 -- --------------------------------------------------------
 
@@ -530,7 +484,7 @@ CREATE TABLE `doctors_fee` (
 --
 
 INSERT INTO `doctors_fee` (`doctorfeeID`, `user_id`, `invoice_no`, `date`, `completeDate`, `feeType`, `value`, `totalFee`, `notes`) VALUES
-(1, '00007', 'SI-000036', '2015-11-14', '2015-11-14 09:25:54 pm', 'percentage', 100.00, 0.00, 'cccc');
+(1, '00001', 'SI-000001', '2015-11-14', '2015-11-14 09:25:54 pm', 'percentage', 100.00, 0.00, 'cccc');
 
 -- --------------------------------------------------------
 
@@ -580,7 +534,7 @@ CREATE TABLE `insurance_comp` (
 --
 
 INSERT INTO `insurance_comp` (`in_com_id`, `company_name`, `company_address`, `phone_no`, `fax_no`, `email_address`, `contact_person`, `contact_no_person`, `contact_email`, `notes`, `InActive`) VALUES
-(5, 'Phil Health', '#0001 Street Salcedo Makati City', '02 456 8595', '', 'contactme@yahoo.com', 'Bobby Mendoza', '091234676454', 'bobby@yahoo.com', 'remarks of insurance company', 0);
+(1, 'Phil Health', '#0001 Street Salcedo Makati City', '02 456 8595', '', 'contactme@yahoo.com', 'Bobby Mendoza', '091234676454', 'bobby@yahoo.com', 'remarks of insurance company', 0);
 
 -- --------------------------------------------------------
 
@@ -665,7 +619,7 @@ CREATE TABLE `iop_complaints` (
 --
 
 INSERT INTO `iop_complaints` (`iop_comp_id`, `iop_id`, `complain_id`, `remarks`, `dDate`, `InActive`) VALUES
-(1, 'OP-000017', 5, 'dasd', '2017-02-24', 0);
+(1, 'OP-000001', 5, 'dasd', '2017-02-24', 0);
 
 -- --------------------------------------------------------
 
@@ -687,7 +641,7 @@ CREATE TABLE `iop_diagnosis` (
 --
 
 INSERT INTO `iop_diagnosis` (`iop_diag_id`, `iop_id`, `diagnosis_id`, `remarks`, `dDate`, `InActive`) VALUES
-(1, 'OP-000017', 1, 'asdasd', '2017-02-24 08:32:14', 0);
+(1, 'OP-000001', 1, 'asdasd', '2017-02-24 08:32:14', 0);
 
 -- --------------------------------------------------------
 
@@ -714,7 +668,7 @@ CREATE TABLE `iop_discharge_summary` (
 --
 
 INSERT INTO `iop_discharge_summary` (`dis_id`, `iop_id`, `dDate`, `dDateTime`, `reason_admission`, `condition_upon_discharge`, `admitting_impression`, `final_diagnosis`, `physical_exam_findings`, `course_ward`, `InActive`) VALUES
-(1, 'OP-000017', '2017-02-24', '2017-02-24 08:34:11', 'asdasd', 61, 'asd', 'asd', 'asd', 'asd', 0);
+(1, 'OP-000001', '2017-02-24', '2017-02-24 08:34:11', 'asdasd', 61, 'asd', 'asd', 'asd', 'asd', 0);
 
 -- --------------------------------------------------------
 
@@ -760,7 +714,7 @@ CREATE TABLE `iop_laboratory` (
 --
 
 INSERT INTO `iop_laboratory` (`io_lab_id`, `iop_id`, `dDate`, `dDateTime`, `category_id`, `laboratory_id`, `findings`, `result`, `doctor`, `InActive`) VALUES
-(1, 'OP-000017', '2017-02-24', '2017-02-24 08:30 AM', 8, 61, '', '', 7, 0);
+(1, 'OP-000001', '2017-02-24', '2017-02-24 08:30 AM', 8, 61, '', '', 7, 0);
 
 -- --------------------------------------------------------
 
@@ -786,7 +740,7 @@ CREATE TABLE `iop_medication` (
 --
 
 INSERT INTO `iop_medication` (`iop_med_id`, `iop_id`, `medicine_id`, `instruction`, `advice`, `days`, `total_qty`, `InActive`, `dDate`, `cPreparedBy`) VALUES
-(1, 'OP-000017', 11, '', '', 10, 10, 0, '0000-00-00 00:00:00', '');
+(1, 'OP-000001', 11, '', '', 10, 10, 0, '0000-00-00 00:00:00', '');
 
 -- --------------------------------------------------------
 
@@ -875,7 +829,7 @@ CREATE TABLE `iop_progress_note` (
 --
 
 INSERT INTO `iop_progress_note` (`progress_id`, `iop_id`, `dDate`, `dDateTime`, `progress`, `treatment`, `remarks`, `InActive`, `cPreparedBy`) VALUES
-(1, 'IP-000024', '2017-02-24', '2017-02-24 asd', 'asd', 'asd', 'asdas', 0, '00007');
+(1, 'IP-000001', '2017-02-24', '2017-02-24 asd', 'asd', 'asd', 'asdas', 0, '00007');
 
 -- --------------------------------------------------------
 
@@ -928,7 +882,7 @@ CREATE TABLE `iop_room_transfer` (
 --
 
 INSERT INTO `iop_room_transfer` (`transfer_id`, `iop_id`, `dDate`, `dDateTime`, `room_category_id`, `room_master_id`, `bed_id`, `reason`, `cPreparedBy`, `InActive`) VALUES
-(1, 'IP-000024', '2017-02-24', '2017-02-24 08:36:52 AM', 1, 7, 1, 'Patient Admitted', '00010', 0);
+(1, 'IP-000001', '2017-02-24', '2017-02-24 08:36:52 AM', 1, 7, 1, 'Patient Admitted', '00010', 0);
 
 -- --------------------------------------------------------
 
@@ -956,9 +910,9 @@ CREATE TABLE `iop_vital_parameters` (
 --
 
 INSERT INTO `iop_vital_parameters` (`vital_id`, `iop_id`, `dDate`, `dDateTime`, `pulse_rate`, `temperature`, `height`, `bp`, `respiration`, `weight`, `cPreparedBy`, `InActive`) VALUES
-(1, 'OP-000017', '2017-02-24', '2017-02-24 07:26:54', '10', '30', '50', '20', '40', '60', '', 0),
-(2, 'OP-000017', '2017-02-24', '2017-02-24 08:33 AM', '', '', '', '', '', '', '', 0),
-(3, 'OP-000018', '2017-02-24', '2017-02-24 08:35:26', '', '', '', '', '', '', '', 0);
+(1, 'OP-000001', '2017-02-24', '2017-02-24 07:26:54', '10', '30', '50', '20', '40', '60', '', 0),
+(2, 'OP-000001', '2017-02-24', '2017-02-24 08:33 AM', '', '', '', '', '', '', '', 0),
+(3, 'OP-000001', '2017-02-24', '2017-02-24 08:35:26', '', '', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -1275,9 +1229,8 @@ CREATE TABLE `patient_details_iop` (
 --
 
 INSERT INTO `patient_details_iop` (`id`, `IO_ID`, `patient_no`, `patient_type`, `date_visit`, `time_visit`, `doctor_id`, `refferal_doctor`, `room_id`, `department_id`, `provisional_diagnosis`, `complaints`, `allergies`, `warnings`, `social_history`, `family_history`, `personal_history`, `past_medical_history`, `pulse_rate`, `temperature`, `height`, `bp`, `respiration`, `weight`, `nStatus`, `InActive`, `isPaid`) VALUES
-(1, 'OP-000017', '000039', 'OPD', '2017-02-24', '07:26:54', '00007', 7, 0, 8, '', '', 'Allergies here', 'Warnings here', 'Social History here', 'Family History here', 'Personal History here', 'Past Medical History here', '10', '30', '50', '20', '40', '60', 'Discharged', 0, 0),
-(2, 'OP-000018', '000039', 'OPD', '2017-02-24', '08:35:26', '00007', 7, 0, 17, '', '', 'Allergies here', 'Warnings here', 'Social History here', 'Family History here', 'Personal History here', 'Past Medical History here', '', '', '', '', '', '', 'Discharged', 0, 0),
-(3, 'IP-000024', '000039', 'IPD', '2017-02-24', '08:36:52', '00007', 0, 1, 10, '', '', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'Discharged', 0, 0);
+(1, 'OP-000001', '000001', 'OPD', '2017-02-24', '07:26:54', '00007', 7, 0, 8, '', '', 'Allergies here', 'Warnings here', 'Social History here', 'Family History here', 'Personal History here', 'Past Medical History here', '10', '30', '50', '20', '40', '60', 'Discharged', 0, 0),
+(2, 'IP-000001', '000001', 'IPD', '2017-02-24', '08:36:52', '00007', 0, 1, 10, '', '', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'Discharged', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1322,7 +1275,7 @@ CREATE TABLE `patient_personal_info` (
 --
 
 INSERT INTO `patient_personal_info` (`reg_no`, `patient_no`, `title`, `lastname`, `firstname`, `middlename`, `gender`, `civil_status`, `birthday`, `birthplace`, `fathers_name`, `address1`, `address2`, `age`, `religion`, `street`, `subd_brgy`, `province`, `phone_no`, `phone_no_office`, `mobile_no`, `email_address`, `picture`, `date_entry`, `blood_group`, `Insurance_comp`, `insurance_no`, `id_identifiers`, `InActive`) VALUES
-(1, '000039', 7, 'Dela Cruz', 'Ferdinand', '', 1, 3, '1941-05-30', '', '', '', '', 75, 0, '', '', '', '', '', '', '', '', '2017-02-24 06:42:43', 0, 0, '', '', 0);
+(1, '000001', 7, 'Dela Cruz', 'Ferdinand', '', 1, 3, '1941-05-30', '', '', '', '', 75, 0, '', '', '', '', '', '', '', '', '2017-02-24 06:42:43', 0, 0, '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -1877,8 +1830,8 @@ CREATE TABLE `surgical_package` (
 --
 
 INSERT INTO `surgical_package` (`surgery_id`, `surgery_name`, `surgery_desc`, `total_costs`, `InActive`) VALUES
-(3, 'Flexible Cystoscopy', 'Flexible Cystoscopy', 9100.00, 0),
-(4, 'Sample Surgery', 'Sample Surgery', 0.00, 0);
+(1, 'Flexible Cystoscopy', 'Flexible Cystoscopy', 9100.00, 0),
+(2, 'Sample Surgery', 'Sample Surgery', 0.00, 0);
 
 -- --------------------------------------------------------
 
@@ -1901,11 +1854,11 @@ CREATE TABLE `surgical_package_t` (
 --
 
 INSERT INTO `surgical_package_t` (`m_id`, `surgery_id`, `surgery_item`, `cDesc`, `costs`, `InActive`, `date_created`) VALUES
-(14, 3, '97', 'scar', 6000.00, 0, '2014-07-30 05:56:29'),
-(13, 3, '76', 'Intra Articular Injections', 500.00, 0, '2014-07-30 05:56:12'),
-(11, 3, '30', 'dsad', 100.00, 0, '2014-07-30 05:54:12'),
-(12, 3, '94', 'Muscle Biopsy', 2500.00, 0, '2014-07-30 05:54:34'),
-(10, 3, '12', 'Fdfsdf', 2200.00, 1, '2014-07-30 05:09:12');
+(14, 1, '97', 'scar', 6000.00, 0, '2014-07-30 05:56:29'),
+(13, 1, '76', 'Intra Articular Injections', 500.00, 0, '2014-07-30 05:56:12'),
+(11, 1, '30', 'dsad', 100.00, 0, '2014-07-30 05:54:12'),
+(12, 1, '94', 'Muscle Biopsy', 2500.00, 0, '2014-07-30 05:54:34'),
+(10, 1, '12', 'Fdfsdf', 2200.00, 1, '2014-07-30 05:09:12');
 
 -- --------------------------------------------------------
 
@@ -2053,13 +2006,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `department`, `designation`, `user_role`, `cType`, `title`, `lastname`, `firstname`, `middlename`, `age`, `street`, `subd_brgy`, `province`, `phone_no`, `mobile_no`, `gender`, `civil_status`, `birthday`, `birthplace`, `email_address`, `username`, `password`, `picture`, `doctorIsIn`, `doctorLastIn`, `doctorLastOut`, `InActive`) VALUES
-(5, '00002', 1, 1, 1, '', 7, 'Ramos', 'Mark', 'S', 38, '', '', '', '', '', 1, 4, '1978-03-16', 'Cavite', 'sert@serttech.com', 'ioioio', '101a6ec9f938885df0a44f20458d2eb4', '', '0', '', '', 0),
-(11, '00008', 29, 5, 7, '', 8, 'Aasdo', 'Bedud', 'H.', 29, '', '', '', '', '', 2, 3, '1984-12-02', 'Cabuyao Laguna', 'tina@yahoo.com', 'nurse1', 'af9fcaae911aabd0917681d6905561ff', '', '0', '', '', 0),
-(9, '00006', 2, 2, 3, '', 8, 'QWE', 'asD', 'D.', 20, '', '', '', '', '', 1, 3, '1994-06-14', '', 'maryjoypecio@yahoo.com', '00006', '7a77584182a904bb75558a6bc911dd6e', '', '0', '', '', 0),
-(10, '00007', 5, 4, 5, '', 10, 'Gonzales', 'Jorge', 'L.', 60, '', '', '', '', '', 1, 4, '1954-05-19', '', 'admin@yahoo.com', 'doctor1', '45f678b147fdf275c35b60bac2360984', '', 'IN', '2015-11-17 08:08:05 AM', '2015-11-17 08:03:38 AM', 0),
-(12, '00009', 2, 5, 7, '', 9, 'Sarino', 'Mary Joy', 'Samson', 25, '', '', '', '', '', 0, 0, '1990-05-09', '', 'maryjoy@yahoo.com', '00009', 'ff5df3fc5578f0ebf893269c16fe691a', '', '0', '', '', 0),
-(13, '00010', 2, 1, 1, '', 7, 'Administrator', 'Admin', 'A.', 27, '', '', '', '', '', 1, 3, '1989-09-27', '', 'jasonsarino27@gmail.com', 'demo-hmsh', '8b42a1c9b8f9fde869f83c954b3d463b', '8446520.png', '0', '', '', 0),
-(16, '00013', 2, 2, 3, '', 8, 'Danica', 'Bayes', 'P.', 42, '', '', '', '', '', 2, 4, '1974-05-30', '', 'receptionist@yahoo.com', 'receptionist1', '488e6ed76333594cfc50d3585a6e4916', '', '', '', '', 0);
+(1, '00001', 1, 1, 1, '', 7, 'Marin', 'Marin', 'M', 38, '', '', '', '', '', 1, 4, '1978-03-16', 'Earth', 'abc@gmail.com', 'marin', '4d8e0606d0610accf32f94021279718e', '', '0', '', '', 0),
+(2, '00002', 29, 5, 7, '', 8, 'Aasdo', 'Bedud', 'H.', 29, '', '', '', '', '', 2, 3, '1984-12-02', 'Cabuyao Laguna', 'tina@yahoo.com', 'nurse1', 'af9fcaae911aabd0917681d6905561ff', '', '0', '', '', 0),
+(3, '00003', 2, 2, 3, '', 8, 'QWE', 'asD', 'D.', 20, '', '', '', '', '', 1, 3, '1994-06-14', '', 'maryjoypecio@yahoo.com', '00006', '7a77584182a904bb75558a6bc911dd6e', '', '0', '', '', 0),
+(4, '00004', 5, 4, 5, '', 10, 'Gonzales', 'Jorge', 'L.', 60, '', '', '', '', '', 1, 4, '1954-05-19', '', 'admin@yahoo.com', 'doctor1', '45f678b147fdf275c35b60bac2360984', '', 'IN', '2015-11-17 08:08:05 AM', '2015-11-17 08:03:38 AM', 0),
+(5, '00005', 2, 5, 7, '', 9, 'Sarino', 'Mary Joy', 'Samson', 25, '', '', '', '', '', 0, 0, '1990-05-09', '', 'maryjoy@yahoo.com', '00009', 'ff5df3fc5578f0ebf893269c16fe691a', '', '0', '', '', 0),
+(6, '00006', 2, 1, 1, '', 7, 'Administrator', 'Admin', 'A.', 27, '', '', '', '', '', 1, 3, '1989-09-27', '', 'jasonsarino27@gmail.com', 'demo-hmsh', '8b42a1c9b8f9fde869f83c954b3d463b', '8446520.png', '0', '', '', 0),
+(7, '00007', 2, 2, 3, '', 8, 'Danica', 'Bayes', 'P.', 42, '', '', '', '', '', 2, 4, '1974-05-30', '', 'receptionist@yahoo.com', 'receptionist1', '488e6ed76333594cfc50d3585a6e4916', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -2085,9 +2038,7 @@ INSERT INTO `user_roles` (`role_id`, `module`, `role_name`, `role_description`, 
 (3, '0', 'Receptionist', 'Help Desk Officer', 0),
 (5, 'doctor', 'Doctor', 'Doctor', 0),
 (6, 'billing', 'Billing / Cashier', 'Billing / Cashier', 0),
-(7, '0', 'Nurse Roles', 'Nurse Roles', 0),
-(8, '0', 'hfhf', 'jgjg', 1),
-(9, '0', 'IT DEPARTMENT', 'IT ADMIN', 0);
+(7, '0', 'Nurse Roles', 'Nurse', 0),
 
 -- --------------------------------------------------------
 
