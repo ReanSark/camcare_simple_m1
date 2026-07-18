@@ -20,7 +20,7 @@
 
 
     <meta charset="utf-8">
-    <title>Hospital Management System</title>
+    <title>Camcare Clinic</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
      <meta content="Live Demo Hospital Management System,HMS is designed for medical practitioners and health-related institutions to assistant them in storing and keeping track of all correlated information such as patient medical records, admission/discharge reports, pharmaceutical management, billing and report generation and more. " name="description">
@@ -28,7 +28,7 @@
 	  <meta content="Jayson Sarino" name="author">
 
 	  <meta property="og:site_name" content="Hospital Management System Free Trial Demo">
-	  <meta property="og:title" content="Hospital Management System">
+	  <meta property="og:title" content="Camcare Clinic">
 	  <meta property="og:description" content="Live Demo Hospital Management System,HMS is designed for medical practitioners and health-related institutions to assistant them in storing and keeping track of all correlated information such as patient medical records, admission/discharge reports, pharmaceutical management, billing and report generation and more.">
 	  <meta property="og:type" content="website">
 	  <meta property="og:image" content="http://hms-demo.jaysonsarino.com/public/img/new/hms_logo.png"><!-- link to image for socio -->
