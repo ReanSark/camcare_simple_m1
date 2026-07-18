@@ -2007,12 +2007,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `user_id`, `department`, `designation`, `user_role`, `cType`, `title`, `lastname`, `firstname`, `middlename`, `age`, `street`, `subd_brgy`, `province`, `phone_no`, `mobile_no`, `gender`, `civil_status`, `birthday`, `birthplace`, `email_address`, `username`, `password`, `picture`, `doctorIsIn`, `doctorLastIn`, `doctorLastOut`, `InActive`) VALUES
 (1, '00001', 1, 1, 1, '', 7, 'Marin', 'Marin', 'M', 38, '', '', '', '', '', 1, 4, '1978-03-16', 'Earth', 'abc@gmail.com', 'marin', '4d8e0606d0610accf32f94021279718e', '', '0', '', '', 0),
-(2, '00002', 29, 5, 7, '', 8, 'Aasdo', 'Bedud', 'H.', 29, '', '', '', '', '', 2, 3, '1984-12-02', 'Cabuyao Laguna', 'tina@yahoo.com', 'nurse1', 'af9fcaae911aabd0917681d6905561ff', '', '0', '', '', 0),
-(3, '00003', 2, 2, 3, '', 8, 'QWE', 'asD', 'D.', 20, '', '', '', '', '', 1, 3, '1994-06-14', '', 'maryjoypecio@yahoo.com', '00006', '7a77584182a904bb75558a6bc911dd6e', '', '0', '', '', 0),
-(4, '00004', 5, 4, 5, '', 10, 'Gonzales', 'Jorge', 'L.', 60, '', '', '', '', '', 1, 4, '1954-05-19', '', 'admin@yahoo.com', 'doctor1', '45f678b147fdf275c35b60bac2360984', '', 'IN', '2015-11-17 08:08:05 AM', '2015-11-17 08:03:38 AM', 0),
-(5, '00005', 2, 5, 7, '', 9, 'Sarino', 'Mary Joy', 'Samson', 25, '', '', '', '', '', 0, 0, '1990-05-09', '', 'maryjoy@yahoo.com', '00009', 'ff5df3fc5578f0ebf893269c16fe691a', '', '0', '', '', 0),
-(6, '00006', 2, 1, 1, '', 7, 'Administrator', 'Admin', 'A.', 27, '', '', '', '', '', 1, 3, '1989-09-27', '', 'jasonsarino27@gmail.com', 'demo-hmsh', '8b42a1c9b8f9fde869f83c954b3d463b', '8446520.png', '0', '', '', 0),
-(7, '00007', 2, 2, 3, '', 8, 'Danica', 'Bayes', 'P.', 42, '', '', '', '', '', 2, 4, '1974-05-30', '', 'receptionist@yahoo.com', 'receptionist1', '488e6ed76333594cfc50d3585a6e4916', '', '', '', '', 0);
+(2, '00002', 2, 1, 1, '', 7, 'Administrator', 'Admin', 'A.', 27, '', '', '', '', '', 1, 3, '1989-09-27', '', 'admin@gmail.com', 'admin', '8b42a1c9b8f9fde869f83c954b3d463b', '', '0', '', '', 0);
 
 -- --------------------------------------------------------
 
