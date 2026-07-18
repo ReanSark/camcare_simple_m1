@@ -66,6 +66,7 @@
                         <div class="col-xs-12">
                             
                             			<center>
+                                            <img src="<?php echo base_url()?>public/company_logo/<?php echo $companyInfo->logo?>" height="45"><br>
 	<font size="+1"><?php echo $companyInfo->company_name;?></font></b><br>                   
     <?php echo $companyInfo->company_address;?><br>     
     <?php echo $companyInfo->company_contactNo;?><br><br>
@@ -120,7 +121,7 @@
                                         <th width="34%">Particular Name</th>
                                         <th width="8%">Qty</th>
                                         <th width="8%">Rate</th>
-                                        <th width="16%">Amount</th>
+                                        <th width="16%">Amount (Cambodian Riel)</th>
                                         <th width="34%">Note</th>
                                     </tr>                                    
                                 </thead>
