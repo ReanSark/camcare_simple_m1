@@ -44,8 +44,12 @@
     
 
 
+<!-- /background image
+ 
 <div style="background: #FFFFFF url('<?php echo base_url()?>public/img/new/hms_login_bg.png'); 
     background-position: center; background-size:cover; ">
+	
+	-->
 
 
 
