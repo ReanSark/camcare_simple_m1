@@ -352,7 +352,7 @@
                         	<div class="box-body">
                             	<a class="btn btn-app" href="<?php echo base_url()?>app/pos/"><i class="fa fa-refresh"></i> Refresh</a>
 
-                                <a class="btn btn-app" data-toggle="modal" data-target="#doctorListModal" style="display: <?php echo ( isset($direct) ) ? "none" : "inline-block";?>"><i class="fa fa-user-md"></i> Doctor's Fee</a>
+                                <!--<a class="btn btn-app" data-toggle="modal" data-target="#doctorListModal" style="display: <?php echo ( isset($direct) ) ? "none" : "inline-block";?>"><i class="fa fa-user-md"></i> Doctor's Fee</a>-->
                             	<a class="btn btn-app" data-toggle="modal" data-target="#patientListModal" style="display: <?php echo ( isset($direct) ) ? "none" : "inline-block";?>"><i class="fa fa-user"></i> Patient</a>
                            
                                 <a class="btn btn-app" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add Item</a>
