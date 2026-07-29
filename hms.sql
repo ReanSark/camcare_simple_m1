@@ -2033,7 +2033,7 @@ INSERT INTO `user_roles` (`role_id`, `module`, `role_name`, `role_description`, 
 (3, '0', 'Receptionist', 'Help Desk Officer', 0),
 (5, 'doctor', 'Doctor', 'Doctor', 0),
 (6, 'billing', 'Billing / Cashier', 'Billing / Cashier', 0),
-(7, '0', 'Nurse Roles', 'Nurse', 0),
+(7, '0', 'Nurse Roles', 'Nurse', 0);
 
 -- --------------------------------------------------------
 

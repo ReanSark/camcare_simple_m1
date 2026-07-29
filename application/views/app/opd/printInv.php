@@ -60,14 +60,44 @@
 		font-size:13px;
 	}
     </style>
+
+    <!-- NEW INLINE STYLE by Marin -->
+
+    <style>
+        @page{size:A4;margin:12mm;}
+        *{box-sizing:border-box;font-family:Arial,sans-serif}
+        body{background:#e9e9e9;margin:0;padding:30px}
+        .page{width:210mm;min-height:297mm;margin:auto;background:#fff;padding:12mm;border:1px solid #bbb}
+        .header{text-align:center;position:relative}
+        .logo{position:absolute;left:0;top:0;width:60px;height:60px;border:2px solid #666;display:flex;align-items:center;justify-content:center;font-size:12px}
+        h1,h2,h3,p{margin:4px 0}
+        .info{display:flex;justify-content:space-between;margin-top:18px}
+        .left,.right{width:48%}
+        .line{display:flex;margin:6px 0}
+        .label{width:90px;font-weight:bold}
+        .value{flex:1;border-bottom:1px dotted #444;padding-left:6px}
+        table{width:100%;border-collapse:collapse;margin-top:15px}
+        th,td{border:1px solid #666;padding:8px;font-size:13px}
+        th{text-align:center;background:#f5f5f5}
+        .totals{width:320px;margin-left:auto;margin-top:18px}
+        .totals .row{display:flex;justify-content:space-between;padding:4px 0}
+        .signature{display:flex;justify-content:space-between;margin-top:40px}
+        .signbox{width:220px;text-align:center}
+        .signline{height:60px;border-bottom:1px solid #333;margin-bottom:6px}
+        .footer{text-align:center;margin-top:35px;font-size:12px}
+        @media print{
+        body{background:#fff;padding:0}
+        .page{border:none;margin:0;width:auto;min-height:auto}
+        }
+    </style>
+
 <body>
-<section class="content invoice">
-                	<div class="row">
-                        <div class="col-xs-12">
-                            
-                            			<center>
-                                            <img src="<?php echo base_url()?>public/company_logo/<?php echo $companyInfo->logo?>" height="45"><br>
-                                            <p class="lead">នូន</p><br>
+    <section class="content invoice">
+    <div class="row">
+        <div class="col-xs-12">
+            <center>
+                <img src="<?php echo base_url()?>public/company_logo/<?php echo $companyInfo->logo?>" height="45"><br>
+                <p class="lead">នូន</p><br>
 	<font size="+1"><?php echo $companyInfo->company_name;?></font></b><br>                   
     <?php echo $companyInfo->company_address;?><br>     
     <?php echo $companyInfo->company_contactNo;?><br><br>
@@ -203,6 +233,73 @@
                     
                     
                     
-                </section>
-</body>
+        </section>
+
+        <!-- NEW UI by Marin -->
+        <section>
+            <div class="page">
+<div class="header">
+<div class="logo">LOGO</div>
+<h2>PLACEHOLDER</h2>
+<p>PLACEHOLDER</p>
+<p>PLACEHOLDER</p>
+<h3 style="margin-top:20px;">COMMERCIAL INVOICE</h3>
+</div>
+
+<div class="info">
+<div class="left">
+<div class="line"><div class="label">Customer</div><div class="value">Placeholder</div></div>
+<div class="line"><div class="label">Address</div><div class="value">Placeholder</div></div>
+<div class="line"><div class="label">Phone</div><div class="value">Placeholder</div></div>
+</div>
+<div class="right">
+<div class="line"><div class="label">No.</div><div class="value">Placeholder</div></div>
+<div class="line"><div class="label">Receipt</div><div class="value">Placeholder</div></div>
+<div class="line"><div class="label">Date</div><div class="value">Placeholder</div></div>
+</div>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Description</th><th>Qty</th><th>Unit Price</th><th>Amount</th><th>Doctor</th><th>%</th><th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Placeholder</td><td align="center">1</td><td align="right">Placeholder</td><td align="right">Placeholder</td><td>Placeholder</td><td align="center">Placeholder</td><td align="right">Placeholder</td>
+</tr>
+<tr><td style="height:320px"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+
+<div class="totals">
+<div class="row"><span>Subtotal</span><span>Placeholder</span></div>
+<div class="row"><span>Discount</span><span>Placeholder</span></div>
+<div class="row"><strong>Grand Total</strong><strong>Placeholder</strong></div>
+<div class="row"><span>KHR</span><span>Placeholder</span></div>
+</div>
+
+<div class="signature">
+<div class="signbox">
+<div class="signline"></div>
+<div>Placeholder</div>
+<div>Date: Placeholder</div>
+</div>
+<div class="signbox">
+<p><strong>Bank</strong></p>
+<p>Placeholder</p>
+<p>Placeholder</p>
+<p>Placeholder</p>
+</div>
+</div>
+
+<div class="footer">
+<p>Placeholder</p>
+<p>Placeholder</p>
+</div>
+</div>
+        </section>
+
+    </body>
 </html>

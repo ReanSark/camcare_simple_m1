@@ -251,9 +251,14 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                             <h4 class="modal-title" id="myModalLabel">Diagnosis</h4>
                                         </div>
+
+
+
                                         <div class="modal-body">
                                         <table class="table table-hover">
                                         <tbody>
+
+
                                         <tr>
                                         	<td>Diagnosis</td>
                                             <td>
@@ -263,13 +268,16 @@
 																foreach($diagnosisList as $diagnosisList2){?>
                                                             	<option value="<?php echo $diagnosisList2->diagnosis_id;?>"><?php echo $diagnosisList2->diagnosis_name;?></option>
                                                                 <?php }?>
-                                                            </select>
+                                                </select>
                                             </td>
                                         </tr>
                                         <tr>
                                         	<td>Remarks</td>
                                             <td><textarea name="remarks" placeholder="Remarks" class="form-control input-sm" style="width: 100%;" rows="3"></textarea></td>
                                         </tr>
+
+
+
                                         </tbody>
                                         </table>
                                         </div>
