@@ -350,7 +350,8 @@ CREATE TABLE `department` (
 
 INSERT INTO `department` (`department_id`, `dept_code`, `dept_name`, `InActive`) VALUES
 (1, 'MIS', 'Management Information System', 0),
-(2, 'Front Desk', 'Front Desk', 0);
+(2, 'GS', 'General Services', 0),
+(3, 'THC', 'Technical Healthcare', 0);
 
 -- --------------------------------------------------------
 
@@ -371,12 +372,14 @@ CREATE TABLE `designation` (
 
 INSERT INTO `designation` (`designation_id`, `designation`, `description`, `InActive`) VALUES
 (1, 'System Administrator', 'System Administrator', 0),
-(2, 'Receptionist', 'Receptionist', 0),
-(4, 'Doctor', 'Doctor', 0),
-(5, 'Nurse', 'Nurse', 0),
-(6, 'Pharmacist', 'Pharmacist', 0),
-(7, 'Pathologist', 'Pathologist', 0),
-(8, 'CASHIER', 'Cashier', 0);
+(2, 'Admin', 'Admin', 0),
+(3, 'Intern', 'Intern', 0),
+(4, 'Receptionist', 'Receptionist', 0),
+(5, 'Doctor', 'Doctor', 0),
+(6, 'Nurse', 'Nurse', 0),
+(7, 'Pharmacist', 'Pharmacist', 0),
+(8, 'Laboratory Technician', 'Laboratory Technician', 0),
+(9, 'Cashier', 'Cashier', 0);
 
 -- --------------------------------------------------------
 
@@ -1755,12 +1758,12 @@ CREATE TABLE `room_category` (
 
 INSERT INTO `room_category` (`category_id`, `category_name`, `category_desc`, `InActive`) VALUES
 (1, 'General Ward', 'General Ward', 0),
-(3, 'Twin Sharing Room', 'Twin Sharing Room', 0),
-(4, 'Semi Deluxe', 'Semi Deluxe', 0),
-(5, 'Executive Deluxe', 'Executive Deluxe', 0),
-(6, 'ICU', 'ICU', 0),
-(7, 'Emergency Ward/ Day Care', 'Emergency Ward/ Day Care', 0),
-(8, 'Operation Theater', 'For Surgery/Operation', 0);
+(2, 'Twin Sharing Room', 'Twin Sharing Room', 0),
+(3, 'Semi Deluxe', 'Semi Deluxe', 0),
+(4, 'Executive Deluxe', 'Executive Deluxe', 0),
+(5, 'ICU', 'ICU', 0),
+(6, 'Emergency Ward/ Day Care', 'Emergency Ward/ Day Care', 0),
+(7, 'Operation Theater', 'For Surgery/Operation', 0);
 
 -- --------------------------------------------------------
 
@@ -1809,7 +1812,7 @@ INSERT INTO `room_master` (`room_master_id`, `category_id`, `room_name`, `floor`
 (32, 1, '109', 1, 120.00, 0),
 (33, 1, '110', 1, 5.00, 0),
 (34, 5, 'EXE101', 1, 1500.00, 0),
-(35, 8, 'Operation Room 1', 1, 500.00, 0);
+(35, 7, 'Operation Room 1', 1, 500.00, 0);
 
 -- --------------------------------------------------------
 
@@ -1878,12 +1881,12 @@ CREATE TABLE `system_option` (
 --
 
 INSERT INTO `system_option` (`option_id`, `cCode`, `cValue`, `InActive`) VALUES
-(1, 'employee_no', 13, 0),
-(2, 'patient_no', 39, 0),
-(3, 'INPATIENTNO', 24, 0),
-(4, 'OUTPATIENTNO', 18, 0),
-(5, 'invoice_no', 40, 0),
-(6, 'receipt_no', 19, 0);
+(1, 'employee_no', 10, 0),
+(2, 'patient_no', 1, 0),
+(3, 'INPATIENTNO', 1, 0),
+(4, 'OUTPATIENTNO', 1, 0),
+(5, 'invoice_no', 1, 0),
+(6, 'receipt_no', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1908,30 +1911,18 @@ INSERT INTO `system_parameters` (`param_id`, `cCode`, `cValue`, `cDesc`, `InActi
 (2, 'gender', 'Female', '', 0),
 (3, 'civil_status', 'Single', '', 0),
 (4, 'civil_status', 'Married', '', 0),
-(5, 'civil_status', 'Legal Seperated', '', 0),
+(5, 'civil_status', 'Seperated', '', 0),
 (6, 'civil_status', 'Divorced', '', 0),
 (7, 'title_name', 'Mr.', '', 0),
 (8, 'title_name', 'Ms.', '', 0),
 (9, 'title_name', 'Mrs.', '', 0),
 (10, 'title_name', 'Dr.', '', 0),
+(23, 'religion', 'Buddhist', '', 0),
 (11, 'religion', 'Roman Catholic', '', 0),
 (12, 'religion', 'Muslim', '', 0),
-(13, 'religion', 'Iglesia ni Cristo', '', 0),
-(14, 'religion', 'Church of God', '', 0),
-(15, 'religion', 'Evangelical', '', 0),
-(16, 'religion', 'Born Again', '', 0),
-(17, 'religion', 'Evangelical', '', 0),
-(18, 'religion', 'El Shaddai', '', 0),
-(19, 'religion', 'Church of the Nazarene', '', 0),
-(20, 'religion', 'Seventh-Day Adventists', '', 0),
 (21, 'religion', 'Chinese', '', 0),
 (22, 'religion', 'Hindu', '', 0),
-(23, 'religion', 'Judaism', '', 0),
-(24, 'religion', 'Ang Dating Daan', '', 0),
-(25, 'religion', 'Jehovah\'s Witnesses', '', 0),
-(26, 'religion', 'Unitarian', '', 0),
-(27, 'religion', 'Assemblies of God (Ilocos Norte)', '', 0),
-(28, 'religion', 'Aglipayan ', '', 0),
+(24, 'religion', 'Others', '', 0),
 (29, 'blood_type', 'O+', '', 0),
 (30, 'blood_type', 'O-', '', 0),
 (31, 'blood_type', 'A+', '', 0),
@@ -1940,9 +1931,6 @@ INSERT INTO `system_parameters` (`param_id`, `cCode`, `cValue`, `cDesc`, `InActi
 (34, 'blood_type', 'B-', '', 0),
 (35, 'blood_type', 'AB+', '', 0),
 (36, 'blood_type', 'AB-', '', 0),
-(37, 'title_name', 'Dra.', 'Doctora', 0),
-(45, 'gender', 'asd', '', 1),
-(44, 'gender', 'x2', 'xxx2', 1),
 (51, 'type_medicine', 'Generic', 'Generic', 0),
 (52, 'type_medicine', 'Branded', 'Branded', 0),
 (53, 'medicine_uom', 'Tablet', 'Tablet', 0),
@@ -1950,7 +1938,8 @@ INSERT INTO `system_parameters` (`param_id`, `cCode`, `cValue`, `cDesc`, `InActi
 (55, 'medicine_uom', 'Each', 'Each', 0),
 (56, 'payment_type', 'CASH', 'CASH', 0),
 (57, 'payment_type', 'CREDIT CARD', 'CREDIT CARD', 0),
-(58, 'payment_type', 'INSURANCE COMPANY', 'INSURANCE COMPANY', 0),
+(58, 'payment_type', 'BANK TRANSFER', 'BANK TRANSFER', 0),
+(59, 'payment_type', 'INSURANCE COMPANY', 'INSURANCE COMPANY', 0),
 (60, 'condition_upon_discharge', 'Improved', 'Improved', 0),
 (61, 'condition_upon_discharge', 'Recovered', 'Recovered', 0),
 (62, 'condition_upon_discharge', 'Expired', '', 0),
@@ -2031,9 +2020,13 @@ INSERT INTO `user_roles` (`role_id`, `module`, `role_name`, `role_description`, 
 (1, '0', 'Super Admin', 'Full Access of the entire system', 0),
 (2, 'administrator', 'Administrator and CEO', 'Minimal supervision', 0),
 (3, '0', 'Receptionist', 'Help Desk Officer', 0),
-(5, 'doctor', 'Doctor', 'Doctor', 0),
-(6, 'billing', 'Billing / Cashier', 'Billing / Cashier', 0),
-(7, '0', 'Nurse Roles', 'Nurse', 0);
+(4, 'doctor', 'Doctor', 'Doctor', 0),
+(5, 'billing', 'Billing / Cashier', 'Billing / Cashier', 0),
+(6, '0', 'Nurse Roles', 'Nurse', 0),
+(7, '0', 'Pharmacy Roles', 'Pharmacy', 0),
+(8, '0', 'Laboratory Roles', 'Laboratory', 0),
+(9, '0', 'Radiology Roles', 'Radiology', 0),
+(10, '0', 'Inventory Roles', 'Inventory', 0);
 
 -- --------------------------------------------------------
 
