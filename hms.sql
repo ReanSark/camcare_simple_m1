@@ -240,7 +240,7 @@ CREATE TABLE `company_info` (
 --
 
 INSERT INTO `company_info` (`company_name`, `company_address`, `company_contactNo`, `TIN`, `logo`) VALUES
-('CamCare Clinic', '#HA177, BD05, HA173, HA175, NB Street, Khan Chroy Changva, Songkat Bak Kheng (Borey Golden Park, Bridge 9), Phnom Penh, Cambodia', '099 8000 68 / 096 2 8000 68', 'N/A', 'camcare-color-favicon.png');
+('CamCare Clinic', '#HA177, BD05, HA173, HA175, NB Street, Khan Chroy Changva, Songkat Bak Kheng (Borey Golden Park, Bridge 9), Phnom Penh, Cambodia', '099 8000 68 / 096 2 8000 68', 'K008-902304727', 'camcare-color-favicon.png');
 
 -- --------------------------------------------------------
 
