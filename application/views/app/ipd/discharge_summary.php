@@ -211,7 +211,7 @@
 											}
 											?>
                                             <form method="post" action="<?php echo base_url()?>app/ipd/save_discharge_summary" onSubmit="return confirm('Are you sure you want to save?');">
-                                            <input type="hidden" name="opd_no" value="<?php echo $getOPDPatient->IO_ID?>">
+                                            <input type="hidden" name="ipd_no" value="<?php echo $getOPDPatient->IO_ID?>">
                                             <input type="hidden" name="patient_no" value="<?php echo $getOPDPatient->patient_no?>">
                                            
                                            
