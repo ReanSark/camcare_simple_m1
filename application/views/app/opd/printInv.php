@@ -113,7 +113,7 @@
 
 <header class="header">
   <div class="logo">
-    <img src="<?php echo base_url()?>public/company_logo/<?php echo $companyInfo->logo?>" height="45">
+    <img src="<?php echo base_url()?>public/company_logo/camcare-logo-color-primary-portrait.png" height="100">
   </div>
   <div class="header-center">
     <div class="header-title">វិក្កយបត្រធម្មតា</div>
