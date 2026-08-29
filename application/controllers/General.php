@@ -4,7 +4,7 @@ class General extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();	
-		date_default_timezone_set("Asia/Manila");
+		date_default_timezone_set("Asia/Phnom_Penh");
 		$this->load->model('general_model');
 
 		

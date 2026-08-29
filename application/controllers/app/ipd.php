@@ -446,6 +446,20 @@ class Ipd extends General{
 
 		$this->load->view('app/ipd/search_result',$this->data);	
 	}
+
+	public function validate_diagnosis()
+{
+    if ($this->opd_model->validate_diagnosis()) {
+        $this->form_validation->set_message(
+            'validate_diagnosis',
+            'Diagnosis Already Exists.'
+        );
+
+        return false;
+    }
+
+    return true;
+}
 	
 	public function save_diagnosis(){
 		$this->form_validation->set_rules("diagnosis","Diagnosis","trim|xss_clean|required|callback_validate_diagnosis");

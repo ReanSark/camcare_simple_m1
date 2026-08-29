@@ -368,17 +368,6 @@ xmlhttp.send();
                             </div>
                             </form>
                             <!-- /.modal -->        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
     </body>
 </html>

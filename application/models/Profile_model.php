@@ -4,7 +4,7 @@ class Profile_model extends CI_Model{
 	
 	public function __construct(){
 		parent::__construct();	
-		date_default_timezone_set("Asia/Manila");
+		date_default_timezone_set("Asia/Phnom_Penh");
 	}
 	
 	public function getMyProfile(){

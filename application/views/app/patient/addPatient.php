@@ -148,13 +148,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td width="12%">Last Name <?php echo $this->lang->line("lastname")?> <font color="#FF0000">*</font></td>
-                                                        <td width="88%">
-                                                        <?php echo form_input('lastname',set_value('lastname'),'id="lastname" class="form-control input-sm" placeholder="Last Name" style="width: 250px;" required');?>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>First Name <?php echo $this->lang->line("firstname")?> <font color="#FF0000">*</font></td>
+                                                    	<td>Surname/First Name <?php echo $this->lang->line("firstname")?> <font color="#FF0000">*</font></td>
                                                         <td>
                                                         <?php echo form_input('firstname',set_value('firstname'),'id="firstname" class="form-control input-sm" placeholder="First Name" style="width: 250px;" required');?>
                                                         </td>
@@ -166,21 +160,27 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                    	<td width="12%">Last Name <?php echo $this->lang->line("lastname")?> <font color="#FF0000">*</font></td>
+                                                        <td width="88%">
+                                                        <?php echo form_input('lastname',set_value('lastname'),'id="lastname" class="form-control input-sm" placeholder="Last Name" style="width: 250px;" required');?>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                     	<td>Father's Name </td>
                                                         <td>
                                                         <?php echo form_input('fathers_name',set_value('fathers_name'),'id="fathers_name" class="form-control input-sm" placeholder="Fathers Name" style="width: 250px;"');?> 
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td>Birthday <font color="#FF0000">*</font></td>
+                                                    	<td>Birthday <font color="#FF0000">*</font><br>(Format: YYYY-MM-DD)</td>
                                                         <td>
-                                                        <?php echo form_input('birthday',set_value('birthday'),'id="birthday" class="form-control input-sm" placeholder="Birthday" style="width: 150px;" required');?> 
+                                                        <?php echo form_input('birthday',set_value('birthday'),'id="birthday" class="form-control input-sm" placeholder="Birthday (Format: YYYY-MM-DD)" style="width: 250px;" required');?> 
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                     	<td>Birth Place</td>
                                                         <td>
-                                                        <?php echo form_input('birthplace',set_value('birthplace'),'id="birthplace" class="form-control input-sm" placeholder="Birth Place" style="width: 380px;"');?>
+                                                        <?php echo form_input('birthplace',set_value('birthplace'),'id="birthplace" class="form-control input-sm" placeholder="Birth Place" style="width: 250px;"');?>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -299,13 +299,13 @@
                                                         <?php echo form_input('mobile',set_value('mobile'),'id="mobile" class="form-control input-sm" placeholder="Phone No (Mobile)" style="width: 250px;"');?>
                                                         </td>
                                                     </tr>
-                                                    
                                                     <tr>
-                                                    	<td width="14%">Email Address <font color="#FF0000">*</font></td>
+                                                    	<td width="14%">Email Address <font color="#FF0000">*</font><br>(No email: patientname@mail.com)</td>
                                                         <td width="86%"> 
                                                         <?php echo form_input('email',set_value('email'),'id="email" class="form-control input-sm" placeholder="Email Address" style="width: 250px;"');?>
                                                         </td>
                                                     </tr>
+
                                                     </table>
                                                 </div>
                                                 <div class="tab-pane" id="tab_3">

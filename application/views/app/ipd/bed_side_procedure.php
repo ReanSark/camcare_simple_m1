@@ -316,7 +316,7 @@ xmlhttp.send();
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel">Complain</h4>
+                                            <h4 class="modal-title" id="myModalLabel">Add Service</h4>
                                         </div>
                                         <div class="modal-body">
                                         <table class="table table-hover">
@@ -325,7 +325,7 @@ xmlhttp.send();
                                         	<td>Particular Category</td>
                                             <td>
                                             <select name="category" onChange="showDrugName(this.value);" id="category" class="form-control input-sm" style="width: 100%;" required>
-                                                            	<option value="">- Paricular Category -</option>
+                                                            	<option value="">- Particular Category -</option>
 																<?php 
 																foreach($particular_cat as $particular_cat){?>
                                                             	<option value="<?php echo $particular_cat->group_id;?>"><?php echo $particular_cat->group_name;?></option>
@@ -334,11 +334,11 @@ xmlhttp.send();
                                             </td>
                                         </tr>
                                         <tr>
-                                        	<td>Paricular Item</td>
+                                        	<td>Particular Item</td>
                                             <td>
                                             <span id="showCategories">
-                        					<select name="item" id="item" class="form-control input-sm" style="width: 100%;" required>
-                        						<option value="">- Paricular Item -</option>
+                        					<select name="particular" id="particular" class="form-control input-sm" style="width: 100%;" required>
+                        						<option value="">- Particular Item -</option>
                         					</select>
                                             </span>	
                                             </td>
