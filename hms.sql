@@ -508,9 +508,9 @@ CREATE TABLE `floor` (
 
 INSERT INTO `floor` (`floor_id`, `floor_name`, `floor_description`, `InActive`) VALUES
 (1, 'Ground Floor', 'Ground Floor', 0),
-(2, '2nd Floor', '2nd Floor', 0),
-(3, '3rd Floor', '3rd Floor', 0),
-(4, '4th Floor', '4th Floor', 0);
+(2, 'Middle Floor', 'Middle Floor', 0),
+(3, '1st Floor', '1st Floor', 0),
+(4, '2nd Floor', '2nd Floor', 0);
 
 -- --------------------------------------------------------
 
@@ -1477,23 +1477,23 @@ CREATE TABLE `room_master` (
 --
 
 INSERT INTO `room_master` (`room_master_id`, `category_id`, `room_name`, `floor`, `room_rates`, `InActive`) VALUES
-(1, 1, '101', 1, 150.00, 0),
-(2, 1, '102', 1, 150.00, 0),
-(3, 1, '103', 1, 150.00, 0),
-(4, 1, '104', 1, 150.00, 0),
-(5, 1, '105', 1, 150.00, 0),
-(6, 1, '106', 1, 150.00, 0),
-(7, 1, '107', 1, 150.00, 0),
-(8, 1, '108', 1, 150.00, 0),
-(9, 2, 'Consultation Room 1', 0, 120.00, 0),
-(10, 2, 'Consultation Room 2', 0, 120.00, 0),
-(11, 2, 'Consultation Room 3', 0, 120.00, 0),
-(12, 3, 'Echo Room', 0, 100.00, 0),
-(13, 4, 'Small Surgical Room', 0, 200.00, 0),
-(14, 5, 'X-ray Room', 0, 150.00, 0),
-(15, 6, 'Emergency Room', 0, 250.00, 0),
-(16, 7, 'Ophthalmology Room', 0, 180.00, 0),
-(17, 8, 'Pharmacy Room', 0, 100.00, 0);
+(1, 1, '101', 2, 150.00, 0),
+(2, 1, '102', 2, 150.00, 0),
+(3, 1, '103', 2, 150.00, 0),
+(4, 1, '104', 2, 150.00, 0),
+(5, 1, '105', 2, 150.00, 0),
+(6, 1, '106', 2, 150.00, 0),
+(7, 1, '107', 2, 150.00, 0),
+(8, 1, '108', 2, 150.00, 0),
+(9, 2, 'Consultation Room 1', 1, 120.00, 0),
+(10, 2, 'Consultation Room 2', 1, 120.00, 0),
+(11, 2, 'Consultation Room 3', 1, 120.00, 0),
+(12, 3, 'Echo Room', 1, 100.00, 0),
+(13, 4, 'Small Surgical Room', 1, 200.00, 0),
+(14, 5, 'X-ray Room', 1, 150.00, 0),
+(15, 6, 'Emergency Room', 1, 250.00, 0),
+(16, 7, 'Ophthalmology Room', 1, 180.00, 0),
+(17, 8, 'Pharmacy Room', 1, 100.00, 0);
 
 -- --------------------------------------------------------
 
