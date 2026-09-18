@@ -39,36 +39,16 @@ CREATE TABLE `bill_group_name` (
 --
 
 INSERT INTO `bill_group_name` (`group_id`, `group_name`, `group_desc`, `InActive`) VALUES
-(1, 'Consultant2', 'Consultant2', 1),
-(2, 'CONSULTANT', 'Consultant', 0),
-(3, 'MISCELLANEOUS', 'Miscellaneous', 0),
-(4, 'ADMISSION CHARGES', 'Admission Charges', 0),
-(5, 'INJECTIONS', 'Injections', 0),
-(6, 'DRESSING', 'Dressing', 0),
-(7, 'SURGICAL ASSISTANT', 'Surgical Assistant', 0),
-(8, 'HAEMATOLOGY', 'Haematology', 0),
-(9, 'BIOCHEMISTRY', 'Biochemistry', 0),
-(10, 'CLINICAL PATHOLOGY', 'Clinical Pathology', 0),
-(11, 'MICROBIOLOGY', 'Microbiology', 0),
-(12, 'SEROLOGY', 'Serology', 0),
-(13, 'TRANSFUSION MEDICINE', 'Transfusion Medicine', 0),
-(14, 'SPECIAL TESTS', 'Special Tests', 0),
-(15, 'HISTOPATHOLOGY', 'Histopathology', 0),
-(16, 'X -RAYS', 'X-RAYS', 0),
-(17, 'CT SCAN', 'CT Scan', 0),
-(18, 'ULTRASONOGRAPHY', 'UltraSonography', 0),
-(19, 'UROLOGY', 'UROLOGY', 0),
-(20, 'CARDIAC', 'CARDIAC', 0),
-(21, 'PSYCHOLOGY TEST', 'Psychology Test', 0),
-(22, 'SKIN & VD', 'SKIN & VD', 0),
-(23, 'ONCOLOGY', 'ONCOLOGY', 0),
-(24, 'PROCEDURE CHARGES', 'Procedure Charges', 0),
-(25, 'WARD SERVICES', 'Ward Services', 0),
-(26, 'NEUROLOGY', 'NEUROLOGY', 0),
-(27, 'DENTAL TREATMENT', 'Dental Treatment', 0),
-(28, 'PHYSIOTHERAPY', 'Physiotherapy', 0),
-(29, 'PLASTIC SURGICAL PRO', 'Plastic Surgical Pro ', 0),
-(30, 'OPERATION THEATER', 'Operation Theater', 0);
+(1, 'CARE SERVICES', 'Care Services', 0),
+(2, 'CONSULTATION & PROFESSIONAL FEES', 'Consultation & Professional Fees', 0),
+(3, 'DIAGNOSTIC IMAGING', 'Diagnostic Imaging', 0),
+(4, 'GENERAL PROCEDURES & SURGERY', 'General Procedures & Surgery', 0),
+(5, 'HEALTH CHECK PACKAGES', 'Health Check Packages', 0),
+(6, 'INPATIENT & CLINICAL SUPPORT', 'Inpatient & Clinical Support', 0),
+(7, 'INPATIENT SERVICES', 'Inpatient Services', 0),
+(8, 'LABORATORY', 'Laboratory', 0),
+(9, 'OPHTHALMOLOGY', 'Ophthalmology', 0),
+(10, 'MISCELLANEOUS', 'Miscellaneous', 0);
 
 -- --------------------------------------------------------
 
@@ -531,13 +511,6 @@ CREATE TABLE `insurance_comp` (
   `notes` text NOT NULL,
   `InActive` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `insurance_comp`
---
-
-INSERT INTO `insurance_comp` (`in_com_id`, `company_name`, `company_address`, `phone_no`, `fax_no`, `email_address`, `contact_person`, `contact_no_person`, `contact_email`, `notes`, `InActive`) VALUES
-(1, 'Phil Health', '#0001 Street Salcedo Makati City', '02 456 8595', '', 'contactme@yahoo.com', 'Bobby Mendoza', '091234676454', 'bobby@yahoo.com', 'remarks of insurance company', 0);
 
 -- --------------------------------------------------------
 
@@ -1477,23 +1450,23 @@ CREATE TABLE `room_master` (
 --
 
 INSERT INTO `room_master` (`room_master_id`, `category_id`, `room_name`, `floor`, `room_rates`, `InActive`) VALUES
-(1, 1, '101', 2, 150.00, 0),
-(2, 1, '102', 2, 150.00, 0),
-(3, 1, '103', 2, 150.00, 0),
-(4, 1, '104', 2, 150.00, 0),
-(5, 1, '105', 2, 150.00, 0),
-(6, 1, '106', 2, 150.00, 0),
-(7, 1, '107', 2, 150.00, 0),
-(8, 1, '108', 2, 150.00, 0),
-(9, 2, 'Consultation Room 1', 1, 120.00, 0),
-(10, 2, 'Consultation Room 2', 1, 120.00, 0),
-(11, 2, 'Consultation Room 3', 1, 120.00, 0),
-(12, 3, 'Echo Room', 1, 100.00, 0),
-(13, 4, 'Small Surgical Room', 1, 200.00, 0),
-(14, 5, 'X-ray Room', 1, 150.00, 0),
-(15, 6, 'Emergency Room', 1, 250.00, 0),
-(16, 7, 'Ophthalmology Room', 1, 180.00, 0),
-(17, 8, 'Pharmacy Room', 1, 100.00, 0);
+(1, 1, '101', 2, 20.00, 0),
+(2, 1, '102', 2, 00.00, 0),
+(3, 1, '103', 2, 00.00, 0),
+(4, 1, '104', 2, 30.00, 0),
+(5, 1, '105', 2, 25.00, 0),
+(6, 1, '106', 2, 00.00, 0),
+(7, 1, '107', 2, 25.00, 0),
+(8, 1, '108', 2, 25.00, 0),
+(9, 2, 'Consultation Room 1', 1, 00.00, 0),
+(10, 2, 'Consultation Room 2', 1, 00.00, 0),
+(11, 2, 'Consultation Room 3', 1, 00.00, 0),
+(12, 3, 'Echo Room', 1, 00.00, 0),
+(13, 4, 'Small Surgical Room', 1, 00.00, 0),
+(14, 5, 'X-ray Room', 1, 00.00, 0),
+(15, 6, 'Emergency Room', 1, 120.00, 0),
+(16, 7, 'Ophthalmology Room', 1, 00.00, 0),
+(17, 8, 'Pharmacy Room', 1, 00.00, 0);
 
 -- --------------------------------------------------------
 
@@ -1598,6 +1571,7 @@ INSERT INTO `system_parameters` (`param_id`, `cCode`, `cValue`, `cDesc`, `InActi
 (8, 'title_name', 'Ms.', '', 0),
 (9, 'title_name', 'Mrs.', '', 0),
 (10, 'title_name', 'Dr.', '', 0),
+(11, 'title_name', 'Prof.', '', 0),
 (23, 'religion', 'Buddhist', '', 0),
 (11, 'religion', 'Roman Catholic', '', 0),
 (12, 'religion', 'Muslim', '', 0),
@@ -1676,8 +1650,16 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `department`, `designation`, `user_role`, `cType`, `title`, `lastname`, `firstname`, `middlename`, `age`, `street`, `subd_brgy`, `province`, `phone_no`, `mobile_no`, `gender`, `civil_status`, `birthday`, `birthplace`, `email_address`, `username`, `password`, `picture`, `doctorIsIn`, `doctorLastIn`, `doctorLastOut`, `InActive`) VALUES
-(1, '00001', 1, 1, 1, '', 7, 'Marin', 'Marin', 'M', 38, '', '', '', '', '', 1, 4, '1978-03-16', 'Earth', 'abc@gmail.com', 'marin', '4d8e0606d0610accf32f94021279718e', '', '0', '', '', 0),
-(2, '00002', 2, 1, 1, '', 7, 'Administrator', 'Admin', 'A.', 27, '', '', '', '', '', 1, 3, '1989-09-27', '', 'admin@gmail.com', 'admin', '8b42a1c9b8f9fde869f83c954b3d463b', '', '0', '', '', 0);
+(1, '00001', 1, 1, 1, '', 7, 'Marin', 'Marin', 'M', 38, '', '', '', '', '', 1, 4, '1978-03-16', 'Earth', 'abc@gmail.com', 'marin', '30f6df93537ae762794fcdd73bdae3b1', '', '0', '', '', 0),
+(2, '00002', 2, 1, 1, '', 7, 'Administrator', 'Admin', 'A.', 27, '', '', '', '', '', 1, 3, '1989-09-27', '', 'admin@gmail.com', 'admin', '8b42a1c9b8f9fde869f83c954b3d463b', '', '0', '', '', 0),
+(3, '00003', 2, 1, 2, '', 7, 'Sok', 'Heng', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'hengsok@gmail.com', 'heng sok', '1692ae04d32a3c26b0f6d61fd693ba03', '', '0', '', '', 0),
+(4, '00004', 2, 9, 5, '', 7, 'Cashier1', 'Cashier1', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'cashier1@gmail.com', 'cashier1', '2128e681b001cc5e1d5d5f1ffa5ed9e8', '', '0', '', '', 0),
+(5, '00005', 3, 5, 4, '', 11, 'No', 'Ku', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'kuno@gmail.com', 'ku no', '633e46b10e15d2667eb184c416ef3750', '', '0', '', '', 0),
+(6, '00006', 3, 5, 4, '', 11, 'Phalla', 'Poev', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'poevphalla@gmail.com', 'poev phalla', '48af4b2d5e1dfc7e1568430d3d66c8d4', '', '0', '', '', 0),
+(7, '00007', 3, 5, 4, '', 11, 'Sokheng', 'Seng', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'sengsokheng@gmail.com', 'seng sokheng', 'ed3aed180a6e85ee1755a66fb444775c', '', '0', '', '', 0),
+(8, '00008', 3, 5, 4, '', 11, 'Sokcheng', 'Orn', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'ornsokcheng@gmail.com', 'orn sokcheng', 'f18af1d7101f779d778c3ef8d0894721', '', '0', '', '', 0),
+(9, '00009', 3, 5, 4, '', 11, 'Chomroun', 'It', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'itchomroun@gmail.com', 'it chomroun', '5e4361653a978b11318a103ceb9455d5', '', '0', '', '', 0),
+(10, '00010', 3, 5, 4, '', 11, 'Mengcheat', 'Tangleng', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'tanglengmengcheat@gmail.com', 'tangleng mengcheat', 'ca352bb69706a7e747181c451d845ddb', '', '0', '', '', 0);
 
 -- --------------------------------------------------------
 
