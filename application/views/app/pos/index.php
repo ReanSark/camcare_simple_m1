@@ -923,12 +923,12 @@ xmlhttp2.send();
                                         </tr>
                                         <tr>
                                         	<td>
-                                            <span id="particular">Paricular Category</span>
+                                            <span id="particular">Particular Category</span>
                                             <span id="medicine" style="display: none">Medicine Category</span>
                                             </td>
                                             <td>
                                             				<select name="category" onChange="showDrugName(this.value);" id="category" class="form-control input-sm" style="width: 100%;" required>
-                                                            	<option value="">- Paricular Category -</option>
+                                                            	<option value="">- Particular Category -</option>
 																<?php 
 																foreach($particular_cat as $particular_cat){?>
                                                             	<option value="<?php echo $particular_cat->group_id;?>"><?php echo $particular_cat->group_name;?></option>
@@ -946,13 +946,13 @@ xmlhttp2.send();
                                         </tr>
                                         <tr>
                                         	<td>
-                                            <span id="particular_item">Paricular Item</span>
+                                            <span id="particular_item">Particular Item</span>
                                             <span id="drug_name" style="display: none">Drug Name</span>
                                             </td>
                                             <td>
                                             <span id="showCategories">
                         					<select name="item" id="item" class="form-control input-sm" style="width: 100%;" required>
-                        						<option value="">- Paricular Item -</option>
+                        						<option value="">- Particular Item -</option>
                         					</select>
                                             </span>
                                             
@@ -971,11 +971,11 @@ xmlhttp2.send();
                                         	<td>Rate</td>
                                             <td>
                                             <label id="showRate">
-                                            <input type="text" onkeypress="return isNumberKey(event)" name="rate" id="rate" placeholder="rate" class="form-control input-sm" style="width: 100%;" required>
+                                            <input type="text" onkeypress="return isNumberKey(event)" readonly name="rate" id="rate" placeholder="rate" class="form-control input-sm" style="width: 100%;" required>
                                             </label>
                                             
                                             <label id="showDrugRate" style="display:none">
-                                            <input type="text" onkeypress="return isNumberKey(event)" name="drugrate" id="drugrate" placeholder="rate" class="form-control input-sm" style="width: 100%;" required>
+                                            <input type="text" onkeypress="return isNumberKey(event)" readonly name="drugrate" id="drugrate" placeholder="rate" class="form-control input-sm" style="width: 100%;" required>
                                             </label>
                                             </td>
                                         </tr>
