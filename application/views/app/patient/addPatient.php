@@ -312,7 +312,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td width="14%">Email Address <font color="#FF0000">*</font><br>(No email: patientname@mail.com)</td>
+                                                    	<td width="14%">Email Address</td>
                                                         <td width="86%"> 
                                                         <?php echo form_input('email',set_value('email'),'id="email" class="form-control input-sm" placeholder="Email Address" style="width: 250px;"');?>
                                                         </td>
