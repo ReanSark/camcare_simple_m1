@@ -49,6 +49,17 @@ class General_model extends CI_Model{
 		$query = $this->db->get("system_parameters");
 		return $query->result();
 	}
+
+	public function birthplace(){
+		$this->db->select("param_id, cValue");	
+		$this->db->where(array(
+			'cCode'		=>	'birthplace',
+			'InActive'	=>	0	
+		));
+		$this->db->order_by('cValue','asc');
+		$query = $this->db->get("system_parameters");
+		return $query->result();
+	}
 	
 	public function civilStatus(){
 		$this->db->select("param_id, cValue");	
