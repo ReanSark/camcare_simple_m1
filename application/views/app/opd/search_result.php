@@ -91,7 +91,7 @@
             <aside class="right-side">                
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>Patient Master</h1>
+                    <h1>OPD Registration</h1>
                     <ol class="breadcrumb">
                         <li><a href="<?php echo base_url()?>app/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
                         <li><a href="#">Patient Management</a></li>
@@ -102,17 +102,23 @@
 
                 <!-- Main content -->
                 <section class="content">
+                    
                  <div class="row">
                  	<div class="col-md-12">
                     	 <div class="box">
-                         		<form class="form-search" method="post" action="<?php echo base_url();?>app/patient">
-                         		<div class="box-header">
-                                    <h3 class="box-title"><a href="<?php echo base_url();?>app/opd/registration" class="btn btn-default"><i class="fa fa-search"></i> Back to Search form</a></h3>
-                                    <div class="box-tools">
-                                        <div class="input-group">
+                         		<div class="box-body table-responsive">
+                            	<form role="form" method="post" action="<?php echo base_url()?>app/opd/search_result">
+                                		<div class="form-group">
+                                            <label for="exampleInputEmail1">Patient ID/LastName/FirstName</label>
+                                            <input class="form-control input-sm" name="search" id="search" type="text" placeholder="Patient ID/LastName/FirstName" style="width: 350px;">
                                         </div>
-                                    </div>
-                                </div><!-- /.box-header -->
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" name="btnSubmit" id="btnSubmit" type="submit"><i class="fa fa-search"></i> Search Patient</button>
+                                        </div>
+                                        <br>
+                                </form>
+                            </div>
+                                <!-- /.box-header -->
 								</form>
                         	<div class="box-body table-responsive no-padding">
                             	<?php echo $message;?>
