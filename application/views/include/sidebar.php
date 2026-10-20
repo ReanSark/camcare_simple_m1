@@ -285,7 +285,7 @@ if($this->session->userdata('module') == "change_pwd"){$change_pwd_mod = "class=
                                     <i class="fa fa-angle-left pull-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
-                                        <?php if($hasAccesstoOPDRegistration){?><li <?php echo $opd_registration;?>><a href="<?php echo base_url()?>app/opd/registration"><i class="fa fa-angle-double-right"></i>OPD Registration</a></li><?php }?> 
+                                        <?php if($hasAccesstoOPDRegistration){?><li <?php echo $opd_registration;?>><a href="<?php echo base_url()?>app/opd/search_result"><i class="fa fa-angle-double-right"></i>OPD Registration</a></li><?php }?> 
                                         <?php if($hasAccesstoOPDEnquiry){?><li <?php echo $opd_master;?>><a href="<?php echo base_url()?>app/opd/index"><i class="fa fa-angle-double-right"></i>Out-Patient Enquiry</a></li> <?php }?>
                                     </ul>
                                 </li>
@@ -297,7 +297,7 @@ if($this->session->userdata('module') == "change_pwd"){$change_pwd_mod = "class=
                                     <i class="fa fa-angle-left pull-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
-                                        <?php if($hasAccesstoIPDRegistration){?><li <?php echo $ipd_registration;?>><a href="<?php echo base_url()?>app/ipd/registration"><i class="fa fa-angle-double-right"></i>Admit Patient</a></li> <?php }?>
+                                        <?php if($hasAccesstoIPDRegistration){?><li <?php echo $ipd_registration;?>><a href="<?php echo base_url()?>app/ipd/admit_patient"><i class="fa fa-angle-double-right"></i>Admit Patient</a></li> <?php }?>
                                         <?php if($hasAccesstoIPDEnquiry){?><li <?php echo $ipd_master;?>><a href="<?php echo base_url()?>app/ipd/index"><i class="fa fa-angle-double-right"></i>In-Patient Enquiry</a></li> <?php }?>
                                     </ul>
                                 </li>

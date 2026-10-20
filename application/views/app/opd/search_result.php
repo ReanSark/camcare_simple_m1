@@ -102,29 +102,21 @@
 
                 <!-- Main content -->
                 <section class="content">
-                 
-                 
                  <div class="row">
                  	<div class="col-md-12">
-                    
                     	 <div class="box">
                          		<form class="form-search" method="post" action="<?php echo base_url();?>app/patient">
                          		<div class="box-header">
                                     <h3 class="box-title"><a href="<?php echo base_url();?>app/opd/registration" class="btn btn-default"><i class="fa fa-search"></i> Back to Search form</a></h3>
-                                    
                                     <div class="box-tools">
                                         <div class="input-group">
-                                            
                                         </div>
                                     </div>
-                                    
                                 </div><!-- /.box-header -->
 								</form>
                         	<div class="box-body table-responsive no-padding">
                             	<?php echo $message;?>
-                                
                             	<?php echo $table; ?>
-                                
                             </div>
                             	<div class="box-footer clearfix">
                                 	<?php echo $pagination; ?>
@@ -132,8 +124,6 @@
                         </div>
                     </div>
                  </div>
-                 
-                 
                 </section><!-- /.content -->
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
