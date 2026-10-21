@@ -2020,6 +2020,7 @@ INSERT INTO `user_roles` (`role_id`, `module`, `role_name`, `role_description`, 
 (1, '0', 'Super Admin', 'Full Access of the entire system', 0),
 (2, 'administrator', 'Administrator and CEO', 'Minimal supervision', 0),
 (3, '0', 'Receptionist', 'Help Desk Officer', 0),
+<<<<<<< Updated upstream
 (4, 'doctor', 'Doctor', 'Doctor', 0),
 (5, 'billing', 'Billing / Cashier', 'Billing / Cashier', 0),
 (6, '0', 'Nurse Roles', 'Nurse', 0),
@@ -2027,6 +2028,11 @@ INSERT INTO `user_roles` (`role_id`, `module`, `role_name`, `role_description`, 
 (8, '0', 'Laboratory Roles', 'Laboratory', 0),
 (9, '0', 'Radiology Roles', 'Radiology', 0),
 (10, '0', 'Inventory Roles', 'Inventory', 0);
+=======
+(5, 'doctor', 'Doctor', 'Doctor', 0),
+(6, 'billing', 'Billing / Cashier', 'Billing / Cashier', 0),
+(7, '0', 'Nurse Roles', 'Nurse', 0);
+>>>>>>> Stashed changes
 
 -- --------------------------------------------------------
 
