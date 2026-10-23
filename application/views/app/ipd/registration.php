@@ -111,31 +111,21 @@
                      <div class="col-md-12">
                     
                          <div class="box">
-                                 
                                  <div class="box-header">
                                     <h3 class="box-title">Search Patient to Masterlist</h3>
-                                    
                                 </div>
                             <div class="box-body table-responsive">
                                 <form role="form" method="post" action="<?php echo base_url()?>app/ipd/admit_patient">
-                                        
-                                        
-                                        
-                                
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Patient ID/LastName/FirstName</label>
                                             <input class="form-control input-sm" name="search" id="search" type="text" placeholder="Patient ID/LastName/FirstName" style="width: 350px;">
                                         </div>    
-                                        
-
-                                        
                                         <div class="form-group">
                                            
                                             <button class="btn btn-primary" name="btnSubmit" id="btnSubmit" type="submit"><i class="fa fa-search"></i> Search Patient</button>
                                         </div>
                                         <br>
                                 </form>
-                                
                             </div>
                         </div>
                     </div>
