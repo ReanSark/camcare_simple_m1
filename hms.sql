@@ -1805,11 +1805,11 @@ INSERT INTO `users` (`id`, `user_id`, `department`, `designation`, `user_role`, 
 (3, '00003', 2, 1, 2, '', 7, 'Sok', 'Heng', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'hengsok@gmail.com', 'heng sok', '1692ae04d32a3c26b0f6d61fd693ba03', '', '0', '', '', 0),
 (4, '00004', 2, 9, 5, '', 7, 'Cashier1', 'Cashier1', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'cashier1@gmail.com', 'cashier1', '2128e681b001cc5e1d5d5f1ffa5ed9e8', '', '0', '', '', 0),
 (5, '00005', 3, 5, 4, '', 11, 'No', 'Ku', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'kuno@gmail.com', 'ku no', '633e46b10e15d2667eb184c416ef3750', '', '0', '', '', 0),
-(6, '00006', 3, 5, 4, '', 11, 'Phalla', 'Poev', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'poevphalla@gmail.com', 'poev phalla', '48af4b2d5e1dfc7e1568430d3d66c8d4', '', '0', '', '', 0),
-(7, '00007', 3, 5, 4, '', 11, 'Sokheng', 'Seng', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'sengsokheng@gmail.com', 'seng sokheng', 'ed3aed180a6e85ee1755a66fb444775c', '', '0', '', '', 0),
-(8, '00008', 3, 5, 4, '', 11, 'Sokcheng', 'Orn', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'ornsokcheng@gmail.com', 'orn sokcheng', 'f18af1d7101f779d778c3ef8d0894721', '', '0', '', '', 0),
-(9, '00009', 3, 5, 4, '', 11, 'Chomroun', 'It', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'itchomroun@gmail.com', 'it chomroun', '5e4361653a978b11318a103ceb9455d5', '', '0', '', '', 0),
-(10, '00010', 3, 5, 4, '', 11, 'Mengcheat', 'Tangleng', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'tanglengmengcheat@gmail.com', 'tangleng mengcheat', 'ca352bb69706a7e747181c451d845ddb', '', '0', '', '', 0);
+(6, '00006', 3, 5, 4, '', 10, 'Phalla', 'Poev', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'poevphalla@gmail.com', 'poev phalla', '48af4b2d5e1dfc7e1568430d3d66c8d4', '', '0', '', '', 0),
+(7, '00007', 3, 5, 4, '', 10, 'Sokheng', 'Seng', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'sengsokheng@gmail.com', 'seng sokheng', 'ed3aed180a6e85ee1755a66fb444775c', '', '0', '', '', 0),
+(8, '00008', 3, 5, 4, '', 10, 'Sokcheng', 'Orn', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'ornsokcheng@gmail.com', 'orn sokcheng', 'f18af1d7101f779d778c3ef8d0894721', '', '0', '', '', 0),
+(9, '00009', 3, 5, 4, '', 10, 'Chomroun', 'It', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'itchomroun@gmail.com', 'it chomroun', '5e4361653a978b11318a103ceb9455d5', '', '0', '', '', 0),
+(10, '00010', 3, 5, 4, '', 10, 'Mengcheat', 'Tangleng', 'A.', 25, '', '', '', '', '', 1, 1, '1991-01-01', '', 'tanglengmengcheat@gmail.com', 'tangleng mengcheat', 'ca352bb69706a7e747181c451d845ddb', '', '0', '', '', 0);
 
 -- --------------------------------------------------------
 
