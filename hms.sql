@@ -310,6 +310,18 @@ INSERT INTO `company_info` (`company_name`, `company_address`, `company_contactN
 -- Table structure for table `complain`
 --
 
+CREATE TABLE `complain` (
+  `complain_id` int(11) NOT NULL,
+  `complain_name` varchar(999) NOT NULL,
+  `complain_desc` text NOT NULL,
+  `InActive` int(1) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `complain`
+--
+
+INSERT INTO `complain` (`complain_id`, `complain_name`, `complain_desc`, `InActive`) VALUES
 (1, 'ABDOMINAL PAIN', 'Abdominal pain', 0),
 (2, 'PELVIC PAIN', 'Pelvic pain', 0),
 (3, 'CHEST PAIN', 'Chest pain or discomfort', 0),
@@ -1719,7 +1731,7 @@ INSERT INTO `system_parameters` (`param_id`, `cCode`, `cValue`, `cDesc`, `InActi
 (68, 'reason_for_discount', 'Management Decision', 'Management Decision', 0),
 (69, 'reason_for_discount', 'Below Poverty Line', 'Below Poverty Line', 0),
 (70, 'reason_for_discount', 'Employee', 'Employee', 0),
-(71, 'reason_for_discount', 'Member', 'Member', 0)
+(71, 'reason_for_discount', 'Member', 'Member', 0),
 (100, 'birthplace', 'Banteay Meanchey', '', 0),
 (101, 'birthplace', 'Battambang', '', 0),
 (102, 'birthplace', 'Kampong Cham', '', 0),
@@ -1744,7 +1756,7 @@ INSERT INTO `system_parameters` (`param_id`, `cCode`, `cValue`, `cDesc`, `InActi
 (121, 'birthplace', 'Takeo', '', 0),
 (122, 'birthplace', 'Oddar Meanchey', '', 0),
 (123, 'birthplace', 'Pailin', '', 0),
- (124, 'birthplace', 'Tboung Khmum', '', 0);
+(124, 'birthplace', 'Tboung Khmum', '', 0);
 
 -- --------------------------------------------------------
 
