@@ -248,7 +248,7 @@
                                 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Invoice No.</label>
-                                     <input type="text" value="SI-<?php echo $userID;?>" readonly name="invoiceno" id="invoiceno" class="form-control input-sm">
+                                     <input type="text" value="RV26<?php echo $userID;?>" readonly name="invoiceno" id="invoiceno" class="form-control input-sm">
                                 </div>
                                 
                                 <div class="form-group">
