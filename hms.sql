@@ -393,7 +393,7 @@ CREATE TABLE `declaredor` (
   `InActive` int(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `department`
@@ -544,13 +544,6 @@ CREATE TABLE `doctors_fee` (
   `notes` text DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `doctors_fee`
---
-
-INSERT INTO `doctors_fee` (`doctorfeeID`, `user_id`, `invoice_no`, `date`, `completeDate`, `feeType`, `value`, `totalFee`, `notes`) VALUES
-(1, '00001', 'SI-000001', '2015-11-14', '2015-11-14 09:25:54 pm', 'percentage', 100.00, 0.00, 'cccc');
-
 -- --------------------------------------------------------
 
 --
@@ -672,13 +665,6 @@ CREATE TABLE `iop_complaints` (
   `InActive` int(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `iop_complaints`
---
-
-INSERT INTO `iop_complaints` (`iop_comp_id`, `iop_id`, `complain_id`, `remarks`, `dDate`, `InActive`) VALUES
-(1, 'OP-000001', 5, 'dasd', '2017-02-24', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -693,13 +679,6 @@ CREATE TABLE `iop_diagnosis` (
   `dDate` datetime NOT NULL,
   `InActive` int(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `iop_diagnosis`
---
-
-INSERT INTO `iop_diagnosis` (`iop_diag_id`, `iop_id`, `diagnosis_id`, `remarks`, `dDate`, `InActive`) VALUES
-(1, 'OP-000001', 1, 'asdasd', '2017-02-24 08:32:14', 0);
 
 -- --------------------------------------------------------
 
@@ -720,13 +699,6 @@ CREATE TABLE `iop_discharge_summary` (
   `course_ward` text NOT NULL,
   `InActive` int(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `iop_discharge_summary`
---
-
-INSERT INTO `iop_discharge_summary` (`dis_id`, `iop_id`, `dDate`, `dDateTime`, `reason_admission`, `condition_upon_discharge`, `admitting_impression`, `final_diagnosis`, `physical_exam_findings`, `course_ward`, `InActive`) VALUES
-(1, 'OP-000001', '2017-02-24', '2017-02-24 08:34:11', 'asdasd', 61, 'asd', 'asd', 'asd', 'asd', 0);
 
 -- --------------------------------------------------------
 
@@ -767,13 +739,6 @@ CREATE TABLE `iop_laboratory` (
   `InActive` int(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `iop_laboratory`
---
-
-INSERT INTO `iop_laboratory` (`io_lab_id`, `iop_id`, `dDate`, `dDateTime`, `category_id`, `laboratory_id`, `findings`, `result`, `doctor`, `InActive`) VALUES
-(1, 'OP-000001', '2017-02-24', '2017-02-24 08:30 AM', 8, 61, '', '', 7, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -792,13 +757,6 @@ CREATE TABLE `iop_medication` (
   `dDate` datetime NOT NULL,
   `cPreparedBy` varchar(25) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `iop_medication`
---
-
-INSERT INTO `iop_medication` (`iop_med_id`, `iop_id`, `medicine_id`, `instruction`, `advice`, `days`, `total_qty`, `InActive`, `dDate`, `cPreparedBy`) VALUES
-(1, 'OP-000001', 11, '', '', 10, 10, 0, '0000-00-00 00:00:00', '');
 
 -- --------------------------------------------------------
 
@@ -882,13 +840,6 @@ CREATE TABLE `iop_progress_note` (
   `cPreparedBy` varchar(25) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `iop_progress_note`
---
-
-INSERT INTO `iop_progress_note` (`progress_id`, `iop_id`, `dDate`, `dDateTime`, `progress`, `treatment`, `remarks`, `InActive`, `cPreparedBy`) VALUES
-(1, 'IP-000001', '2017-02-24', '2017-02-24 asd', 'asd', 'asd', 'asdas', 0, '00007');
-
 -- --------------------------------------------------------
 
 --
@@ -935,13 +886,6 @@ CREATE TABLE `iop_room_transfer` (
   `InActive` int(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `iop_room_transfer`
---
-
-INSERT INTO `iop_room_transfer` (`transfer_id`, `iop_id`, `dDate`, `dDateTime`, `room_category_id`, `room_master_id`, `bed_id`, `reason`, `cPreparedBy`, `InActive`) VALUES
-(1, 'IP-000001', '2017-02-24', '2017-02-24 08:36:52 AM', 1, 7, 1, 'Patient Admitted', '00010', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -963,15 +907,6 @@ CREATE TABLE `iop_vital_parameters` (
   `InActive` int(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `iop_vital_parameters`
---
-
-INSERT INTO `iop_vital_parameters` (`vital_id`, `iop_id`, `dDate`, `dDateTime`, `pulse_rate`, `temperature`, `height`, `bp`, `respiration`, `weight`, `cPreparedBy`, `InActive`) VALUES
-(1, 'OP-000001', '2017-02-24', '2017-02-24 07:26:54', '10', '30', '50', '20', '40', '60', '', 0),
-(2, 'OP-000001', '2017-02-24', '2017-02-24 08:33 AM', '', '', '', '', '', '', '', 0),
-(3, 'OP-000001', '2017-02-24', '2017-02-24 08:35:26', '', '', '', '', '', '', '', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -987,30 +922,6 @@ CREATE TABLE `logfile` (
   `value` text DEFAULT NULL,
   `date_time` datetime DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `logfile`
---
-
-INSERT INTO `logfile` (`logid`, `user_id`, `module`, `event`, `ipaddress`, `value`, `date_time`) VALUES
-(1, '00010', 'Patient Registration', 'INSERT', '127.0.0.1', 'Jenna P santos', '2016-11-01 02:34:43'),
-(2, '00010', 'Patient Registration', 'INSERT', '127.0.0.1', 'Brook P Ramon', '2016-11-01 03:11:34'),
-(3, '00010', 'Company Information', 'INSERT', '127.0.0.1', 'DEMO HOSPITAL CENTER', '2017-02-11 11:44:00'),
-(4, '00010', 'User', 'INSERT', '127.0.0.1', 'Bayes P. Danica', '2017-02-11 11:49:01'),
-(5, '00010', 'Patient Registration', 'INSERT', '127.0.0.1', 'sad asd aasd', '2017-02-23 01:52:52'),
-(6, '00010', 'Patient Registration', 'INSERT', '127.0.0.1', 'Jenna P. Santos', '2017-02-24 06:17:18'),
-(7, '00010', 'Patient Registration', 'INSERT', '127.0.0.1', 'Ferdinand  Dela Cruz', '2017-02-24 06:42:43'),
-(8, '00010', 'User', 'UPDATE', '127.0.0.1', 'Admin A. Administrator', '2017-02-24 07:02:40'),
-(9, '00010', 'Room Bed Master', 'INSERT', '127.0.0.1', '4', '2017-02-24 07:04:00'),
-(10, '00010', 'Room Bed Master', 'INSERT', '127.0.0.1', '5', '2017-02-24 07:04:06'),
-(11, '00010', 'Room Bed Master', 'INSERT', '127.0.0.1', '6', '2017-02-24 07:04:12'),
-(12, '00010', 'Room Bed Master', 'INSERT', '127.0.0.1', '1', '2017-02-24 07:04:19'),
-(13, '00010', 'Room Bed Master', 'INSERT', '127.0.0.1', '2', '2017-02-24 07:04:26'),
-(14, '00010', 'Room Bed Master', 'INSERT', '127.0.0.1', '3', '2017-02-24 07:04:34'),
-(15, '00010', 'Room Bed Master', 'INSERT', '127.0.0.1', '4', '2017-02-24 07:04:40'),
-(16, '00010', 'Room Bed Master', 'INSERT', '127.0.0.1', '11', '2017-02-24 07:05:50'),
-(17, '00010', 'Room Bed Master', 'INSERT', '127.0.0.1', '12', '2017-02-24 07:05:57'),
-(18, '00010', 'Room Bed Master', 'INSERT', '127.0.0.1', 'RM-101-1', '2017-02-24 07:10:54');
 
 -- --------------------------------------------------------
 
@@ -1283,14 +1194,6 @@ CREATE TABLE `patient_details_iop` (
   `isPaid` int(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `patient_details_iop`
---
-
-INSERT INTO `patient_details_iop` (`id`, `IO_ID`, `patient_no`, `patient_type`, `date_visit`, `time_visit`, `doctor_id`, `refferal_doctor`, `room_id`, `department_id`, `provisional_diagnosis`, `complaints`, `allergies`, `warnings`, `social_history`, `family_history`, `personal_history`, `past_medical_history`, `pulse_rate`, `temperature`, `height`, `bp`, `respiration`, `weight`, `nStatus`, `InActive`, `isPaid`) VALUES
-(1, 'OP-000001', '000001', 'OPD', '2017-02-24', '07:26:54', '00007', 7, 0, 8, '', '', 'Allergies here', 'Warnings here', 'Social History here', 'Family History here', 'Personal History here', 'Past Medical History here', '10', '30', '50', '20', '40', '60', 'Discharged', 0, 0),
-(2, 'IP-000001', '000001', 'IPD', '2017-02-24', '08:36:52', '00007', 0, 1, 10, '', '', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'Discharged', 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -1329,13 +1232,6 @@ CREATE TABLE `patient_personal_info` (
   `InActive` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `patient_personal_info`
---
-
-INSERT INTO `patient_personal_info` (`reg_no`, `patient_no`, `title`, `lastname`, `firstname`, `middlename`, `gender`, `civil_status`, `birthday`, `birthplace`, `fathers_name`, `address1`, `address2`, `age`, `religion`, `street`, `subd_brgy`, `province`, `phone_no`, `phone_no_office`, `mobile_no`, `email_address`, `picture`, `date_entry`, `blood_group`, `Insurance_comp`, `insurance_no`, `id_identifiers`, `InActive`) VALUES
-(1, '000001', 7, 'Dela Cruz', 'Ferdinand', '', 1, 3, '1941-05-30', '', '', '', '', 75, 0, '', '', '', '', '', '', '', '', '2017-02-24 06:42:43', 0, 0, '', '', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -1351,98 +1247,6 @@ CREATE TABLE `price_history` (
   `action` varchar(25) NOT NULL,
   `InActive` int(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `price_history`
---
-
-INSERT INTO `price_history` (`price_history_id`, `nRef_ID`, `price`, `updatedBy`, `dDate`, `action`, `InActive`) VALUES
-(28, 38, 800.00, '00001', '2014-07-03 02:18:12', '', 0),
-(27, 37, 200.00, '00001', '2014-07-03 02:17:59', '', 0),
-(26, 36, 80.00, '00001', '2014-07-03 02:16:54', '', 0),
-(25, 35, 145.00, '00001', '2014-07-03 02:16:44', '', 0),
-(24, 34, 550.00, '00001', '2014-07-03 02:16:32', '', 0),
-(23, 33, 660.00, '00001', '2014-07-03 02:16:24', '', 0),
-(22, 32, 825.00, '00001', '2014-07-03 02:16:02', '', 0),
-(21, 31, 150.00, '00001', '2014-07-03 02:15:17', '', 0),
-(20, 30, 100.00, '00001', '2014-07-03 02:14:45', '', 0),
-(19, 7, 165.00, '00001', '2014-06-24 02:27:55', '', 0),
-(18, 16, 120.00, '00001', '2014-06-24 02:26:29', '', 0),
-(17, 16, 100.00, '00001', '2014-06-24 02:17:39', '', 0),
-(16, 29, 25.00, '00001', '2014-06-24 02:17:10', '', 0),
-(29, 39, 550.00, '00001', '2014-07-03 02:18:23', '', 0),
-(30, 40, 2000.00, '00001', '2014-07-03 02:18:52', '', 0),
-(31, 41, 1500.00, '00001', '2014-07-03 02:19:02', '', 0),
-(32, 42, 165.00, '00001', '2014-07-03 02:19:34', '', 0),
-(33, 43, 145.00, '00001', '2014-07-03 02:19:45', '', 0),
-(34, 44, 220.00, '00001', '2014-07-03 02:19:54', '', 0),
-(35, 45, 220.00, '00001', '2014-07-03 02:20:03', '', 0),
-(36, 46, 165.00, '00001', '2014-07-03 02:20:13', '', 0),
-(37, 47, 220.00, '00001', '2014-07-03 02:20:23', '', 0),
-(38, 48, 55.00, '00001', '2014-07-03 02:20:32', '', 0),
-(39, 49, 295.00, '00001', '2014-07-03 02:20:43', '', 0),
-(40, 50, 165.00, '00001', '2014-07-03 02:20:53', '', 0),
-(41, 51, 500.00, '00001', '2014-07-03 02:21:31', '', 0),
-(42, 52, 300.00, '00001', '2014-07-03 02:21:39', '', 0),
-(43, 53, 1500.00, '00001', '2014-07-03 02:21:50', '', 0),
-(44, 54, 3000.00, '00001', '2014-07-03 02:22:04', '', 0),
-(45, 55, 300.00, '00001', '2014-07-03 02:22:12', '', 0),
-(46, 56, 1500.00, '00001', '2014-07-03 02:22:21', '', 0),
-(47, 57, 100.00, '00001', '2014-07-03 02:22:31', '', 0),
-(48, 58, 1500.00, '00001', '2014-07-03 02:22:40', '', 0),
-(49, 59, 700.00, '00001', '2014-07-03 02:23:33', '', 0),
-(50, 60, 1000.00, '00001', '2014-07-03 02:23:42', '', 0),
-(51, 61, 45.00, '00001', '2014-07-03 02:24:17', '', 0),
-(52, 62, 35.00, '00001', '2014-07-03 02:24:30', '', 0),
-(53, 63, 165.00, '00001', '2014-07-03 02:24:38', '', 0),
-(54, 64, 330.00, '00001', '2014-07-03 02:24:48', '', 0),
-(55, 65, 25.00, '00001', '2014-07-03 02:24:59', '', 0),
-(56, 66, 715.00, '00001', '2014-07-03 02:25:07', '', 0),
-(57, 67, 990.00, '00001', '2014-07-03 02:25:18', '', 0),
-(58, 68, 255.00, '00001', '2014-07-03 02:25:28', '', 0),
-(59, 69, 220.00, '00001', '2014-07-03 02:25:59', '', 0),
-(60, 70, 825.00, '00001', '2014-07-03 02:26:10', '', 0),
-(61, 71, 330.00, '00001', '2014-07-03 02:26:21', '', 0),
-(62, 72, 660.00, '00001', '2014-07-03 02:26:31', '', 0),
-(63, 73, 330.00, '00001', '2014-07-03 02:26:46', '', 0),
-(64, 74, 330.00, '00001', '2014-07-03 02:26:55', '', 0),
-(65, 75, 1430.00, '00001', '2014-07-03 02:27:07', '', 0),
-(66, 76, 500.00, '00001', '2014-07-03 02:28:00', '', 0),
-(67, 77, 100.00, '00001', '2014-07-03 02:28:12', '', 0),
-(68, 78, 200.00, '00001', '2014-07-03 02:28:23', '', 0),
-(69, 79, 100.00, '00001', '2014-07-03 02:28:33', '', 0),
-(70, 80, 150.00, '00001', '2014-07-03 02:28:47', '', 0),
-(71, 81, 650.00, '00001', '2014-07-03 02:29:19', '', 0),
-(72, 82, 650.00, '00001', '2014-07-03 02:29:31', '', 0),
-(73, 83, 610.00, '00001', '2014-07-03 02:29:40', '', 0),
-(74, 84, 55.00, '00001', '2014-07-03 02:29:51', '', 0),
-(75, 85, 880.00, '00001', '2014-07-03 02:30:00', '', 0),
-(76, 86, 825.00, '00001', '2014-07-03 02:30:12', '', 0),
-(77, 87, 660.00, '00001', '2014-07-03 02:30:56', '', 0),
-(78, 88, 2000.00, '00001', '2014-07-03 02:31:08', '', 0),
-(79, 89, 880.00, '00001', '2014-07-03 02:31:20', '', 0),
-(80, 90, 1300.00, '00001', '2014-07-03 02:31:31', '', 0),
-(81, 91, 600.00, '00001', '2014-07-03 02:31:46', '', 0),
-(82, 92, 600.00, '00001', '2014-07-03 02:31:56', '', 0),
-(83, 93, 1000.00, '00001', '2014-07-03 02:32:05', '', 0),
-(84, 34, 1500.00, '00001', '2014-07-04 03:45:25', '', 0),
-(85, 35, 500.00, '00001', '2014-07-23 09:39:07', '', 0),
-(86, 94, 2500.00, '00001', '2014-07-23 01:21:55', '', 0),
-(87, 95, 2500.00, '00001', '2014-07-23 01:22:16', '', 0),
-(88, 96, 3000.00, '00001', '2014-07-23 01:22:30', '', 0),
-(89, 97, 6000.00, '00001', '2014-07-23 01:22:44', '', 0),
-(90, 98, 3000.00, '00001', '2014-07-23 01:22:55', '', 0),
-(91, 99, 6000.00, '00001', '2014-07-23 01:23:05', '', 0),
-(92, 100, 1000.00, '00001', '2014-07-23 01:23:36', '', 0),
-(93, 101, 1500.00, '00001', '2014-07-23 01:23:49', '', 0),
-(94, 102, 3000.00, '00001', '2014-07-23 01:23:58', '', 0),
-(95, 103, 6000.00, '00001', '2014-07-23 01:24:08', '', 0),
-(96, 104, 10000.00, '00001', '2014-08-12 03:00:53', '', 0),
-(97, 105, 100.00, '00001', '2014-08-12 03:01:10', '', 0),
-(98, 106, 100.00, '00001', '2014-08-12 03:01:23', '', 0),
-(99, 107, 100.00, '00001', '2014-08-12 03:01:31', '', 0),
-(100, 108, 100.00, '00001', '2014-08-12 03:01:40', '', 0),
-(101, 109, 120.00, '00001', '2014-08-12 03:01:56', '', 0);
 
 -- --------------------------------------------------------
 
@@ -1565,14 +1369,6 @@ CREATE TABLE `surgical_package` (
   `InActive` int(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `surgical_package`
---
-
-INSERT INTO `surgical_package` (`surgery_id`, `surgery_name`, `surgery_desc`, `total_costs`, `InActive`) VALUES
-(1, 'Flexible Cystoscopy', 'Flexible Cystoscopy', 9100.00, 0),
-(2, 'Sample Surgery', 'Sample Surgery', 0.00, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -1588,17 +1384,6 @@ CREATE TABLE `surgical_package_t` (
   `InActive` int(1) NOT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `surgical_package_t`
---
-
-INSERT INTO `surgical_package_t` (`m_id`, `surgery_id`, `surgery_item`, `cDesc`, `costs`, `InActive`, `date_created`) VALUES
-(14, 1, '97', 'scar', 6000.00, 0, '2014-07-30 05:56:29'),
-(13, 1, '76', 'Intra Articular Injections', 500.00, 0, '2014-07-30 05:56:12'),
-(11, 1, '30', 'dsad', 100.00, 0, '2014-07-30 05:54:12'),
-(12, 1, '94', 'Muscle Biopsy', 2500.00, 0, '2014-07-30 05:54:34'),
-(10, 1, '12', 'Fdfsdf', 2200.00, 1, '2014-07-30 05:09:12');
 
 -- --------------------------------------------------------
 
