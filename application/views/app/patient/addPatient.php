@@ -125,13 +125,13 @@
                           													?>
                                                     <input type="hidden" name="userID2" value="<?php echo $userID2;?>">
                                                     <tr>
-                                                    	<td width="12%">Patient ID</td>
-                                                        <td width="88%"><input class="form-control input-sm" name="patientID" id="patientID" type="text" style="width: 100px;" required readonly value="<?php echo $userID;?>"></td>
+                                                    	<td width="12%">Patient ID (MRN)</td>
+                                                        <td width="88%"><input class="form-control input-sm" name="patientID" id="patientID" type="text" style="width: 140px;" required readonly value="<?php echo $userID;?>"></td>
                                                     </tr>
                                                     <tr>
                                                     	<td width="12%">Title <font color="#FF0000">*</font></td>
                                                         <td width="88%">
-                                                        	<select name="title" id="title" class="form-control input-sm" style="width: 100px;" required>
+                                                        	<select name="title" id="title" class="form-control input-sm" style="width: 140px;" required>
                                                             	<option value="">- Title -</option>
                               																<?php 
                               																foreach($UserTitles as $UserTitles){
@@ -178,15 +178,27 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td>Birth Place</td>
-                                                        <td>
-                                                        <?php echo form_input('birthplace',set_value('birthplace'),'id="birthplace" class="form-control input-sm" placeholder="Birth Place" style="width: 250px;"');?>
+                                                        <td width="12%">Birth Place</td>
+                                                        <td width="88%">
+                                                        	<select name="birthplace" id="birthplace" class="form-control input-sm" style="width: 140px;">
+                                                            	<option value="">- Birth Place -</option>
+                                                                <?php 
+																foreach($birthplace as $birthplace){
+																if($_POST['birthplace'] == $birthplace->param_id){
+																	$selected = "selected='selected'";
+																}else{
+																	$selected = "";
+																}
+																?>
+                                                            	<option value="<?php echo $birthplace->param_id;?>" <?php echo $selected;?>><?php echo $birthplace->cValue;?></option>
+                                                                <?php }?>
+                                                            </select>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                     	<td width="12%">Gender</td>
                                                         <td width="88%">
-                                                        	<select name="gender" id="gender" class="form-control input-sm" style="width: 100px;">
+                                                        	<select name="gender" id="gender" class="form-control input-sm" style="width: 140px;">
                                                             	<option value="">- Gender -</option>
                                                                 <?php 
 																foreach($gender as $gender){
@@ -240,7 +252,7 @@
                                                     <tr>
                                                     	<td width="12%">Blood Group </td>
                                                         <td width="88%">
-                                                        	<select name="bloodGroup" id="bloodGroup" class="form-control input-sm" style="width: 125px;">
+                                                        	<select name="bloodGroup" id="bloodGroup" class="form-control input-sm" style="width: 140px;">
                                                             	<option value="">- Blood Group -</option>
                                                             	<?php 
 																foreach($bloodGroup as $bloodGroup){
@@ -300,7 +312,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td width="14%">Email Address <font color="#FF0000">*</font><br>(No email: patientname@mail.com)</td>
+                                                    	<td width="14%">Email Address</td>
                                                         <td width="86%"> 
                                                         <?php echo form_input('email',set_value('email'),'id="email" class="form-control input-sm" placeholder="Email Address" style="width: 250px;"');?>
                                                         </td>

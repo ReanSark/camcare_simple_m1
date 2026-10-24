@@ -105,51 +105,35 @@
 
                 <!-- Main content -->
                 <section class="content">
-                 
-                 
                  <div class="row">
                  	<div class="col-md-12">
-                    
                     	 <div class="box">
-                         		
                          		<div class="box-header">
                                     <h3 class="box-title">Search Patient to Masterlist</h3>
-                                    
                                 </div>
                         	<div class="box-body table-responsive">
                             	<form role="form" method="post" action="<?php echo base_url()?>app/opd/search_result">
-                                		
-                                		
-                                		
-                                
                                 		<div class="form-group">
                                             <label for="exampleInputEmail1">Patient ID/LastName/FirstName</label>
                                             <input class="form-control input-sm" name="search" id="search" type="text" placeholder="Patient ID/LastName/FirstName" style="width: 350px;">
                                         </div>
-                                        
                                         <!--<div class="form-group">
                                             <label for="exampleInputEmail1">From Date Registration</label>
                                             <input class="form-control input-sm" name="cFrom" id="cFrom" type="text" value="2010-01-01" placeholder="From Date Registration" style="width: 350px;" required>
                                         </div>
-                                        
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">To Date Registration</label>
                                             <input class="form-control input-sm" name="cTo" id="cTo" type="text" value="<?php echo date("Y-m-d");?>" placeholder="To Date Registration" style="width: 350px;" required>
                                         </div>-->
-                                        
                                         <div class="form-group">
-                                           
                                             <button class="btn btn-primary" name="btnSubmit" id="btnSubmit" type="submit"><i class="fa fa-search"></i> Search Patient</button>
                                         </div>
                                         <br>
                                 </form>
-                                
                             </div>
                         </div>
                     </div>
                  </div>
-                 
-                 
                 </section><!-- /.content -->
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->

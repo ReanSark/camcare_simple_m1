@@ -16,6 +16,7 @@ class General extends CI_Controller{
 		$this->data['userInfo'] = $this->general_model->getUserLoggedIn($this->session->userdata('username'));
 		$this->data['UserTitles'] = $this->general_model->UserTitles();
 		$this->data['gender'] = $this->general_model->gender();
+		$this->data['birthplace'] = $this->general_model->birthplace();
 		$this->data['civilStatus'] = $this->general_model->civilStatus();
 		$this->data['departmentList'] = $this->general_model->departmentList();
 		$this->data['designationList'] = $this->general_model->designationList();

@@ -116,7 +116,7 @@
     <img src="<?php echo base_url()?>public/company_logo/camcare-logo-color-primary-portrait.png" height="100">
   </div>
   <div class="header-center">
-    <div class="header-title">វិក្កយបត្រធម្មតា</div>
+    <div class="header-title">វិក្កយបត្រធម្មតា - Commercial Invoice</div>
     <div class="header-subtitle">លេខអត្តសញ្ញាណកម្មសារពើពន្ធ VATTIN៖ K008-902304727<br>
     ទីតាំង៖ #BD05 HA177 HA175 HA173 ផ្លូវ NB ភូមិក្តីចាស់ សង្កាត់បាក់ខែង ខណ្ឌជ្រោយចង្វារ រាជធានីភ្នំពេញ (ក្នុងបុរីហ្គោលដេនផាក) ផ្លូវជាតិលេខ៦អា ស្ពាន៩។<br>
     ខ្សែទូរស័ព្ទទាន់ហេតុការណ៍: 099 800068 / 096 280 0068
@@ -128,7 +128,7 @@
 <div class="top-rule"></div>
 
 <section class="section">
-  <div class="section-title"><span class="section-number">1</span><span>ព័ត៌មានអ្នកជំងឺ</span></div>
+  <div class="section-title"><span>ព័ត៌មានអ្នកជំងឺ</span></div>
   <div class="field-grid">
     <div class="field"><div class="field-label">ឈ្មោះពេញរបស់អ្នកជំងឺ</div><div class="field-line"><?php echo $patientInfo->name?></div></div>
     <div class="field"><div class="field-label">លេខទូរស័ព្ទ</div><div class="field-line"><?php echo $patientInfo->phone_no?></div></div>
@@ -137,7 +137,6 @@
 </section>
 
 <section class="section">
-  <div class="section-title"><span class="section-number">2</span><span>ព័ត៌មានលម្អិតអំពីសេវាកម្ម</span></div>
   <div class="patient-grid">
     <div class="field"><div class="field-label">លេខវិក្កយបត្រ</div><div class="field-line"><?php echo $headerInv->invoice_no?></div></div>
     <div class="field"><div class="field-label">អត្រាប្តូរប្រាក់</div><div class="field-line"></div></div>

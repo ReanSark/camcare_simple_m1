@@ -91,7 +91,7 @@
             <aside class="right-side">                
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>Patient Master</h1>
+                    <h1>Admit Patient</h1>
                     <ol class="breadcrumb">
                         <li><a href="<?php echo base_url()?>app/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
                         <li><a href="#">Patient Management</a></li>
@@ -110,7 +110,21 @@
                          <div class="box">
                                  <form class="form-search" method="post" action="<?php echo base_url();?>app/patient">
                                  <div class="box-header">
-                                    <h3 class="box-title"><a href="<?php echo base_url();?>app/ipd/registration" class="btn btn-default"><i class="fa fa-search"></i> Back to Search form</a></h3>
+                                    <!-- <h3 class="box-title"><a href="<?php echo base_url();?>app/ipd/registration" class="btn btn-default"><i class="fa fa-search"></i> Back to Search form</a></h3> -->
+
+                                    <div class="box-body table-responsive">
+                                <form role="form" method="post" action="<?php echo base_url()?>app/ipd/admit_patient">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Patient ID/LastName/FirstName</label>
+                                            <input class="form-control input-sm" name="search" id="search" type="text" placeholder="Patient ID/LastName/FirstName" style="width: 350px;">
+                                        </div>    
+                                        <div class="form-group">
+                                           
+                                            <button class="btn btn-primary" name="btnSubmit" id="btnSubmit" type="submit"><i class="fa fa-search"></i> Search Patient</button>
+                                        </div>
+                                        <br>
+                                </form>
+                            </div>
                                     
                                     <div class="box-tools">
                                         <div class="input-group">
