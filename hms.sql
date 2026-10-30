@@ -1010,6 +1010,13 @@ CREATE TABLE `iop_medication` (
   `advice` text NOT NULL,
   `days` int(2) NOT NULL,
   `total_qty` int(5) NOT NULL,
+  `morning` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `afternoon` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `evening` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `night` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `meal` varchar(25) NOT NULL DEFAULT '',
+  `method` varchar(25) NOT NULL DEFAULT '',
+  `measurement` varchar(25) NOT NULL DEFAULT '',
   `InActive` int(1) NOT NULL,
   `dDate` datetime NOT NULL,
   `cPreparedBy` varchar(25) NOT NULL

@@ -213,6 +213,13 @@
                                                 <td><?php echo $rows->advice?></td>
                                                 <td><?php echo $rows->days?></td>
                                                 <td><?php echo $rows->total_qty?></td>
+                                                <!-- <td><?php echo $rows->morning?></td>
+                                                <td><?php echo $rows->afternoon?></td>
+                                                <td><?php echo $rows->evening?></td>
+                                                <td><?php echo $rows->night?></td>
+                                                <td><?php echo $rows->meal?></td>
+                                                <td><?php echo $rows->method?></td>
+                                                <td><?php echo $rows->measurement?></td> -->
                                                 <td>
                                                 <?php if($this->session->userdata('emr_viewing') == ""){?>	
                                                 <?php if($getOPDPatient->nStatus == "Pending"){?>

@@ -71,6 +71,13 @@ class Nurse_module extends General{
 			'advice'		=>		$this->input->post('advice'),
 			'days'			=>		$this->input->post('nDays'),
 			'total_qty'		=>		$this->input->post('qty'),
+			// 'morning'		=>		$this->input->post('morning'),
+			// 'afternoon'		=>		$this->input->post('afternoon'),
+			// 'evening'		=>		$this->input->post('evening'),
+			// 'night'			=>		$this->input->post('night'),
+			// 'meal'			=>		$this->input->post('meal'),
+			// 'method'		=>		$this->input->post('method'),
+			// 'measurement'	=>		$this->input->post('measurement'),
 			'cPreparedBy'	=>		$this->session->userdata('user_id'),
 			'dDate'			=>		date("Y-m-d h:i:s A"),
 			'InActive'		=>		0

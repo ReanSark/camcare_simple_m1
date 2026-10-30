@@ -102,6 +102,13 @@ body{
                                                 <td><?php echo $rows->advice?></td>
                                                 <td align="center"><?php echo $rows->days?></td>
                                                 <td align="center"><?php echo $rows->total_qty?></td>
+                                                <!-- <td align="center"><?php echo $rows->morning?></td>
+                                                <td align="center"><?php echo $rows->afternoon?></td>
+                                                <td align="center"><?php echo $rows->evening?></td>
+                                                <td align="center"><?php echo $rows->night?></td>
+                                                <td><?php echo $rows->meal?></td>
+                                                <td><?php echo $rows->method?></td>
+                                                <td><?php echo $rows->measurement?></td> -->
                                                 <td><?php echo $rows->name?></td>
 </tr>
 <?php }?>

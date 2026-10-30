@@ -224,6 +224,13 @@
                                                 <td><?php echo $rows->advice?></td>
                                                 <td><?php echo $rows->days?></td>
                                                 <td><?php echo $rows->total_qty?></td>
+                                                <!-- <td><?php echo $rows->morning?></td>
+                                                <td><?php echo $rows->afternoon?></td>
+                                                <td><?php echo $rows->evening?></td>
+                                                <td><?php echo $rows->night?></td>
+                                                <td><?php echo $rows->meal?></td>
+                                                <td><?php echo $rows->method?></td>
+                                                <td><?php echo $rows->measurement?></td> -->
                                                 <td><?php echo $rows->name?></td>
                                                 <td>
                                                 <a href="<?php echo base_url()?>app/nurse_module/delete_medication/<?php echo $rows->iop_med_id?>/<?php echo $getOPDPatient->IO_ID?>/<?php echo $getOPDPatient->patient_no?>" onClick="return confirm('Are you sure you want to remove?');">Remove</a>
