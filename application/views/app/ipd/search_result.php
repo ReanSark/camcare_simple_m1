@@ -104,16 +104,11 @@
                 <section class="content">
                  
                  
-                 <div class="row">
-                     <div class="col-md-12">
-                    
-                         <div class="box">
-                                 <form class="form-search" method="post" action="<?php echo base_url();?>app/patient">
-                                 <div class="box-header">
-                                    <!-- <h3 class="box-title"><a href="<?php echo base_url();?>app/ipd/registration" class="btn btn-default"><i class="fa fa-search"></i> Back to Search form</a></h3> -->
-
-                                    <div class="box-body table-responsive">
-                                <form role="form" method="post" action="<?php echo base_url()?>app/ipd/admit_patient">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box">
+                                <div class="box-body table-responsive">
+                                    <form role="form" method="post" action="<?php echo base_url()?>app/ipd/admit_patient">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Patient ID/LastName/FirstName</label>
                                             <input class="form-control input-sm" name="search" id="search" type="text" placeholder="Patient ID/LastName/FirstName" style="width: 350px;">
@@ -123,31 +118,26 @@
                                             <button class="btn btn-primary" name="btnSubmit" id="btnSubmit" type="submit"><i class="fa fa-search"></i> Search Patient</button>
                                         </div>
                                         <br>
-                                </form>
-                            </div>
+                                    </form>
+                                </div>
                                     
-                                    <div class="box-tools">
-                                        <div class="input-group">
+                                <div class="box-tools">
+                                    <div class="input-group">
                                             
-                                        </div>
                                     </div>
-                                    
-                                </div><!-- /.box-header -->
-                                </form>
-                            <div class="box-body table-responsive no-padding">
+                                </div>
+                                <div class="box-body table-responsive no-padding">
                                 <?php echo $message;?>
                                 
                                 <?php echo $table; ?>
                                 
-                            </div>
+                                </div>
                                 <div class="box-footer clearfix">
                                     <?php echo $pagination; ?>
                                 </div>
+                            </div>
                         </div>
                     </div>
-                 </div>
-                 
-                 
                 </section><!-- /.content -->
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
