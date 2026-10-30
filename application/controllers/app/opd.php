@@ -120,6 +120,59 @@ class Opd extends General{
 		$this->data['patientHistory'] = $this->patient_model->getPatientHistory($patient_no);
 		$this->load->view("app/opd/opdReg",$this->data);	
 	}
+
+	public function print_opd_registration(){
+    $patient_no = $this->input->post('patient_no', TRUE);
+
+    if (empty($patient_no)) {
+        show_error('Patient number is required.', 400);
+        return;
+    }
+
+    // Retrieve existing patient information
+    $this->data['patientInfo'] =
+        $this->patient_model->getPatientInfo($patient_no);
+
+    $this->data['patientHistory'] =
+        $this->patient_model->getPatientHistory($patient_no);
+
+    if (empty($this->data['patientInfo'])) {
+        show_404();
+        return;
+    }
+
+    // Capture current, potentially unsaved form values
+    $this->data['printData'] = array(
+        'opdNo'          => $this->input->post('opdNo', TRUE),
+        'refdoctor'      => $this->input->post('refdoctor', TRUE),
+        'department'     => $this->input->post('department', TRUE),
+        'doctor'         => $this->input->post('doctor', TRUE),
+
+		'refdoctor_name' => $this->input->post('refdoctor_name', TRUE),
+		'department_name' => $this->input->post('department_name', TRUE),
+		'doctor_name' => $this->input->post('doctor_name', TRUE),
+
+        'allergies'      => $this->input->post('allergies', TRUE),
+        'warnings'       => $this->input->post('warnings', TRUE),
+        'social_history' => $this->input->post('social_history', TRUE),
+        'family_history' => $this->input->post('family_history', TRUE),
+        'personal_history' => $this->input->post('personal_history', TRUE),
+        'past_medical_history' => $this->input->post('past_medical_history', TRUE),
+
+        'pulse_rate'     => $this->input->post('pulse_rate', TRUE),
+        'bp'             => $this->input->post('bp', TRUE),
+        'temperature'    => $this->input->post('temperature', TRUE),
+        'respiration'    => $this->input->post('respiration', TRUE),
+        'height'         => $this->input->post('height', TRUE),
+        'weight'         => $this->input->post('weight', TRUE),
+        'sao2'           => $this->input->post('sao2', TRUE)
+    );
+
+    $this->load->view(
+        'app/opd/print_opd_registration',
+        $this->data
+    );
+	}
 	
 	
 	public function index($offset = 0){

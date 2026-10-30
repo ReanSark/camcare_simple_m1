@@ -157,7 +157,7 @@
                  </div>
                  
                  
-                 <form method="post" action="<?php echo base_url();?>app/opd/save_opd" onSubmit="return confirm('Are you sure you want to save?');">
+                 <form id="opdRegistrationForm" method="post" action="<?php echo base_url();?>app/opd/save_opd" onSubmit="return confirm('Are you sure you want to save?');">
                  <input type="hidden" name="patient_no" value="<?php echo $patientInfo->patient_no?>">
                  <div class="row">
                  	
@@ -167,6 +167,7 @@
                              	<div class="box-footer clearfix">
                             	
                                             <a href="<?php echo base_url();?>app/patient" class="btn btn-default">Cancel</a>
+                                            <button class="btn btn-info" type="button" id="btnPrintOPD"><i class="fa fa-print"></i> Print</button>
                                             <button class="btn btn-primary" name="btnSubmit" id="btnSubmit" type="submit"><i class="fa fa-save"></i> Save</button>
                                  
                             	</div>
@@ -226,7 +227,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                	<td>Department</td>
+                                	<td>Department <font color="#FF0000">*</font></td>
                                     <td>
                           						<select name="department" id="department" class="form-control input-sm" style="width: 200px;" required>
                                       	<option value="">- Department -</option>
@@ -244,7 +245,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                	<td>Consultant Doctor</td>
+                                	<td>Consultant Doctor <font color="#FF0000">*</font></td>
                                     <td>
                           						<select name="doctor" id="doctor" class="form-control input-sm" style="width: 200px;" required>
                                       	<option value="">- Consultant Doctor -</option>
@@ -376,6 +377,76 @@
             });
         </script>
         <!-- END BDAY -->
+
+        <script type="text/javascript">
+document.getElementById('btnPrintOPD').addEventListener('click', function () {
+
+    var form = document.getElementById('opdRegistrationForm');
+
+    // Open a new tab directly from the button click
+    var printWindow = window.open('', 'opdPrintWindow');
+
+    if (!printWindow) {
+        alert('Please allow pop-ups for this website.');
+        return;
+    }
+
+    // Create a temporary POST form
+    var printForm = document.createElement('form');
+
+    printForm.method = 'POST';
+    printForm.action = '<?php echo base_url();?>app/opd/print_opd_registration';
+    printForm.target = 'opdPrintWindow';
+
+    // Transfer all current form values
+    var formData = new FormData(form);
+
+    formData.forEach(function(value, key) {
+
+        if (typeof value === 'string') {
+
+            var input = document.createElement('input');
+
+            input.type = 'hidden';
+            input.name = key;
+            input.value = value;
+
+            printForm.appendChild(input);
+        }
+
+    });
+
+    // Get selected dropdown display names
+    function addPrintField(name, value) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        printForm.appendChild(input);
+    }
+
+    function getSelectedText(id) {
+        var select = document.getElementById(id);
+
+        if (!select || select.selectedIndex < 0) {
+            return '';
+        }
+
+        return select.options[select.selectedIndex].text;
+    }
+
+    addPrintField('refdoctor_name', getSelectedText('refdoctor'));
+    addPrintField('department_name', getSelectedText('department'));
+    addPrintField('doctor_name', getSelectedText('doctor'));
+
+    document.body.appendChild(printForm);
+
+    printForm.submit();
+
+    document.body.removeChild(printForm);
+
+});
+</script>
         
         
     </body>
