@@ -39,18 +39,18 @@
             
             <?php require_once(APPPATH.'views/include/sidebar.php');?>
  <script language="javascript">
-                 function validate(){
-						if(document.getElementById("email").value == ""){
-							alert('You did not enter a valid Email Address');
-							return false;
-						}else{
-							if(confirm('Are you sure you want to save?')){
-								return true;
-							}else{
-								return false;
-							}
-						}
-				 }
+                //  function validate(){
+				// 		if(document.getElementById("email").value == ""){
+				// 			alert('You did not enter a valid Email Address');
+				// 			return false;
+				// 		}else{
+				// 			if(confirm('Are you sure you want to save?')){
+				// 				return true;
+				// 			}else{
+				// 				return false;
+				// 			}
+				// 		}
+				//  }
                  </script>
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">                
@@ -129,21 +129,21 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td width="12%">Last Name <font color="#FF0000">*</font></td>
-                                                        <td width="88%">
-                                                        <?php echo form_input('lastname',set_value('lastname',$patientInfo->lastname),'id="lastname" class="form-control input-sm" placeholder="Last Name" style="width: 250px;" required');?>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
                                                     	<td>First Name <font color="#FF0000">*</font></td>
                                                         <td>
                                                         <?php echo form_input('firstname',set_value('firstname',$patientInfo->firstname),'id="firstname" class="form-control input-sm" placeholder="First Name" style="width: 250px;" required');?>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td>Middle Name <font color="#FF0000">*</font></td>
+                                                    	<td>Middle Name</td>
                                                         <td>
-                                                        <?php echo form_input('middlename',set_value('middlename',$patientInfo->middlename),'id="middlename" class="form-control input-sm" placeholder="Middle Name" style="width: 250px;" required');?>
+                                                        <?php echo form_input('middlename',set_value('middlename',$patientInfo->middlename),'id="middlename" class="form-control input-sm" placeholder="Middle Name" style="width: 250px;"');?>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td width="12%">Last Name <font color="#FF0000">*</font></td>
+                                                        <td width="88%">
+                                                        <?php echo form_input('lastname',set_value('lastname',$patientInfo->lastname),'id="lastname" class="form-control input-sm" placeholder="Last Name" style="width: 250px;" required');?>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -213,9 +213,9 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td width="12%">Blood Group <font color="#FF0000">*</font></td>
+                                                    	<td width="12%">Blood Group</td>
                                                         <td width="88%">
-                                                        	<select name="bloodGroup" id="bloodGroup" class="form-control input-sm" style="width: 125px;" required>
+                                                        	<select name="bloodGroup" id="bloodGroup" class="form-control input-sm" style="width: 125px;">
                                                             	<option value="">- Blood Group -</option>
                                                             	<?php 
 																foreach($bloodGroup as $bloodGroup){
@@ -275,7 +275,7 @@
                                                     </tr>
                                                     
                                                     <tr>
-                                                    	<td width="14%">Email Address <font color="#FF0000">*</font></td>
+                                                    	<td width="14%">Email Address</td>
                                                         <td width="86%"> 
                                                         <?php echo form_input('email',set_value('email',$patientInfo->email_address),'id="email" class="form-control input-sm" placeholder="Email Address" style="width: 250px;"');?>
                                                         </td>

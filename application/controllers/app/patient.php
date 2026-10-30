@@ -224,7 +224,7 @@ class Patient extends General{
 	public function edit_save(){
 		$this->form_validation->set_rules("lastname","Last Name","trim|xss_clean|required|callback_validate_patient_edit");
 		$this->form_validation->set_rules("firstname","First Name","trim|xss_clean|required");	
-		$this->form_validation->set_rules("middlename","Middle Name","trim|xss_clean|required");	
+		$this->form_validation->set_rules("middlename","Middle Name","trim|xss_clean");	
 		// $this->form_validation->set_rules("email","Email Address","trim|xss_clean|valid_email|callback_validate_email_edit");	
 		$this->form_validation->set_error_delimiters("<div class='alert alert-warning alert-dismissable'><i class='fa fa-warning'></i><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>","</div>");
 	
