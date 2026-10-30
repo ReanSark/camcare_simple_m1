@@ -318,6 +318,11 @@
                                 	<label for="exampleInputEmail1">Weight</label>
                                     <textarea class="form-control input-sm" name="weight" id="weight" rows="4" placeholder="Weight"></textarea>
                                 </div>
+
+                                <div class="form-group">
+                                	<label for="exampleInputEmail1">SaO</label>
+                                    <textarea class="form-control input-sm" name="sao2" id="sao2" rows="4" placeholder="SaO"></textarea>
+                                </div>
                                 <!-- END of sune addition add allergies -->
                                 
                                  <div class="form-group">

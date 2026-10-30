@@ -383,6 +383,7 @@ class Opd extends General{
 				'bp'			=>		$this->input->post('bp'),
 				'respiration'	=>		$this->input->post('respiration'),
 				'weight'		=>		$this->input->post('weight'),
+				'sao2'			=>		$this->input->post('sao2'),
 				'InActive'		=>		0
 			);
 			$this->db->insert('iop_vital_parameters',$this->data);
@@ -471,7 +472,8 @@ class Opd extends General{
 			'height'			=>	$this->input->post('height'),
 			'bp'				=>	$this->input->post('bp'),
 			'respiration'		=>	$this->input->post('respiration'),
-			'weight'			=>	$this->input->post('weight')
+			'weight'			=>	$this->input->post('weight'),
+			'sao2'				=>	$this->input->post('sao2')
 		);
 		$this->db->where("IO_ID",$iop_no);
 		$this->db->update("patient_details_iop",$this->data);

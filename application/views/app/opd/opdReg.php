@@ -305,22 +305,28 @@
                                         <div class="tab-pane" id="tab_3">
                                         <table width="100%" cellpadding="3" cellspacing="3">
                                         <tr>
-                                        	<td width="12%">Pulse rate</td>
+                                        	<td width="12%">Pulse Rate</td>
                                             <Td width="28%"><input type="text" name="pulse_rate" id="pulse_rate" style="width: 100px;">&nbsp;&nbsp;/min</Td>
-                                        	<td width="12%">BP</td>
-                                            <Td width="48%"><input type="text" name="bp" id="bp"  style="width: 100px;">&nbsp;&nbsp;mm of Hg</Td>
+                                        	<td width="12%">Blood Pressure</td>
+                                            <Td width="48%"><input type="text" name="bp" id="bp"  style="width: 100px;">&nbsp;&nbsp;mmHg</Td>
                                         </tr>
                                         <tr>
                                         	<td>Temperature</td>
                                             <Td><input type="text" name="temperature" id="temperature" style="width: 100px;">&nbsp;&nbsp;C</Td>
-                                        	<td>Respiration</td>
+                                        	<td>Respiration Rate</td>
                                             <Td><input type="text" name="respiration" id="respiration"  style="width: 100px;">&nbsp;&nbsp;/min</Td>
                                         </tr>
                                         <tr>
                                         	<td>Height</td>
-                                            <Td><input type="text" name="height" id="height"  style="width: 100px;">&nbsp;&nbsp;Cm</Td>
+                                            <Td><input type="text" name="height" id="height"  style="width: 100px;">&nbsp;&nbsp;cm</Td>
                                         	<td>Weight</td>
                                             <Td><input type="text" name="weight" id="weight"  style="width: 100px;">&nbsp;&nbsp;Kg</Td>
+                                        </tr>
+                                        <tr>
+                                        	<td>SaO</td>
+                                            <Td><input type="text" name="sao2" id="sao2" style="width: 100px;">&nbsp;&nbsp;%</Td>
+                                        	<td></td>
+                                            <Td></Td>
                                         </tr>
                                         
                                         </table>

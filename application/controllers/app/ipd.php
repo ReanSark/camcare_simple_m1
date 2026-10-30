@@ -591,6 +591,7 @@ class Ipd extends General{
 				'bp'			=>		$this->input->post('bp'),
 				'respiration'	=>		$this->input->post('respiration'),
 				'weight'		=>		$this->input->post('weight'),
+				'sao2'			=>		$this->input->post('sao2'),
 				'cPreparedBy'	=>		$this->session->userdata('user_id'),
 				'InActive'		=>		0
 			);
@@ -636,7 +637,8 @@ class Ipd extends General{
 			'height'			=>	$this->input->post('height'),
 			'bp'				=>	$this->input->post('bp'),
 			'respiration'		=>	$this->input->post('respiration'),
-			'weight'			=>	$this->input->post('weight')
+			'weight'			=>	$this->input->post('weight'),
+			'sao2'				=>	$this->input->post('sao2')
 		);
 		$this->db->where("IO_ID",$iop_no);
 		$this->db->update("patient_details_iop",$this->data);

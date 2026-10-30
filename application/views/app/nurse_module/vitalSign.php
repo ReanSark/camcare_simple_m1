@@ -218,6 +218,7 @@
                                                     <th>Blood Pressure</th>
                                                     <th>Respiration</th>
                                                     <th>Weight</th>
+                                                    <th>SaO</th>
                                                     <th>Prepared by</th>
                                                     <th></th>
                                                 </tr>
@@ -232,6 +233,7 @@
                                                 <td><?php echo $rows->bp?> mm of Hg</td>
                                                 <td><?php echo $rows->respiration?>/min</td>
                                                 <td><?php echo $rows->weight?>Kg</td>
+                                                <td><?php echo $rows->sao2?>%</td>
                                                 <td><?php 
 												$ci_obj = & get_instance();
 												$ci_obj->load->model('app/general_model');
@@ -315,15 +317,19 @@
                                            </tr>
                                            <tr>
                                            		<td>Respiration</td>
-                                                <td><input type="text" name="respiration" id="respiration"  style="width: 100px;" >&nbsp;&nbsp;/min</td>
+                                                <td><input type="text" name="respiration" id="respiration" style="width: 100px;" >&nbsp;&nbsp;/min</td>
                                            </tr>
                                            <tr>
                                            		<td>Height</td>
-                                                <td><input type="text" name="height" id="height"  style="width: 100px;">&nbsp;&nbsp;Cm</td>
+                                                <td><input type="text" name="height" id="height" style="width: 100px;">&nbsp;&nbsp;Cm</td>
                                            </tr>
                                            <tr>
                                            		<td>Weight</td>
-                                                <td><input type="text" name="weight" id="weight"  style="width: 100px;">&nbsp;&nbsp;Kg</td>
+                                                <td><input type="text" name="weight" id="weight" style="width: 100px;">&nbsp;&nbsp;Kg</td>
+                                           </tr>
+                                           <tr>
+                                             	<td>SaO</td>
+                                                <td><input type="text" name="sao2" id="sao2" style="width: 100px;">&nbsp;&nbsp;%</td>
                                            </tr>
                                         </tbody>
                                         </table>

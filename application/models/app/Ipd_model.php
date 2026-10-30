@@ -83,6 +83,7 @@ class Ipd_model extends CI_Model{
 			'bp'						=>		$this->input->post('bp'),
 			'respiration'				=>		$this->input->post('respiration'),
 			'weight'					=>		$this->input->post('weight'),
+			'sao2'						=>		$this->input->post('sao2'),
 			'nStatus'					=>		'Pending',
 			'InActive'					=>		0
 		);	
@@ -202,6 +203,7 @@ class Ipd_model extends CI_Model{
 				A.bp,
 				A.respiration,
 				A.weight,
+				A.sao2,
 				A.allergies,
 				A.warnings,
 				A.social_history,
