@@ -45,7 +45,7 @@ $weight = $value('weight');
 $sao2 = $value('sao2');
 $allergies = $value('allergies');
 
-$today = date('d/m/Y');
+$today = date('d/m/Y H:i:s');
 ?>
 <!doctype html>
 <html lang="km">
@@ -102,7 +102,7 @@ body{font-family:Arial,"Noto Sans Khmer","Khmer OS",sans-serif;color:#24566c}
   </div>
     <div class="header-center">
         <div class="clinic-title">ព័ត៌មានអ្នកជំងឺ</div>
-        <div class="header-date">កាលបរិច្ឆេទ៖ <?php echo $e($today); ?></div>
+        <div class="header-date"><?php echo $e($opdNo); ?> - កាលបរិច្ឆេទ៖ <?php echo $e($today); ?></div>
     </div>
     <div class="mrn"><?php echo $e($patientNo); ?></div>
 </header>
