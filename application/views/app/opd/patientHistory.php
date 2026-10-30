@@ -169,7 +169,7 @@
                                     <li><a href="<?php echo base_url()?>app/opd/complain/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Complain</a></li>
                                     <li><a href="<?php echo base_url()?>app/opd/vitalSign/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Vital Sign</a></li>
                                     <li class="active"><a href="<?php echo base_url()?>app/opd/patientHistory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Patient History</a></li>
-                                 	<li><a href="<?php echo base_url()?>app/opd/laboratory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Laboratory</a></li>
+                                 	<li><a href="<?php echo base_url()?>app/opd/laboratory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Paraclinical</a></li>
                                     <li><a href="<?php echo base_url()?>app/opd/discharge_summary/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Discharge Summary</a></li>
                                     <!--<li><a href="<?php echo base_url()?>app/opd/billing/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Admission Billing</a></li>-->
                                  </ul>
@@ -187,7 +187,7 @@
                                     <div class="tab-content">
                                     	<div class="tab-pane active" id="tab_1">
                                         	
-                                            <form method="post" action="<?php echo base_url()?>app/opd/save_patientHistory" onSubmit="return confirm('Are you sure you want to save?');">
+                                            <form method="post" action="<?php echo base_url()?>app/opd/save_patientHistory" onSubmit="">
                                             <input type="hidden" name="opd_no" value="<?php echo $getOPDPatient->IO_ID?>">
                                             <input type="hidden" name="patient_no" value="<?php echo $getOPDPatient->patient_no?>">
                                            
@@ -228,7 +228,7 @@
                                                 <button class="btn btn-primary" name="btnSubmit" id="btnSubmit" type="submit"><i class="fa fa-save"></i> Save</button>
                                                 <?php }}?>
                                                 <a href="<?php echo base_url()?>app/ipd_print/print_patient_history/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-default" target="_blank"><i class="fa fa-print"></i> Print</a>
-                                                <a href="<?php echo base_url()?>app/ipd_print/pdf_patient_history/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> PDF</a>
+                                                <!-- <a href="<?php echo base_url()?>app/ipd_print/pdf_patient_history/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> PDF</a> -->
                                                 </td>
                                            </tr>
                                            </tbody>

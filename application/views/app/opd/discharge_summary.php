@@ -251,7 +251,7 @@
                                                 <button class="btn btn-primary" name="btnSubmit" id="btnSubmit" type="submit"><i class="fa fa-save"></i> Save</button>
                                                 <?php }}?>
                                                 <a href="<?php echo base_url()?>app/ipd_print/print_discharge_summary/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-default" target="_blank"><i class="fa fa-print"></i> Print</a>
-                                                <a href="<?php echo base_url()?>app/ipd_print/pdf_discharge_summary/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> PDF</a>
+                                                <!-- <a href="<?php echo base_url()?>app/ipd_print/pdf_discharge_summary/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> PDF</a> -->
                                                 </td>
                                            </tr>
                                            </tbody>

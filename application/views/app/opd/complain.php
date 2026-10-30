@@ -169,7 +169,7 @@
                                     <li class="active"><a href="<?php echo base_url()?>app/opd/complain/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Complain</a></li>
                                     <li><a href="<?php echo base_url()?>app/opd/vitalSign/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Vital Sign</a></li>
                                     <li><a href="<?php echo base_url()?>app/opd/patientHistory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Patient History</a></li>
-                                    <li><a href="<?php echo base_url()?>app/opd/laboratory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Laboratory</a></li>
+                                    <li><a href="<?php echo base_url()?>app/opd/laboratory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Paraclinical</a></li>
                                     <li><a href="<?php echo base_url()?>app/opd/discharge_summary/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Discharge Summary</a></li>
                                     <!--<li><a href="<?php echo base_url()?>app/opd/billing/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Admission Billing</a></li>-->
                                  </ul>
@@ -192,7 +192,7 @@
                                             
                                             <?php }}?>
                                             <a href="<?php echo base_url()?>app/ipd_print/print_complain/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-default" target="_blank"><i class="fa fa-print"></i> Print</a>
-                                            <a href="<?php echo base_url()?>app/ipd_print/pdf_complain/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> PDF</a>
+                                            <!-- <a href="<?php echo base_url()?>app/ipd_print/pdf_complain/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> PDF</a> -->
                                            <table class="table table-hover table-striped">
                                            <thead>
                                            <tr>
@@ -261,7 +261,7 @@
         
         
         <!-- Modal -->
-                              <form method="post" action="<?php echo base_url()?>app/opd/save_complain" onSubmit="return confirm('Are you sure you want to save?');">
+                              <form method="post" action="<?php echo base_url()?>app/opd/save_complain" onSubmit="">
                                             <input type="hidden" name="opd_no" value="<?php echo $getOPDPatient->IO_ID?>">
                                             <input type="hidden" name="patient_no" value="<?php echo $getOPDPatient->patient_no?>">
                             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
