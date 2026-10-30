@@ -378,6 +378,7 @@
         </script>
         <!-- END BDAY -->
 
+        <!-- PRINT -->
         <script type="text/javascript">
 document.getElementById('btnPrintOPD').addEventListener('click', function () {
 
@@ -447,7 +448,7 @@ document.getElementById('btnPrintOPD').addEventListener('click', function () {
 
 });
 </script>
-        
+        <!-- END OF PRINT -->
         
     </body>
 </html>

@@ -163,6 +163,61 @@ class Ipd extends General{
 		$this->load->view("app/ipd/admit",$this->data);		
 	}
 
+	public function print_ipd_registration(){
+		$patient_no = $this->input->post('patient_no', TRUE);
+
+		if (empty($patient_no)) {
+			show_error('Patient number is required.', 400);
+			return;
+		}
+
+		$this->data['patientInfo'] =
+			$this->patient_model->getPatientInfo($patient_no);
+
+		if (empty($this->data['patientInfo'])) {
+			show_404();
+			return;
+		}
+
+		$fields = array(
+			'iopNo',
+			'department',
+			'doctor',
+			'room_name',
+			'bed_name',
+			'prov_diagnosis',
+			'complaint',
+			'allergies',
+			'warnings',
+			'social_history',
+			'family_history',
+			'personal_history',
+			'past_medical_history',
+			'pulse_rate',
+			'temperature',
+			'height',
+			'bp',
+			'respiration',
+			'weight',
+			'sao2',
+			'department_name',
+			'doctor_name'
+		);
+
+		$printData = array();
+
+		foreach ($fields as $field) {
+			$printData[$field] = $this->input->post($field, TRUE);
+		}
+
+		$this->data['printData'] = $printData;
+
+		$this->load->view(
+			'app/ipd/print_ipd_registration',
+			$this->data
+		);
+	}
+
 	public function getRoomMaster(){
 		
 		$roomType = $this->uri->segment("4");

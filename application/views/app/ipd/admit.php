@@ -154,7 +154,7 @@
 														$userID = $userID;
 													}
 													?>
-                 <form method="post" action="<?php echo base_url();?>app/ipd/save_ipd" onSubmit="return validate_form();">
+                 <form id="ipdRegistrationForm" method="post" action="<?php echo base_url();?>app/ipd/save_ipd" onSubmit="return validate_form();">
                  <input type="hidden" name="patient_no" value="<?php echo $patientInfo->patient_no?>">
                  <input type="hidden" name="iopNo2" value="<?php echo $userID2?>">
                  <input type="hidden" name="room_idfor" id="room_idfor">
@@ -326,6 +326,7 @@
                                 <!-- END of sune addition add allergies -->
                                 
                                  <div class="form-group">
+                                    <button class="btn btn-info" type="button" id="btnPrintIPD"><i class="fa fa-print"></i> Print</button>
                                 <button class="form-control btn btn-primary" name="btnSubmit" id="btnSubmit" type="submit"><i class="fa fa-save"></i> Save</button>
                                 </div>
                                 
@@ -527,6 +528,62 @@
         </script>
         <!-- END BDAY -->
         
+        <!-- PRINT -->
+        <script type="text/javascript">
+            document.getElementById('btnPrintIPD').addEventListener('click', function () {
+            var form = document.getElementById('ipdRegistrationForm');
+            var printWindow = window.open('', 'ipdPrintWindow');
+
+            if (!printWindow) {
+                alert('Please allow pop-ups for this website.');
+                return;
+            }
+
+            var printForm = document.createElement('form');
+            printForm.method = 'POST';
+            printForm.action = '<?php echo base_url();?>app/ipd/print_ipd_registration';
+            printForm.target = 'ipdPrintWindow';
+
+            var formData = new FormData(form);
+
+            formData.forEach(function(value, key) {
+                if (typeof value === 'string') {
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    printForm.appendChild(input);
+                }
+            });
+
+            function addPrintField(name, value) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = value;
+                printForm.appendChild(input);
+            }
+
+            function getSelectedText(id) {
+                var select = document.getElementById(id);
+
+                if (!select || select.selectedIndex < 0) {
+                    return '';
+                }
+
+                return select.options[select.selectedIndex].text;
+            }
+
+            // Pass the displayed names instead of database IDs.
+            addPrintField('department_name', getSelectedText('department'));
+            addPrintField('doctor_name', getSelectedText('doctor'));
+
+            document.body.appendChild(printForm);
+            printForm.submit();
+            document.body.removeChild(printForm);
+            });
+        </script>
+        <!-- END OF PRINT -->
         
     </body>
 </html>
