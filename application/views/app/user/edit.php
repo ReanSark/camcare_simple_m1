@@ -166,7 +166,7 @@
                                                     <tr>
                                                         <td>Middle Name <font color="#FF0000">*</font></td>
                                                         <td>
-                                                        <?php echo form_input('middlename',set_value('middlename',$user->middlename),'id="middlename" class="form-control input-sm" placeholder="Middle Name" style="width: 250px;" required');?>
+                                                        <?php echo form_input('middlename',set_value('middlename',$user->middlename),'id="middlename" class="form-control input-sm" placeholder="Middle Name" style="width: 250px;"');?>
                                                         </td>
                                                     </tr>
                                                     <tr>

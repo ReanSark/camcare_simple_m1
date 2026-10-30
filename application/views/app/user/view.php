@@ -186,7 +186,7 @@ if(!$user->picture){
                                                     <tr>
                                                     	<td>Middle Name</td>
                                                         <td>
-                                                        <?php echo form_input('middlename',set_value('middlename',$user->middlename),'readonly id="middlename" class="form-control input-sm" placeholder="Middle Name" style="width: 250px;" required');?>
+                                                        <?php echo form_input('middlename',set_value('middlename',$user->middlename),'readonly id="middlename" class="form-control input-sm" placeholder="Middle Name" style="width: 250px;"');?>
                                                         </td>
                                                     </tr>
                                                     <tr>

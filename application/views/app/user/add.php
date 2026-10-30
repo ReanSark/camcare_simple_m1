@@ -174,21 +174,21 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td width="12%">Last Name <font color="#FF0000">*</font></td>
-                                                        <td width="88%">
-                                                        <?php echo form_input('lastname',set_value('lastname'),'id="lastname" class="form-control input-sm" placeholder="Last Name" style="width: 250px;" required');?>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
                                                     	<td>First Name <font color="#FF0000">*</font></td>
                                                         <td>
                                                         <?php echo form_input('firstname',set_value('firstname'),'id="firstname" class="form-control input-sm" placeholder="First Name" style="width: 250px;" required');?>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td>Middle Name <font color="#FF0000">*</font></td>
+                                                    	<td>Middle Name</td>
                                                         <td>
-                                                        <?php echo form_input('middlename',set_value('middlename'),'id="middlename" class="form-control input-sm" placeholder="Middle Name" style="width: 250px;" required');?>
+                                                        <?php echo form_input('middlename',set_value('middlename'),'id="middlename" class="form-control input-sm" placeholder="Middle Name" style="width: 250px;"');?>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td width="12%">Last Name <font color="#FF0000">*</font></td>
+                                                        <td width="88%">
+                                                        <?php echo form_input('lastname',set_value('lastname'),'id="lastname" class="form-control input-sm" placeholder="Last Name" style="width: 250px;" required');?>
                                                         </td>
                                                     </tr>
                                                     <tr>
