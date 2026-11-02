@@ -16,9 +16,21 @@ class Billing extends General{
         }
 		General::variable();	
 	}
+
+	/**
+	 * Restrict billing/POS endpoints to users granted POS page access.
+	 */
+	private function require_pos_access(){
+		$userInfo = $this->general_model->getUserLoggedIn($this->session->userdata('username'));
+		if(!$userInfo || !isset($userInfo->user_role) || !General::has_rights_to_access('84', $userInfo->user_role)){
+			redirect(base_url().'access_denied');
+			exit;
+		}
+	}
 	
 	
 	public function pointOfSale(){
+		$this->require_pos_access();
 		
 		$this->data['patientInfo'] = $this->billing_model->loadPatientInfo($this->input->post('patiIO_IDent'));
 		$this->data['particular_cat'] = $this->billing_model->particular_cat();
@@ -28,14 +40,7 @@ class Billing extends General{
 	}
 	
 	public function searchPatient(){
-		// user restriction function
-				$this->session->set_userdata('page_name','pos');
-				$page_id = $this->general_model->getPageID();
-				$userRole = $this->general_model->getUserLoggedIn($this->session->userdata('username'));
-				if(General::has_rights_to_access($page_id->page_id,$userRole->user_role) == FALSE){
-					redirect(base_url().'access_denied');
-				}
-				// end of user restriction function
+		$this->require_pos_access();
 				
 		$this->session->set_userdata(array(
 				 'tab'			=>		'billing',
@@ -49,6 +54,7 @@ class Billing extends General{
 	}
 	
 	public function getItem($id){
+		$this->require_pos_access();
 		$this->data['itemList'] = $this->billing_model->itemList($id);
 		$this->data['particularName'] = $this->billing_model->particularName($id);
 		$this->load->view("app/billing/itemList",$this->data);	
@@ -57,55 +63,41 @@ class Billing extends General{
 	
 	
 	public function getRate($id){
+		$this->require_pos_access();
 		$this->data['getRate'] = $this->billing_model->getRate($id);
 		$this->load->view("app/billing/getRate",$this->data);	
 	}	
 	
 	
 	public function save_invoice(){
-		
-		//save header of invoice
-		$this->billing_model->saveHeader();
-		
-		$num = $this->input->post('hdnrowcnt');
-		for($i=1; $i<=$num; $i++){
-			//save details of invoice
-			$this->billing_model->saveDetails($i);
+		$this->require_pos_access();
+		$result = $this->billing_model->saveNewInvoice();
+		if ($result !== TRUE) {
+			$this->session->set_flashdata('message', "<div class='alert alert-danger alert-dismissable'>".html_escape($result)."</div>");
+			redirect(base_url()."app/pos");
+			return;
 		}
-		
-		//update invoice series
-		$this->billing_model->updateInvoiceNo();
-		
 		$this->session->set_flashdata('message',"<div class='alert alert-success alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>Transaction successfully Saved!</div>");
-			
-			
-		redirect(base_url()."app/pos/saved/".$this->input->post('opd_no')."/".$this->input->post('patient_no')."/".$this->input->post('invoiceno'),$this->data);	
+		redirect(base_url()."app/pos/saved/".$this->input->post('opd_no')."/".$this->input->post('patient_no')."/".$this->input->post('invoiceno'));
 	}
-	
+
 	public function update_invoice(){
-		
-		
-		//delete invoice
-		$this->db->query("delete from iop_billing where invoice_no = '".$this->input->post('invoiceno')."'");
-		$this->db->query("delete from iop_billing_t where invoice_no = '".$this->input->post('invoiceno')."'");
-		
-		//save header of invoice
-		$this->billing_model->saveHeader();
-		
-		$num = $this->input->post('hdnrowcnt');
-		for($i=1; $i<=$num; $i++){
-			//save details of invoice
-			$this->billing_model->saveDetails($i);
+		$this->require_pos_access();
+		$result = $this->billing_model->updateExistingInvoice();
+		$invoiceNo = $this->input->post('invoiceno');
+		$opdNo = $this->input->post('opd_no');
+		$patientNo = $this->input->post('patient_no');
+
+		if ($result !== TRUE) {
+			$this->session->set_flashdata('message', "<div class='alert alert-danger alert-dismissable'>".html_escape($result)."</div>");
+		} else {
+			$this->session->set_flashdata('message', "<div class='alert alert-success alert-dismissable'>Invoice successfully updated.</div>");
 		}
-		
-		
-		$this->session->set_flashdata('message',"<div class='alert alert-success alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>Invoice successfully Saved!</div>");
-			
-			
-		redirect(base_url()."app/pos/saved/".$this->input->post('opd_no')."/".$this->input->post('patient_no')."/".$this->input->post('invoiceno'),$this->data);	
+		redirect(base_url()."app/pos/saved/".$opdNo."/".$patientNo."/".$invoiceNo);
 	}
-	
+
 	public function billingpdf(){
+		$this->require_pos_access();
 		$iop_no = $this->uri->segment("4");
 		$patient_no = $this->uri->segment("5");
 		$InvNo = $this->uri->segment("6");
@@ -134,12 +126,14 @@ class Billing extends General{
 	}
 	
 	public function drug_list($id){
+		$this->require_pos_access();
 		$this->data['drug_list'] = $this->billing_model->drug_list($id);
 		$this->data['medicineName'] = $this->billing_model->medicineName($id);
 		$this->load->view("app/billing/drug_list",$this->data);		
 	}
 	
 	public function getDrugRate($id){
+		$this->require_pos_access();
 		$this->data['getDrugRate'] = $this->billing_model->getDrugRate($id);
 		$this->load->view("app/billing/getDrugRate",$this->data);	
 	}

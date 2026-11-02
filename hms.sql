@@ -886,7 +886,7 @@ CREATE TABLE `iop_billing` (
   `insurance_company` int(11) DEFAULT NULL,
   `remarks` text DEFAULT NULL,
   `InActive` int(1) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -904,8 +904,10 @@ CREATE TABLE `iop_billing_t` (
   `InActive` int(1) DEFAULT NULL,
   `id` int(11) NOT NULL,
   `iop_id` varchar(25) DEFAULT NULL,
-  `isPackage` int(1) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `isPackage` int(1) DEFAULT NULL,
+  `item_type` varchar(20) DEFAULT NULL,
+  `item_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -1129,7 +1131,7 @@ CREATE TABLE `iop_receipt` (
   `insurance_company` int(11) NOT NULL,
   `remarks` int(11) NOT NULL,
   `InActive` int(1) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2711,7 +2713,8 @@ ALTER TABLE `iop_billing`
 -- Indexes for table `iop_billing_t`
 --
 ALTER TABLE `iop_billing_t`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_billing_item_source` (`item_type`,`item_id`);
 
 --
 -- Indexes for table `iop_complaints`

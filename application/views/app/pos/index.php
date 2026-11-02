@@ -108,6 +108,11 @@
 </script>
 </div>
     <body class="skin-blue" onLoad="autoload();">
+        <?php if ($this->session->flashdata('message')): ?>
+            <div style="margin: 15px;">
+                <?php echo $this->session->flashdata('message'); ?>
+            </div>
+        <?php endif; ?>
         <!-- header logo: style can be found in header.less -->
         <?php require_once(APPPATH.'views/include/header.php');?>
         		<form method="post" action="<?php echo base_url()?>app/billing/save_invoice" onSubmit="return validate_form();">
@@ -1036,93 +1041,107 @@ xmlhttp2.send();
           				return true;
        				}
 	   
-                    function addItem(){
-						
-						
-						if(document.getElementById("bill_category").value == "particular"){
-							if(document.getElementById("particular_name").value == ""){
-								alert("Please select Paricular Category");
-								return false;
-							}else if(document.getElementById("bill_name").value == ""){
-								alert("Please select Paricular Item");
-								return false;
-							}else if(document.getElementById("qty").value == ""){
-								alert("Please enter a valid Qty");
-								return false;
-							}else if(document.getElementById("rate").value == ""){
-								alert("Please enter a valid Rate");
-								return false;
-							}
-						}else if(document.getElementById("bill_category").value == "medicine"){
-							if(document.getElementById("medicine_name").value == ""){
-								alert("Please select Medicine Category");
-								return false;
-							}else if(document.getElementById("drug_name_a").value == ""){
-								alert("Please select Drug Name");
-								return false;
-							}else if(document.getElementById("qty").value == ""){
-								alert("Please enter a valid Qty");
-								return false;
-							}else if(document.getElementById("drug_rate").value == ""){
-								alert("Please enter a valid Rate");
-								return false;
-							}
-						}
-						
-						
-						
-							
-						
-						
-						var tbl = document.getElementById('myTable').getElementsByTagName('tr');
-						var lastRow = tbl.length;	
-						
-						var category,particular,qty,rate,note,amount;
-						
-						qty = document.getElementById("qty").value;
-						note = document.getElementById("note").value;
-						
-						if(document.getElementById("bill_category").value == "particular"){
-							category = document.getElementById("particular_name").value;
-							particular = document.getElementById("bill_name").value;
-							rate = document.getElementById("rate").value;
-						}else if(document.getElementById("bill_category").value == "medicine"){
-							category = document.getElementById("medicine_name").value;
-							particular = document.getElementById("drug_name_a").value;
-							rate = document.getElementById("drug_rate").value;
-						}
-						
-						amount = eval(qty) * eval(rate);
-						amount = amount.toFixed(2); 
-			
-						
-						var a=document.getElementById('myTable').insertRow(-1);
-						var b=a.insertCell(0);
-						var c=a.insertCell(1);
-						var d=a.insertCell(2);
-						var e=a.insertCell(3);
-						var f=a.insertCell(4);
-						var g=a.insertCell(5);
-						var h=a.insertCell(6);
-						
-						b.innerHTML = "<input type=\"hidden\" name=\"isPackage" + lastRow + "\" id=\"isPackage" + lastRow + "\" value=\"0\"><input type=\"text\" size = \"7\" style=\"width:98%; background-color:#F9F9f9; border:1px solid #ccc; text-align:right\" name=\"id" + lastRow + "\" id=\"id" + lastRow + "\" value=\""+ lastRow + ". \" readonly=\"true\">";
-						c.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%; background-color:#F9F9f9; border:1px solid #ccc;\" name=\"bill_name" + lastRow + "\" id=\"bill_name" + lastRow + "\" value=\""+ particular + "\" readonly=\"true\">";
-						d.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%; text-align:right\" name=\"qty" + lastRow + "\" id=\"qty" + lastRow + "\" class=\"" + lastRow + "\" value=\""+ qty + "\" onBlur=\"return validate_input(this.className,'qty')\" onkeyup=\"validate_gross(this.className,'qty')\" onkeypress=\"return isNumberKey(event)\" >";
-						e.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%; text-align:right\" name=\"rate" + lastRow + "\" id=\"rate" + lastRow + "\" class=\"" + lastRow + "\" value=\""+ rate + "\" onBlur=\"return validate_input(this.className,'rate')\" onkeyup=\"validate_gross(this.className,'rate')\" onkeypress=\"return isNumberKey(event)\">";
-						f.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%; background-color:#F9F9f9; border:1px solid #ccc; text-align:right\" name=\"amount" + lastRow + "\" id=\"amount" + lastRow + "\" value=\""+ amount + "\" readonly=\"true\">";
-						g.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%;\" name=\"note" + lastRow + "\" id=\"note" + lastRow + "\" value=\""+ note + "\">";
-						h.innerHTML = "<img src=\"<?php echo base_url()?>public/img/b_drop.png\" onclick=\"deleteRow(this)\" style=\"cursor:pointer;\">";
-						
-						document.getElementById("hdnrowcnt").value = lastRow;
-						
-						getGross();
-						
-						$('#myModal').modal('hide');
-						return true;	
-					
-						
-					}
-					
+                    
+                    function addItem() {
+                        var isMedicine = document.getElementById("bill_category").value === "medicine";
+
+                        // Get the selected catalogue item from the AJAX-loaded dropdown.
+                        var itemSelect = isMedicine
+                            ? document.querySelector('#showDrugListItem select[name="drug_name"]')
+                            : document.querySelector('#showCategories select[name="particular"]');
+
+                        var sourceId = itemSelect ? itemSelect.value : "";
+
+                        // Get the selected item's name.
+                        var nameInput = document.getElementById(
+                            isMedicine ? "drug_name_a" : "bill_name"
+                        );
+                        var particular = nameInput ? nameInput.value : "";
+
+                        // Get the catalogue price.
+                        var rateInput = document.getElementById(
+                            isMedicine ? "drug_rate" : "rate"
+                        );
+                        var rate = rateInput ? rateInput.value : "";
+
+                        var qty = document.getElementById("qty").value;
+                        var note = document.getElementById("note").value;
+
+                        // Validate item selection and quantity.
+                        if (!sourceId || !particular) {
+                            alert("Please select an item.");
+                            return false;
+                        }
+
+                        if (
+                            qty === "" ||
+                            !isFinite(Number(qty)) ||
+                            Number(qty) <= 0 ||
+                            Math.floor(Number(qty)) !== Number(qty)
+                        ) {
+                            alert("Please enter a positive whole-number quantity.");
+                            return false;
+                        }
+
+                        if (rate === "" || !isFinite(Number(rate)) || Number(rate) < 0) {
+                            alert("Catalogue price could not be loaded.");
+                            return false;
+                        }
+
+                        var tbl = document.getElementById("myTable").getElementsByTagName("tr");
+                        var lastRow = tbl.length;
+
+                        var amount = (Number(qty) * Number(rate)).toFixed(2);
+                        var itemType = isMedicine ? "medicine" : "particular";
+
+                        var a = document.getElementById("myTable").insertRow(-1);
+
+                        var b = a.insertCell(0);
+                        var c = a.insertCell(1);
+                        var d = a.insertCell(2);
+                        var e = a.insertCell(3);
+                        var f = a.insertCell(4);
+                        var g = a.insertCell(5);
+                        var h = a.insertCell(6);
+
+                        // Escape text before inserting it into HTML.
+                        var safeName = $("<div>").text(particular).html();
+                        var safeNote = $("<div>").text(note).html();
+
+                        b.innerHTML =
+                            '<input type="hidden" name="isPackage' + lastRow + '" id="isPackage' + lastRow + '" value="0">' +
+                            '<input type="hidden" name="item_type' + lastRow + '" id="item_type' + lastRow + '" value="' + itemType + '">' +
+                            '<input type="hidden" name="item_id' + lastRow + '" id="item_id' + lastRow + '" value="' + sourceId + '">' +
+                            '<input type="text" style="width:98%;text-align:right" name="id' + lastRow + '" id="id' + lastRow + '" value="' + lastRow + '." readonly>';
+
+                        c.innerHTML =
+                            '<input type="text" style="width:98%" name="bill_name' + lastRow + '" id="bill_name' + lastRow + '" value="' + safeName + '" readonly>';
+
+                        d.innerHTML =
+                            '<input type="text" style="width:98%;text-align:right" name="qty' + lastRow + '" id="qty' + lastRow + '" class="' + lastRow + '" value="' + qty + '" onBlur="return validate_input(this.className,\'qty\')" onkeyup="validate_gross(this.className,\'qty\')" onkeypress="return isNumberKey(event)">';
+
+                        e.innerHTML =
+                            '<input type="text" style="width:98%;text-align:right;background:#F9F9F9" name="rate' + lastRow + '" id="rate' + lastRow + '" value="' + Number(rate).toFixed(2) + '" readonly>';
+
+                        f.innerHTML =
+                            '<input type="text" style="width:98%;text-align:right" name="amount' + lastRow + '" id="amount' + lastRow + '" value="' + amount + '" readonly>';
+
+                        g.innerHTML =
+                            '<input type="text" style="width:98%" name="note' + lastRow + '" id="note' + lastRow + '" value="' + safeNote + '">';
+
+                        h.innerHTML =
+                            '<img src="<?php echo base_url()?>public/img/b_drop.png" onclick="deleteRow(this)" style="cursor:pointer;">';
+
+                        document.getElementById("hdnrowcnt").value = lastRow;
+
+                        getGross();
+
+                        $("#myModal").modal("hide");
+
+                        return true;
+                    }
+
+
 					function closeModal(){
 						$('#myModal').modal('hide');	
 					}
