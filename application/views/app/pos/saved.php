@@ -208,17 +208,21 @@
                                 
                                 <script>
                                 function validate_discount(val){
-									if(val == ""){
-										alert('Invalid discount');
-										document.getElementById("discount").value = "0";
-									}
-									getGross();	
-								}
+                                    var percent = Number(val);
+                                    if (val === "" || !isFinite(percent) || percent < 0 || percent > 100) {
+                                        document.getElementById("discount_percent").value = "0";
+                                    }
+                                    getGross();
+                                }
                                 </script>
                                 
                                 <div class="form-group">
-                                	<label for="exampleInputEmail1">Discount</label>
-                                     <input type="text" name="discount" id="discount" value="<?php echo $headerInv->discount;?>" onKeyUp="validate_discount(this.value)" class="form-control input-sm" onkeypress="return isNumberKey(event)" <?php echo ($OR_number != "-") ? 'readonly="readonly"' : ''; ?>>
+                                    <label>Invoice Discount (%)</label>
+                                    <input type="text" name="discount_percent" id="discount_percent" value="<?php echo isset($headerInv->discount_percent) ? $headerInv->discount_percent : 0;?>" onkeyup="validate_discount(this.value)" class="form-control input-sm" onkeypress="return isNumberKey(event)" <?php echo ($OR_number != "-") ? 'readonly="readonly"' : ''; ?>>
+                                </div>
+                                <div class="form-group">
+                                    <label>Discount Amount (USD)</label>
+                                    <input type="text" readonly name="discount_amount" id="discount_amount" value="<?php echo number_format((float)$headerInv->discount, 2, '.', '');?>" class="form-control input-sm">
                                 </div>
                                 
                                 <div class="form-group">
@@ -266,9 +270,10 @@
                                     	<th width="3%">No.</th>
                                         <th width="42%">Particular Name</th>
                                         <th width="7%">Qty</th>
-                                        <th width="10%">Rate</th>
+                                        <th width="9%">Rate</th>
+                                        <th width="9%">Discount (%)</th>
                                         <th width="10%">Amount</th>
-                                        <th width="25%">Note</th>
+                                        <th width="22%">Note</th>
                                         <th width="3%"></th>
                                     </tr>
                                 </thead>
@@ -283,6 +288,7 @@
                                                     <td><input type="text" size="7" style="width:98%; background-color:#F9F9f9; border:1px solid #ccc;" name="bill_name<?php echo $num;?>" id="bill_name<?php echo $num;?>" value="<?php echo $detailsInv->bill_name?>" readonly="true"></td>
                                                     <td><input type="text" size="7" style="width:98%; text-align:right" name="qty<?php echo $num;?>" id="qty<?php echo $num;?>" class="<?php echo $num;?>" value="<?php echo $detailsInv->qty?>" onBlur="return validate_input(this.className,'qty')" onkeyup="validate_gross(this.className,'qty')" onkeypress="return isNumberKey(event)" <?php echo ($OR_number != "-") ? 'readonly="readonly"' : ''; ?> ></td>
                                                     <td><input type="text" size="7" style="width:98%; text-align:right" name="rate<?php echo $num;?>" id="rate<?php echo $num;?>" class="<?php echo $num;?>" value="<?php echo $detailsInv->rate?>" readonly></td>
+                                                    <td><input type="text" size="7" style="width:98%; text-align:right" name="discount_percent<?php echo $num;?>" id="discount_percent<?php echo $num;?>" value="<?php echo isset($detailsInv->discount_percent) ? $detailsInv->discount_percent : 0;?>" onkeyup="validate_item_discount(<?php echo $num;?>)" onkeypress="return isNumberKey(event)" <?php echo ($OR_number != "-") ? 'readonly="readonly"' : ''; ?>></td>
                                                     <td><input type="text" size="7" style="width:98%; background-color:#F9F9f9; border:1px solid #ccc; text-align:right" name="amount<?php echo $num;?>" id="amount<?php echo $num;?>" value="<?php echo $detailsInv->amount?>" readonly="true"></td>
                                                     <td><input type="text" size="7" style="width:98%;" name="note<?php echo $num;?>" id="note<?php echo $num;?>" value="<?php echo $detailsInv->note?>" <?php echo ($OR_number != "-") ? 'readonly="readonly"' : ''; ?>></td>
                                                     <td><?php if ($OR_number == "-") { ?><img src="<?php echo base_url()?>public/img/b_drop.png" onclick="deleteRow(this)" style="cursor:pointer;"><?php } ?></td>
@@ -527,31 +533,55 @@ xmlhttp.send();
                                                     otherInput.required = isOther;
                                                     if (!isOther) otherInput.value = "";
                                                 }
+                                                function updatePaymentCurrency(){
+                                                    var currency = document.getElementById("paymentCurrency").value;
+                                                    var isKhr = currency === "KHR";
+                                                    document.getElementById("exchangeRateGroup").style.display = isKhr ? "block" : "none";
+                                                    document.getElementById("exchangeRate").required = isKhr;
+                                                    document.getElementById("paymentAmountLabel").innerHTML = "Amount Received (" + currency + ")";
+                                                    document.getElementById("paymentChangeLabel").innerHTML = "Change (" + currency + ")";
+                                                    document.getElementById("paymentDueCurrency").innerHTML = currency;
+                                                    compute();
+                                                }
                                                 function compute(){
+                                                    var currency = document.getElementById("paymentCurrency").value;
+                                                    var dueUsd = Number(document.getElementById("totalAmount").value || 0);
+                                                    var rate = Number(document.getElementById("exchangeRate").value || 0);
                                                     var paid = Number(document.getElementById("amountPaid").value || 0);
-                                                    var due = Number(document.getElementById("totalAmount").value || 0);
-                                                    document.getElementById("change").value = Math.max(0, paid - due).toFixed(2);
+                                                    var due = currency === "KHR" ? Math.round((dueUsd * rate) / 100) * 100 : dueUsd;
+                                                    document.getElementById("paymentDue").value = currency === "KHR" ? due.toFixed(0) : due.toFixed(2);
+                                                    document.getElementById("change").value = Math.max(0, paid - due).toFixed(currency === "KHR" ? 0 : 2);
                                                 }
                                                 </script>
                                                 
+                                                <div class="form-group">
+                                                    <label for="paymentCurrency">Payment Currency</label>
+                                                    <select name="paymentCurrency" id="paymentCurrency" class="form-control input-sm" onchange="updatePaymentCurrency()" required>
+                                                        <option value="USD">USD</option>
+                                                        <option value="KHR">KHR</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group" id="exchangeRateGroup" style="display:none;">
+                                                    <label for="exchangeRate">Exchange Rate (KHR per 1 USD)</label>
+                                                    <input type="text" name="exchangeRate" id="exchangeRate" value="4100" onkeyup="compute()" onkeypress="return isNumberKey(event)" class="form-control input-sm">
+                                                </div>
                                                 <div class="form-group" id="lbltotalAmount">
-                                            		<label for="exampleInputEmail1">Total Amount</label>
-                                            		 <input type="text" value="<?php echo $headerInv->total_amount;?>" placeholder="Total Amount" readonly name="totalAmount" id="totalAmount" class="form-control input-sm">
-                                        		</div>
-                                                
-                                               
-                                                
+                                                    <label>Invoice Total (USD)</label>
+                                                    <input type="text" value="<?php echo $headerInv->total_amount;?>" readonly name="totalAmount" id="totalAmount" class="form-control input-sm">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Amount Due (<span id="paymentDueCurrency">USD</span>)</label>
+                                                    <input type="text" value="<?php echo number_format((float)$headerInv->total_amount, 2, '.', '');?>" readonly id="paymentDue" class="form-control input-sm">
+                                                </div>
                                                 <div class="form-group" id="lblchange">
-                                            		<label for="exampleInputEmail1">Change</label>
-                                            		 <input type="text" placeholder="0.00" name="change" readonly id="change" class="form-control input-sm">
-                                        		</div>
-                                                
-                                                 <div class="form-group" id="lblamountPaid">
-                                            		<label for="exampleInputEmail1">Amount Paid</label>
-                                            		 <input type="text" style=" font-size:24px; height:auto;" onKeyUp="compute()" onkeypress="return isNumberKey(event)"  placeholder="0.00" name="amountPaid" id="amountPaid" class="form-control input-sm">
-                                        		</div>
-                                                
-                               					<div class="form-group" id="credit" style=" display:none;">
+                                                    <label id="paymentChangeLabel" for="change">Change (USD)</label>
+                                                    <input type="text" placeholder="0.00" name="change" readonly id="change" class="form-control input-sm">
+                                                </div>
+                                                <div class="form-group" id="lblamountPaid">
+                                                    <label id="paymentAmountLabel" for="amountPaid">Amount Received (USD)</label>
+                                                    <input type="text" style="font-size:24px;height:auto;" onkeyup="compute()" onkeypress="return isNumberKey(event)" placeholder="0.00" name="amountPaid" id="amountPaid" class="form-control input-sm" required>
+                                                </div>
+                                                <div class="form-group" id="credit" style=" display:none;">
                                             		<label for="exampleInputEmail1">Credit Card No.</label>
                                             		 <input type="text" placeholder="Credit Card No." name="creditCardNo" id="creditCardNo" class="form-control input-sm">
                                         		</div>
@@ -924,16 +954,18 @@ xmlhttp2.send();
                         var f = row.insertCell(4);
                         var g = row.insertCell(5);
                         var h = row.insertCell(6);
+                        var j = row.insertCell(7);
 
                         b.innerHTML = "<input type=\"hidden\" name=\"isPackage" + lastRow + "\" id=\"isPackage" + lastRow + "\" value=\"0\"><input type=\"hidden\" name=\"item_type" + lastRow + "\" id=\"item_type" + lastRow + "\" value=\"" + itemType + "\"><input type=\"hidden\" name=\"item_id" + lastRow + "\" id=\"item_id" + lastRow + "\" value=\"" + itemId + "\"><input type=\"text\" size=\"7\" style=\"width:98%; background-color:#F9F9f9; border:1px solid #ccc; text-align:right\" name=\"id" + lastRow + "\" id=\"id" + lastRow + "\" value=\"" + lastRow + ". \" readonly=\"true\">";
                         c.innerHTML = "<input type=\"text\" size=\"7\" style=\"width:98%; background-color:#F9F9f9; border:1px solid #ccc;\" name=\"bill_name" + lastRow + "\" id=\"bill_name" + lastRow + "\" value=\"\" readonly=\"true\">";
                         c.firstChild.value = particular;
                         d.innerHTML = "<input type=\"text\" size=\"7\" style=\"width:98%; text-align:right\" name=\"qty" + lastRow + "\" id=\"qty" + lastRow + "\" class=\"" + lastRow + "\" value=\"" + qty + "\" onBlur=\"return validate_input(this.className,'qty')\" onkeyup=\"validate_gross(this.className,'qty')\" onkeypress=\"return isNumberKey(event)\">";
                         e.innerHTML = "<input type=\"text\" size=\"7\" style=\"width:98%; text-align:right\" name=\"rate" + lastRow + "\" id=\"rate" + lastRow + "\" class=\"" + lastRow + "\" value=\"" + rate.toFixed(2) + "\" readonly>";
-                        f.innerHTML = "<input type=\"text\" size=\"7\" style=\"width:98%; background-color:#F9F9f9; border:1px solid #ccc; text-align:right\" name=\"amount" + lastRow + "\" id=\"amount" + lastRow + "\" value=\"" + amount + "\" readonly=\"true\">";
-                        g.innerHTML = "<input type=\"text\" size=\"7\" style=\"width:98%;\" name=\"note" + lastRow + "\" id=\"note" + lastRow + "\" value=\"\">";
-                        g.firstChild.value = note;
-                        h.innerHTML = "<img src=\"<?php echo base_url()?>public/img/b_drop.png\" onclick=\"deleteRow(this)\" style=\"cursor:pointer;\">";
+                        f.innerHTML = "<input type=\"text\" style=\"width:98%;text-align:right\" name=\"discount_percent" + lastRow + "\" id=\"discount_percent" + lastRow + "\" value=\"0\" onkeyup=\"validate_item_discount(" + lastRow + ")\" onkeypress=\"return isNumberKey(event)\">";
+                        g.innerHTML = "<input type=\"text\" style=\"width:98%;background:#F9F9F9;text-align:right\" name=\"amount" + lastRow + "\" id=\"amount" + lastRow + "\" value=\"" + amount + "\" readonly>";
+                        h.innerHTML = "<input type=\"text\" style=\"width:98%;\" name=\"note" + lastRow + "\" id=\"note" + lastRow + "\" value=\"\">";
+                        h.firstChild.value = note;
+                        j.innerHTML = "<img src=\"<?php echo base_url()?>public/img/b_drop.png\" onclick=\"deleteRow(this)\" style=\"cursor:pointer;\">";
 
                         document.getElementById("hdnrowcnt").value = lastRow;
                         getGross();
@@ -946,95 +978,76 @@ xmlhttp2.send();
 					}
 					
 					function deleteRow(r){
-						var tbl = document.getElementById('myTable').getElementsByTagName('tr');
-						var lastRow = tbl.length;	
-						
-						var i=r.parentNode.parentNode.rowIndex;
-						if (lastRow > 2) {
-							document.getElementById('myTable').deleteRow(i);
- 							document.getElementById('hdnrowcnt').value = lastRow - 2;
- 							var lastRow = tbl.length;
-							var z;
-							for (z=i+1; z<=lastRow; z++){
-								
-								var id = document.getElementById('id' + z);
-								var isPackage = document.getElementById('isPackage' + z);
-									var itemType = document.getElementById('item_type' + z);
-									var itemId = document.getElementById('item_id' + z);
-								var bill_name = document.getElementById('bill_name' + z);
-								var qty = document.getElementById('qty' + z);
-								var rate = document.getElementById('rate' + z);
-								var amount = document.getElementById('amount' + z);
-								var note = document.getElementById('note' + z);
-								
-								
-								var x = z-1;
-								
-								id.value = x;
-								id.id = "id" + x;
-								id.name = "id" + x;	
-								
-								isPackage.id = "isPackage" + x;
-								isPackage.name = "isPackage" + x;
-									itemType.id = "item_type" + x;
-									itemType.name = "item_type" + x;
-									itemId.id = "item_id" + x;
-									itemId.name = "item_id" + x;	
-								
-								bill_name.id = "bill_name" + x;
-								bill_name.name = "bill_name" + x;	
-								
-								qty.id = "qty" + x;
-								qty.name = "qty" + x;	
-								qty.className = x;
-								
-								rate.id = "rate" + x;
-								rate.name = "rate" + x;	
-								rate.className = x;
-								
-								amount.id = "amount" + x;
-								amount.name = "amount" + x;	
-								
-								note.id = "note" + x;
-								note.name = "note" + x;	
-								
-								//alert(bill_name.name + " - " + rate.value);
-							}
-							getGross();
-						}else{
- 							alert("Minimum of one row per transaction.");
- 						}
-					}
-					
-					function getGross()
-					{
-						var len;
-						var nGross = 0;
-						var nTotal = 0;
-						len = document.getElementById("hdnrowcnt").value;
-							for (i=1; i<=len; i++) {
-								nGross += parseFloat(document.getElementById("amount" + i).value-0);
-							}
-						nGross = nGross.toFixed(2); 
-						document.getElementById("nGross").value = nGross;
-						nTotal = eval(nGross) - eval(document.getElementById("discount").value);
-						nTotal = nTotal.toFixed(2); 
-						document.getElementById("total_amount").value = nTotal;
-					}
-					
-					function validate_gross(id,nName){
-						var qty,rate,amount;
-						qty = document.getElementById("qty"+id).value;	
-						rate = document.getElementById("rate"+id).value;
-						
-						amount = eval(qty) * eval(rate);
-						amount = amount.toFixed(2); 
-						
-						document.getElementById("amount"+id).value = amount;
-						
-						getGross();			
-					}
-					
+                        var table = document.getElementById("myTable");
+                        var rowIndex = r.parentNode.parentNode.rowIndex;
+                        if (table.rows.length <= 2) {
+                            alert("Minimum of one row per transaction.");
+                            return;
+                        }
+                        table.deleteRow(rowIndex);
+                        var rows = table.rows.length - 1;
+                        document.getElementById("hdnrowcnt").value = rows;
+                        for (var z = 1; z <= rows; z++) {
+                            var fields = ["id", "isPackage", "item_type", "item_id", "bill_name", "qty", "rate", "discount_percent", "amount", "note"];
+                            fields.forEach(function(prefix) {
+                                var field = document.getElementById(prefix + (z + 1));
+                                if (field) {
+                                    field.id = prefix + z;
+                                    field.name = prefix + z;
+                                }
+                            });
+                            var numField = document.getElementById("id" + z);
+                            if (numField) numField.value = z + ".";
+                            var qtyField = document.getElementById("qty" + z);
+                            if (qtyField) qtyField.className = z;
+                            var discountField = document.getElementById("discount_percent" + z);
+                            if (discountField) discountField.setAttribute("onkeyup", "validate_item_discount(" + z + ")");
+                        }
+                        getGross();
+                    }
+
+                    function calculateItemAmount(id) {
+                        var qty = Number(document.getElementById("qty" + id).value);
+                        var rate = Number(document.getElementById("rate" + id).value);
+                        var discountField = document.getElementById("discount_percent" + id);
+                        var percent = Number(discountField.value);
+                        if (!isFinite(percent) || percent < 0 || percent > 100) {
+                            percent = 0;
+                            discountField.value = "0";
+                        }
+                        var gross = Math.round((qty * rate + Number.EPSILON) * 100) / 100;
+                        var discountAmount = Math.round((gross * percent / 100 + Number.EPSILON) * 100) / 100;
+                        document.getElementById("amount" + id).value = Math.max(0, gross - discountAmount).toFixed(2);
+                    }
+
+                    function validate_item_discount(id) {
+                        var field = document.getElementById("discount_percent" + id);
+                        if (field.value === "" || !isFinite(Number(field.value)) || Number(field.value) < 0 || Number(field.value) > 100) field.value = "0";
+                        calculateItemAmount(id);
+                        getGross();
+                    }
+
+                    function getGross() {
+                        var len = Number(document.getElementById("hdnrowcnt").value);
+                        var subtotal = 0;
+                        for (var i = 1; i <= len; i++) {
+                            var amountField = document.getElementById("amount" + i);
+                            if (amountField) subtotal += Number(amountField.value) || 0;
+                        }
+                        subtotal = Math.round((subtotal + Number.EPSILON) * 100) / 100;
+                        var percent = Number(document.getElementById("discount_percent").value);
+                        if (!isFinite(percent) || percent < 0 || percent > 100) percent = 0;
+                        var invoiceDiscount = Math.round((subtotal * percent / 100 + Number.EPSILON) * 100) / 100;
+                        document.getElementById("nGross").value = subtotal.toFixed(2);
+                        document.getElementById("discount_amount").value = invoiceDiscount.toFixed(2);
+                        document.getElementById("total_amount").value = Math.max(0, subtotal - invoiceDiscount).toFixed(2);
+                    }
+
+                    function validate_gross(id,nName){
+                        calculateItemAmount(id);
+                        getGross();
+                    }
+
 					function validate_input(id,name){
 						//alert(document.getElementById(name+""+id).value);
 						if(document.getElementById(name+""+id).value == "" || eval(document.getElementById(name+""+id).value) <= 0){
@@ -1075,7 +1088,8 @@ xmlhttp2.send();
 						
 					}
 					
-					function stopEnterKey(evt) {
+                    if (document.getElementById("paymentCurrency")) updatePaymentCurrency();
+                    function stopEnterKey(evt) {
         				var evt = (evt) ? evt : ((event) ? event : null);
         				var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
         				if ((evt.keyCode == 13) && (node.type == "text")) { return false; }

@@ -195,7 +195,9 @@ $this->posPage();
 			$patient_no,
 			$this->input->post('amountPaid'),
 			$this->input->post('paymentType'),
-			$this->input->post('otherPaymentMethod')
+			$this->input->post('otherPaymentMethod'),
+			$this->input->post('paymentCurrency'),
+			$this->input->post('exchangeRate')
 		);
 		if ($result === TRUE) {
 			$this->session->set_flashdata('message', "<div class='alert alert-success alert-dismissable'>Payment successfully recorded. Invoice marked as PAID.</div>");

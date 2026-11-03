@@ -96,6 +96,19 @@ class Billing_model extends CI_Model{
 		return $query->row();	
 	}
 	
+	/** Validate a percentage input used by invoice and item discounts. */
+	private function validatedDiscountPercent($raw, $label){
+		$value = trim((string)$raw);
+		if ($value === '' || !preg_match('/^\\d+(\\.\\d{1,2})?$/', $value)) {
+			return $label.' must be a number between 0 and 100.';
+		}
+		$percent = (float)$value;
+		if ($percent < 0 || $percent > 100) {
+			return $label.' must be between 0 and 100%.';
+		}
+		return round($percent, 2);
+	}
+
 	/**
 	 * Create a new invoice using catalogue prices from the database.
 	 * Browser-submitted rate, amount, subtotal and total are never trusted.
@@ -106,36 +119,32 @@ class Billing_model extends CI_Model{
 		$invoiceNo = trim((string)$this->input->post('invoiceno'));
 		$rowCount = $this->input->post('hdnrowcnt');
 		$counter = $this->input->post('invoiceno2');
-		
+
 		if ($opdNo === '' || $patientNo === '' || $invoiceNo === '' || !ctype_digit((string)$rowCount) || (int)$rowCount < 1 || (int)$rowCount > 200) {
 			return 'Invalid invoice or item information.';
 		}
-		
+
 		$visit = $this->db->get_where('patient_details_iop', array('IO_ID' => $opdNo, 'patient_no' => $patientNo, 'InActive' => 0))->row();
-		if (!$visit) {
-			return 'The selected patient visit could not be verified.';
-		}
-		
+		if (!$visit) return 'The selected patient visit could not be verified.';
+
 		$details = array();
 		$subtotal = 0.0;
 		for ($i = 1; $i <= (int)$rowCount; $i++) {
 			$type = trim((string)$this->input->post('item_type'.$i));
 			$itemId = trim((string)$this->input->post('item_id'.$i));
 			$qtyRaw = trim((string)$this->input->post('qty'.$i));
-			if (!in_array($type, array('particular', 'medicine', 'room', 'surgery'), true) || !ctype_digit($itemId) || (int)$itemId < 1 || !is_numeric($qtyRaw) || (float)$qtyRaw <= 0 || (float)$qtyRaw > 100000) {
+			if (!in_array($type, array('particular', 'medicine', 'room', 'surgery'), true) || !ctype_digit($itemId) || (int)$itemId < 1 || !is_numeric($qtyRaw) || (float)$qtyRaw <= 0 || floor((float)$qtyRaw) != (float)$qtyRaw || (float)$qtyRaw > 100000) {
 				return 'Invalid item source or quantity on row '.$i.'. Please remove the row and add it again.';
 			}
-			
+
 			if ($type === 'particular') {
 				$item = $this->db->get_where('bill_particular', array('particular_id' => (int)$itemId, 'InActive' => 0))->row();
 				if (!$item) return 'A selected billing item is no longer available. Please refresh and add it again.';
-				$name = $item->particular_name;
-				$rate = (float)$item->charge_amount;
+				$name = $item->particular_name; $rate = (float)$item->charge_amount;
 			} elseif ($type === 'medicine') {
 				$item = $this->db->get_where('medicine_drug_name', array('drug_id' => (int)$itemId, 'InActive' => 0))->row();
 				if (!$item) return 'A selected medicine is no longer available. Please refresh and add it again.';
-				$name = $item->drug_name;
-				$rate = (float)$item->nPrice;
+				$name = $item->drug_name; $rate = (float)$item->nPrice;
 			} elseif ($type === 'room') {
 				$item = $this->db->get_where('room_master', array('room_master_id' => (int)$itemId))->row();
 				if (!$item) return 'A selected room charge is no longer available.';
@@ -145,26 +154,39 @@ class Billing_model extends CI_Model{
 				if (!$item) return 'A selected operation package is no longer available.';
 				$name = $item->surgery_name; $rate = (float)$item->total_costs;
 			}
+
+			if ($rate < 0) return 'Invalid catalogue price on row '.$i.'.';
+			$discountPercent = $this->validatedDiscountPercent($this->input->post('discount_percent'.$i), 'Item discount on row '.$i);
+			if (!is_numeric($discountPercent)) return $discountPercent;
+
 			$qty = (int)$qtyRaw;
-			if ($qty < 1 || (string)$qty !== (string)(int)$qtyRaw || $rate < 0) return 'Quantity must be a positive whole number on row '.$i.'.';
-			$amount = round($qty * $rate, 2);
+			$gross = round($qty * $rate, 2);
+			$discountAmount = round($gross * ((float)$discountPercent / 100), 2);
+			$amount = round($gross - $discountAmount, 2);
 			$subtotal += $amount;
-			$details[] = array('invoice_no' => $invoiceNo, 'iop_id' => $opdNo, 'bill_name' => $name, 'qty' => $qty, 'rate' => $rate, 'amount' => $amount, 'note' => (string)$this->input->post('note'.$i), 'isPackage' => ($type === 'surgery' ? 1 : 0), 'item_type' => $type, 'item_id' => (int)$itemId, 'InActive' => 0);
+			$details[] = array(
+				'invoice_no' => $invoiceNo, 'iop_id' => $opdNo, 'bill_name' => $name,
+				'qty' => $qty, 'rate' => $rate, 'amount' => $amount,
+				'discount_percent' => $discountPercent, 'discount_amount' => $discountAmount,
+				'note' => (string)$this->input->post('note'.$i),
+				'isPackage' => ($type === 'surgery' ? 1 : 0), 'item_type' => $type,
+				'item_id' => (int)$itemId, 'InActive' => 0
+			);
 		}
-		
-		$discountRaw = $this->input->post('discount');
-		if (!is_numeric($discountRaw) || (float)$discountRaw < 0) return 'Invalid discount amount.';
-		$discount = round((float)$discountRaw, 2);
+
 		$subtotal = round($subtotal, 2);
-		if ($discount > $subtotal) return 'Discount cannot be greater than the subtotal.';
+		$invoiceDiscountPercent = $this->validatedDiscountPercent($this->input->post('discount_percent'), 'Invoice discount');
+		if (!is_numeric($invoiceDiscountPercent)) return $invoiceDiscountPercent;
+		$discount = round($subtotal * ((float)$invoiceDiscountPercent / 100), 2);
 		$total = round($subtotal - $discount, 2);
-		
+
 		$this->db->trans_begin();
 		$header = array(
 			'iop_id' => $opdNo, 'patient_no' => $patientNo,
 			'payment_type' => $this->input->post('paymentType'),
 			'invoice_no' => $invoiceNo, 'dDate' => date('Y-m-d'),
-			'discount' => $discount, 'reason_discount' => $this->input->post('reason_dicount'),
+			'discount' => $discount, 'discount_percent' => $invoiceDiscountPercent,
+			'reason_discount' => $this->input->post('reason_dicount'),
 			'sub_total' => $subtotal, 'total_amount' => $total,
 			'total_purchased' => count($details), 'creditCardNo' => $this->input->post('creditCardNo'),
 			'creditCardHolder' => '', 'insurance_company' => $this->input->post('insurance_company'),
@@ -183,8 +205,6 @@ class Billing_model extends CI_Model{
 		$this->db->trans_commit();
 		return TRUE;
 	}
-	
-
 
 	/**
 	 * Update an existing unpaid invoice safely.
@@ -195,10 +215,6 @@ class Billing_model extends CI_Model{
 		$opdNo = trim((string)$this->input->post('opd_no'));
 		$patientNo = trim((string)$this->input->post('patient_no'));
 		$rowCount = $this->input->post('hdnrowcnt');
-
-		// total_purchased is stored as a numeric field in some legacy databases,
-		// so the posted value may be '1.00' rather than '1'. Accept whole-number
-		// numeric representations, but reject fractions and out-of-range counts.
 		$rowCountNumeric = is_numeric($rowCount) ? (float)$rowCount : 0;
 		if ($invoiceNo === '' || $opdNo === '' || $patientNo === '' || $rowCountNumeric < 1 || floor($rowCountNumeric) != $rowCountNumeric || $rowCountNumeric > 200) {
 			return 'Invalid invoice or item information. Please refresh the invoice and try again.';
@@ -207,7 +223,7 @@ class Billing_model extends CI_Model{
 
 		$details = array();
 		$subtotal = 0.0;
-		for ($i = 1; $i <= (int)$rowCount; $i++) {
+		for ($i = 1; $i <= $rowCount; $i++) {
 			$type = trim((string)$this->input->post('item_type'.$i));
 			$itemId = trim((string)$this->input->post('item_id'.$i));
 			$qtyRaw = trim((string)$this->input->post('qty'.$i));
@@ -233,24 +249,28 @@ class Billing_model extends CI_Model{
 				$name = $item->surgery_name; $rate = (float)$item->total_costs;
 			}
 
-			$qty = (int)$qtyRaw;
 			if ($rate < 0) return 'Invalid catalogue price on row '.$i.'.';
-			$amount = round($qty * $rate, 2);
+			$discountPercent = $this->validatedDiscountPercent($this->input->post('discount_percent'.$i), 'Item discount on row '.$i);
+			if (!is_numeric($discountPercent)) return $discountPercent;
+			$qty = (int)$qtyRaw;
+			$gross = round($qty * $rate, 2);
+			$discountAmount = round($gross * ((float)$discountPercent / 100), 2);
+			$amount = round($gross - $discountAmount, 2);
 			$subtotal += $amount;
 			$details[] = array(
 				'invoice_no' => $invoiceNo, 'iop_id' => $opdNo, 'bill_name' => $name,
 				'qty' => $qty, 'rate' => $rate, 'amount' => $amount,
+				'discount_percent' => $discountPercent, 'discount_amount' => $discountAmount,
 				'note' => (string)$this->input->post('note'.$i),
 				'isPackage' => ($type === 'surgery' ? 1 : 0),
 				'item_type' => $type, 'item_id' => (int)$itemId, 'InActive' => 0
 			);
 		}
 
-		$discountRaw = $this->input->post('discount');
-		if (!is_numeric($discountRaw) || (float)$discountRaw < 0) return 'Invalid discount amount.';
 		$subtotal = round($subtotal, 2);
-		$discount = round((float)$discountRaw, 2);
-		if ($discount > $subtotal) return 'Discount cannot be greater than the subtotal.';
+		$invoiceDiscountPercent = $this->validatedDiscountPercent($this->input->post('discount_percent'), 'Invoice discount');
+		if (!is_numeric($invoiceDiscountPercent)) return $invoiceDiscountPercent;
+		$discount = round($subtotal * ((float)$invoiceDiscountPercent / 100), 2);
 		$total = round($subtotal - $discount, 2);
 
 		$this->db->trans_begin();
@@ -258,10 +278,7 @@ class Billing_model extends CI_Model{
 			"SELECT * FROM iop_billing WHERE invoice_no = ? AND iop_id = ? AND patient_no = ? AND InActive = 0 FOR UPDATE",
 			array($invoiceNo, $opdNo, $patientNo)
 		)->row();
-		if (!$header) {
-			$this->db->trans_rollback();
-			return 'Invoice not found or is no longer active.';
-		}
+		if (!$header) { $this->db->trans_rollback(); return 'Invoice not found or is no longer active.'; }
 
 		$receipt = $this->db->get_where('iop_receipt', array('invoice_no' => $invoiceNo))->row();
 		$receiptRef = isset($header->receipt_no) ? trim((string)$header->receipt_no) : '';
@@ -269,32 +286,20 @@ class Billing_model extends CI_Model{
 			$this->db->trans_rollback();
 			return 'This invoice has a payment or receipt and can no longer be edited.';
 		}
-
 		$visit = $this->db->get_where('patient_details_iop', array('IO_ID' => $opdNo, 'patient_no' => $patientNo, 'InActive' => 0))->row();
-		if (!$visit) {
-			$this->db->trans_rollback();
-			return 'The patient visit could not be verified.';
-		}
+		if (!$visit) { $this->db->trans_rollback(); return 'The patient visit could not be verified.'; }
 
 		$headerUpdate = array(
-			'discount' => $discount,
+			'discount' => $discount, 'discount_percent' => $invoiceDiscountPercent,
 			'reason_discount' => $this->input->post('reason_dicount'),
-			'sub_total' => $subtotal,
-			'total_amount' => $total,
-			'total_purchased' => count($details),
-			'remarks' => $this->input->post('remarks')
+			'sub_total' => $subtotal, 'total_amount' => $total,
+			'total_purchased' => count($details), 'remarks' => $this->input->post('remarks')
 		);
-		$this->db->where('invoice_no', $invoiceNo)->where('iop_id', $opdNo)->update('iop_billing', $headerUpdate);
-		if ($this->db->trans_status() === FALSE) {
-			$this->db->trans_rollback();
-			return 'Invoice update failed. No changes were kept.';
-		}
+		$this->db->where('invoice_no', $invoiceNo)->where('iop_id', $opdNo)->where('patient_no', $patientNo)->update('iop_billing', $headerUpdate);
+		if ($this->db->trans_status() === FALSE) { $this->db->trans_rollback(); return 'Invoice update failed. No changes were kept.'; }
 
 		$this->db->where('invoice_no', $invoiceNo)->delete('iop_billing_t');
-		if ($this->db->trans_status() === FALSE) {
-			$this->db->trans_rollback();
-			return 'Unable to replace invoice items. No changes were kept.';
-		}
+		if ($this->db->trans_status() === FALSE) { $this->db->trans_rollback(); return 'Unable to replace invoice items. No changes were kept.'; }
 		foreach ($details as $detail) {
 			$this->db->insert('iop_billing_t', $detail);
 			if ($this->db->affected_rows() !== 1 || $this->db->trans_status() === FALSE) {
@@ -302,11 +307,7 @@ class Billing_model extends CI_Model{
 				return 'Unable to save all invoice items. No changes were kept.';
 			}
 		}
-
-		if ($this->db->trans_status() === FALSE) {
-			$this->db->trans_rollback();
-			return 'Invoice update failed. No changes were kept.';
-		}
+		if ($this->db->trans_status() === FALSE) { $this->db->trans_rollback(); return 'Invoice update failed. No changes were kept.'; }
 		$this->db->trans_commit();
 		return TRUE;
 	}
@@ -388,21 +389,39 @@ class Billing_model extends CI_Model{
 	}
 	
 	/** Record a full payment; totals and receipt numbering are server-authoritative. */
-	public function recordFullPayment($invoiceNo, $opdNo, $patientNo, $amountPaidRaw, $paymentType, $otherMethod){
+	public function recordFullPayment($invoiceNo, $opdNo, $patientNo, $amountPaidRaw, $paymentType, $otherMethod, $paymentCurrency, $exchangeRateRaw){
 		$invoiceNo = trim((string)$invoiceNo);
 		$opdNo = trim((string)$opdNo);
 		$patientNo = trim((string)$patientNo);
 		$paymentType = trim((string)$paymentType);
 		$otherMethod = trim((string)$otherMethod);
+		$paymentCurrency = strtoupper(trim((string)$paymentCurrency));
 		$allowedMethods = array('cash', 'bank_transfer', 'khqr', 'card', 'other');
 		if ($invoiceNo === '' || $opdNo === '' || $patientNo === '') return 'Invalid invoice or patient information.';
 		if (!in_array($paymentType, $allowedMethods, true)) return 'Please select a valid payment method.';
 		if ($paymentType === 'other' && $otherMethod === '') return 'Please describe the other payment method.';
 		if (strlen($otherMethod) > 100) return 'The other payment method description is too long.';
+		if (!in_array($paymentCurrency, array('USD', 'KHR'), true)) return 'Please select USD or KHR as the payment currency.';
+
 		$amountPaidRaw = trim((string)$amountPaidRaw);
-		if (!preg_match('/^\\d+(\\.\\d{1,2})?$/', $amountPaidRaw)) return 'Enter a valid amount with no more than two decimal places.';
-		$amountPaid = round((float)$amountPaidRaw, 2);
+		if ($paymentCurrency === 'USD') {
+			if (!preg_match('/^\\d+(\\.\\d{1,2})?$/', $amountPaidRaw)) return 'Enter a valid USD amount with no more than two decimal places.';
+		} else {
+			if (!preg_match('/^\\d+$/', $amountPaidRaw)) return 'KHR payment must be entered as a whole-Riel amount.';
+			if (((int)$amountPaidRaw % 100) !== 0) return 'KHR payment must be a multiple of 100 Riel.';
+		}
+		$amountPaid = (float)$amountPaidRaw;
 		if ($amountPaid <= 0) return 'Amount paid must be greater than zero.';
+		if ($amountPaid > 999999999.99) return 'Amount paid exceeds the supported receipt amount.';
+
+		if ($paymentCurrency === 'USD') {
+			$exchangeRate = 1.0000;
+		} else {
+			$exchangeRateRaw = trim((string)$exchangeRateRaw);
+			if (!preg_match('/^\\d+(\\.\\d{1,4})?$/', $exchangeRateRaw)) return 'Enter a valid exchange rate with no more than four decimal places.';
+			$exchangeRate = round((float)$exchangeRateRaw, 4);
+			if ($exchangeRate <= 0 || $exchangeRate > 99999999.9999) return 'Exchange rate must be greater than zero and within the supported range.';
+		}
 
 		$this->db->trans_begin();
 		$invoice = $this->db->query(
@@ -418,10 +437,21 @@ class Billing_model extends CI_Model{
 		}
 		$visit = $this->db->get_where('patient_details_iop', array('IO_ID' => $opdNo, 'patient_no' => $patientNo, 'InActive' => 0))->row();
 		if (!$visit) { $this->db->trans_rollback(); return 'The patient visit could not be verified.'; }
+
 		$totalAmount = round((float)$invoice->total_amount, 2);
 		if ($totalAmount <= 0) { $this->db->trans_rollback(); return 'This invoice has an invalid total and cannot be paid.'; }
-		if ($amountPaid < $totalAmount) { $this->db->trans_rollback(); return 'Full payment is required. Amount paid must be at least the invoice total.'; }
-		$change = round($amountPaid - $totalAmount, 2);
+		if ($paymentCurrency === 'USD') {
+			$amountDue = $totalAmount;
+		} else {
+			$amountDue = round(($totalAmount * $exchangeRate) / 100) * 100;
+		}
+		if ($amountPaid < $amountDue) {
+			$this->db->trans_rollback();
+			return 'Full payment is required. Amount received must be at least the amount due.';
+		}
+		$change = ($paymentCurrency === 'USD')
+			? round($amountPaid - $amountDue, 2)
+			: round($amountPaid - $amountDue, 0);
 
 		$counterRows = $this->db->query("SELECT option_id, cValue FROM system_option WHERE cCode = ? FOR UPDATE", array('receipt_no'))->result();
 		if (count($counterRows) !== 1) { $this->db->trans_rollback(); return 'Receipt numbering is not configured correctly. Please contact the administrator.'; }
@@ -435,6 +465,7 @@ class Billing_model extends CI_Model{
 			'dDate' => date('Y-m-d H:i:s'), 'iop_id' => $opdNo, 'patient_no' => $patientNo,
 			'payment_type' => $paymentType, 'total_amount' => $totalAmount,
 			'change' => $change, 'amountPaid' => $amountPaid,
+			'payment_currency' => $paymentCurrency, 'exchange_rate' => $exchangeRate,
 			'total_purchased' => $invoice->total_purchased, 'discount' => $invoice->discount,
 			'subtotal' => $invoice->sub_total, 'creditCardNo' => '',
 			'creditCardHolder' => '', 'insurance_company' => '', 'remarks' => $remarks, 'InActive' => 0
