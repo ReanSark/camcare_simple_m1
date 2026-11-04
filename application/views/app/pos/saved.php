@@ -1063,32 +1063,41 @@ xmlhttp2.send();
 					}
 					
 					function validate_form(){
-						
-						
-						if(document.getElementById("hdnrowcnt").value == "0"){
-							alert('Minimum of one row per transaction.');
-							return false;
-						}else{
-							var len;
-							len = document.getElementById("hdnrowcnt").value;	
-							for (i=1; i<=len; i++) {
-							if(eval(document.getElementById("amount"+i).value) <= 0){
-								alert("Transaction cannot be saved. There are still some items without amount.");
-								return false;
-							}else{
-								if(confirm('Are you sure you want to save?')){
-									return true;
-								}else{
-									return false;	
-								}
-							}
-						}
-						}
-						
-						
-					}
-					
-                    if (document.getElementById("paymentCurrency")) updatePaymentCurrency();
+                        var rowCount = parseInt(document.getElementById("hdnrowcnt").value, 10);
+
+                        if (!rowCount || rowCount < 1) {
+                            alert('Minimum of one row per transaction.');
+                            return false;
+                        }
+
+                        for (var i = 1; i <= rowCount; i++) {
+                            var qtyField = document.getElementById("qty" + i);
+                            var rateField = document.getElementById("rate" + i);
+                            var discountField = document.getElementById("discount_percent" + i);
+                            var amountField = document.getElementById("amount" + i);
+
+                            if (!qtyField || !rateField || !discountField || !amountField) {
+                                alert("Unable to validate item row " + i + ". Please refresh the invoice and try again.");
+                                return false;
+                            }
+
+                            var qty = Number(qtyField.value);
+                            var rate = Number(rateField.value);
+                            var discountPercent = Number(discountField.value);
+                            var amount = Number(amountField.value);
+
+                            if (!isFinite(qty) || qty <= 0 || Math.floor(qty) !== qty ||
+                                !isFinite(rate) || rate < 0 ||
+                                !isFinite(discountPercent) || discountPercent < 0 || discountPercent > 100 ||
+                                !isFinite(amount) || amount < 0) {
+                                alert("Please check the quantity, rate, discount, and amount on item row " + i + ".");
+                                return false;
+                            }
+                        }
+
+                        return confirm('Are you sure you want to save?');
+                    }
+
                     function stopEnterKey(evt) {
         				var evt = (evt) ? evt : ((event) ? event : null);
         				var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);

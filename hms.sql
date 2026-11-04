@@ -2278,8 +2278,8 @@ CREATE TABLE `system_option` (
 INSERT INTO `system_option` (`option_id`, `cCode`, `cValue`, `InActive`) VALUES
 (1, 'employee_no', 19, 0),
 (2, 'patient_no', 193, 0),
-(3, 'INPATIENTNO', 1, 0),
-(4, 'OUTPATIENTNO', 1, 0),
+(3, 'INPATIENTNO', 0, 0),
+(4, 'OUTPATIENTNO', 0, 0),
 (5, 'invoice_no', 200, 0),
 (6, 'receipt_no', 200, 0);
 
