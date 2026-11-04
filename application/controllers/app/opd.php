@@ -582,6 +582,13 @@ class Opd extends General{
 			'advice'		=>		$this->input->post('advice'),
 			'days'			=>		$this->input->post('nDays'),
 			'total_qty'		=>		$this->input->post('qty'),
+			'morning'       => $this->input->post('morning', TRUE),
+			'afternoon'     => $this->input->post('afternoon', TRUE),
+			'evening'       => $this->input->post('evening', TRUE),
+			'night'         => $this->input->post('night', TRUE),
+			'meal'          => $this->input->post('meal', TRUE),
+			'method'        => $this->input->post('method', TRUE),
+			'measurement'   => $this->input->post('measurement', TRUE),
 			'InActive'		=>		0
 		);
 		$this->db->insert("iop_medication",$this->data);

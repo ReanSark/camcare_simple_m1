@@ -192,34 +192,55 @@
                                            <?php if($getOPDPatient->nStatus == "Pending"){?>
                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add Medication</a>
                                            <?php }}?>
-                                           <a href="<?php echo base_url()?>app/ipd_print/print_medication/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-default" target="_blank"><i class="fa fa-print"></i> Print</a>
+                                           <!-- <a href="<?php echo base_url()?>app/ipd_print/print_medication/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-default" target="_blank"><i class="fa fa-print"></i> Print</a> -->
                                            <!-- <a href="<?php echo base_url()?>app/ipd_print/pdf_medication/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> PDF</a> -->
                                            <table class="table table-hover table-striped">
                                            <thead>
                                            		<tr>
-                                                	<th>Medicine Name</th>
+                                                    <th>Medicine Name</th>
+                                                    <th>Dosage Schedule</th>
+                                                    <th>Administration</th>
                                                     <th>Instruction</th>
                                                     <th>Advice</th>
                                                     <th>Days</th>
-                                                    <th>Qty</th>
+                                                    <th>Total Qty</th>
                                                     <th></th>
                                                 </tr>
                                            </thead>
                                            <tbody>
                                            <?php foreach($patientMedication as $rows){?>
                                            <tr>
-                                           		<td><?php echo $rows->drug_name?></td>
-                                                <td><?php echo $rows->instruction?></td>
-                                                <td><?php echo $rows->advice?></td>
-                                                <td><?php echo $rows->days?></td>
-                                                <td><?php echo $rows->total_qty?></td>
-                                                <!-- <td><?php echo $rows->morning?></td>
-                                                <td><?php echo $rows->afternoon?></td>
-                                                <td><?php echo $rows->evening?></td>
-                                                <td><?php echo $rows->night?></td>
-                                                <td><?php echo $rows->meal?></td>
-                                                <td><?php echo $rows->method?></td>
-                                                <td><?php echo $rows->measurement?></td> -->
+                                           		<td><?php echo html_escape($rows->drug_name); ?></td>
+
+                                                <td>
+                                                    <strong>Morning:</strong>
+                                                    <?php echo $rows->morning !== NULL && $rows->morning !== '' ? html_escape($rows->morning) : '-'; ?><br>
+
+                                                    <strong>Afternoon:</strong>
+                                                    <?php echo $rows->afternoon !== NULL && $rows->afternoon !== '' ? html_escape($rows->afternoon) : '-'; ?><br>
+
+                                                    <strong>Evening:</strong>
+                                                    <?php echo $rows->evening !== NULL && $rows->evening !== '' ? html_escape($rows->evening) : '-'; ?><br>
+
+                                                    <strong>Night:</strong>
+                                                    <?php echo $rows->night !== NULL && $rows->night !== '' ? html_escape($rows->night) : '-'; ?>
+                                                </td>
+
+                                                <td>
+                                                    <strong>Meal:</strong>
+                                                    <?php echo $rows->meal !== NULL && $rows->meal !== '' ? html_escape($rows->meal) : '-'; ?><br>
+
+                                                    <strong>Method:</strong>
+                                                    <?php echo $rows->method !== NULL && $rows->method !== '' ? html_escape($rows->method) : '-'; ?><br>
+
+                                                    <strong>Measurement:</strong>
+                                                    <?php echo $rows->measurement !== NULL && $rows->measurement !== '' ? html_escape($rows->measurement) : '-'; ?>
+                                                </td>
+
+                                                <td><?php echo html_escape($rows->instruction); ?></td>
+                                                <td><?php echo html_escape($rows->advice); ?></td>
+                                                <td><?php echo html_escape($rows->days); ?></td>
+                                                <td><?php echo html_escape($rows->total_qty); ?></td>
                                                 <td>
                                                 <?php if($this->session->userdata('emr_viewing') == ""){?>	
                                                 <?php if($getOPDPatient->nStatus == "Pending"){?>
@@ -342,6 +363,68 @@ xmlhttp.send();
                                         <tr>
                                         	<td>Qty</td>
                                             <td><input type="text" name="qty" placeholder="Qty" class="form-control input-sm" style="width: 250px;" required></td>
+                                        </tr>
+                                        <!-- Dosage Schedule -->
+                                        <tr>
+                                            <td colspan="2"><strong>Dosage Schedule</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Morning</td>
+                                            <td>
+                                                <input type="number" name="morning" min="0" step="any"
+                                                    placeholder="Quantity per administration"
+                                                    class="form-control input-sm" style="width: 250px;">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Afternoon</td>
+                                            <td>
+                                                <input type="number" name="afternoon" min="0" step="any"
+                                                    placeholder="Quantity per administration"
+                                                    class="form-control input-sm" style="width: 250px;">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Evening</td>
+                                            <td>
+                                                <input type="number" name="evening" min="0" step="any"
+                                                    placeholder="Quantity per administration"
+                                                    class="form-control input-sm" style="width: 250px;">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Night</td>
+                                            <td>
+                                                <input type="number" name="night" min="0" step="any"
+                                                    placeholder="Quantity per administration"
+                                                    class="form-control input-sm" style="width: 250px;">
+                                            </td>
+                                        </tr>
+
+                                        <!-- Administration Details -->
+                                        <tr>
+                                            <td colspan="2"><strong>Administration Details</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Meal</td>
+                                            <td>
+                                                <input type="text" name="meal" placeholder="e.g. Before meal / After meal"
+                                                    class="form-control input-sm" style="width: 250px;">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Method</td>
+                                            <td>
+                                                <input type="text" name="method" placeholder="e.g. Oral / Injection"
+                                                    class="form-control input-sm" style="width: 250px;">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Measurement</td>
+                                            <td>
+                                                <input type="text" name="measurement" placeholder="e.g. Tablet / ml / Capsule"
+                                                    class="form-control input-sm" style="width: 250px;">
+                                            </td>
                                         </tr>
                                         <tr>
                                         	<td>Instruction</td>

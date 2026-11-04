@@ -352,6 +352,13 @@ class Opd_model extends CI_Model{
 						A.advice,
 						A.days,
 						A.total_qty,
+						A.morning,
+						A.afternoon,
+						A.evening,
+						A.night,
+						A.meal,
+						A.method,
+						A.measurement,
 						concat(D.cValue,' ',C.firstname,' ',C.middlename,' ',C.lastname) as name
 						",false);
 		$this->db->order_by("A.iop_med_id","asc");
