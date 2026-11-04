@@ -319,6 +319,31 @@ class Opd extends General{
 		
 		$this->load->view("app/opd/view",$this->data);	
 	}
+
+	public function printPrescription(){
+		$iop_no = $this->uri->segment("4");
+		$patient_no = $this->uri->segment("5");
+
+		if (empty($iop_no) || empty($patient_no)) {
+			show_404();
+			return;
+		}
+
+		$this->data['getOPDPatient'] = $this->opd_model->getOPDPatient($iop_no);
+		$this->data['patientInfo'] = $this->patient_model->getPatientInfo($patient_no);
+
+		// Ensure the requested OPD visit belongs to the requested patient.
+		if (empty($this->data['getOPDPatient']) || empty($this->data['patientInfo']) ||
+			$this->data['getOPDPatient']->patient_no != $patient_no) {
+			show_404();
+			return;
+		}
+
+		$this->data['patientDiagnosis'] = $this->opd_model->patientDiagnosis($iop_no);
+		$this->data['patientMedication'] = $this->opd_model->patientMedication($iop_no);
+
+		$this->load->view("app/opd/printPrescription", $this->data);
+	}
 	
 	public function diagnosis(){
 		$iop_no = $this->uri->segment("4");

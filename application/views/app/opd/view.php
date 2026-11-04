@@ -212,6 +212,14 @@
                                             	<td>Consultant Doctor</td>
                                                 <td><?php echo $getOPDPatient->con_doctor;?></td>
                                             </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <a href="<?php echo base_url();?>app/opd/printPrescription/<?php echo rawurlencode($getOPDPatient->IO_ID);?>/<?php echo rawurlencode($getOPDPatient->patient_no);?>" target="_blank" rel="noopener" class="btn btn-primary">
+                                                        <i class="fa fa-print"></i> Print Prescription
+                                                    </a>
+                                                </td>
+                                            </tr>
                                             
                                             </thead>
                                             </table>
