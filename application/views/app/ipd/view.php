@@ -222,6 +222,14 @@
                                             	<td>Bed No.</td>
                                                 <td><?php echo $getOPDPatient->bed_name;?></td>
                                             </tr>
+                                            <tr>
+                                                <td colspan="2" style="padding-top: 12px;">
+                                                    <a class="btn btn-primary" target="_blank" rel="noopener"
+                                                       href="<?php echo base_url()?>app/ipd/printPrescription/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>">
+                                                        <i class="fa fa-print"></i> Print Prescription
+                                                    </a>
+                                                </td>
+                                            </tr>
                                             </thead>
                                             </table>
                                         </div>
