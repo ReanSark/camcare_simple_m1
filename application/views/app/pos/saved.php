@@ -979,30 +979,51 @@ xmlhttp2.send();
 					
 					function deleteRow(r){
                         var table = document.getElementById("myTable");
-                        var rowIndex = r.parentNode.parentNode.rowIndex;
-                        if (table.rows.length <= 2) {
+                        var tbody = table.tBodies[0];
+                        var row = r.parentNode.parentNode;
+
+                        if (!tbody || tbody.rows.length <= 1) {
                             alert("Minimum of one row per transaction.");
                             return;
                         }
-                        table.deleteRow(rowIndex);
-                        var rows = table.rows.length - 1;
-                        document.getElementById("hdnrowcnt").value = rows;
-                        for (var z = 1; z <= rows; z++) {
-                            var fields = ["id", "isPackage", "item_type", "item_id", "bill_name", "qty", "rate", "discount_percent", "amount", "note"];
-                            fields.forEach(function(prefix) {
-                                var field = document.getElementById(prefix + (z + 1));
-                                if (field) {
-                                    field.id = prefix + z;
-                                    field.name = prefix + z;
+
+                        tbody.deleteRow(row.sectionRowIndex);
+
+                        // Re-index the rows that actually remain in the table.
+                        // Do not shift IDs by looking up old numeric IDs: that can
+                        // create duplicate IDs when a middle row is deleted.
+                        var fields = ["id", "isPackage", "item_type", "item_id", "bill_name", "qty", "rate", "discount_percent", "amount", "note"];
+
+                        for (var i = 0; i < tbody.rows.length; i++) {
+                            var newIndex = i + 1;
+                            var inputs = tbody.rows[i].getElementsByTagName("input");
+
+                            for (var j = 0; j < inputs.length; j++) {
+                                var input = inputs[j];
+
+                                for (var k = 0; k < fields.length; k++) {
+                                    var prefix = fields[k];
+                                    var suffix = input.name.substring(prefix.length);
+
+                                    if (input.name.indexOf(prefix) === 0 && /^\d+$/.test(suffix)) {
+                                        input.name = prefix + newIndex;
+                                        input.id = prefix + newIndex;
+                                        break;
+                                    }
                                 }
-                            });
-                            var numField = document.getElementById("id" + z);
-                            if (numField) numField.value = z + ".";
-                            var qtyField = document.getElementById("qty" + z);
-                            if (qtyField) qtyField.className = z;
-                            var discountField = document.getElementById("discount_percent" + z);
-                            if (discountField) discountField.setAttribute("onkeyup", "validate_item_discount(" + z + ")");
+                            }
+
+                            var numField = tbody.rows[i].querySelector('input[name="id' + newIndex + '"]');
+                            if (numField) numField.value = newIndex + ". ";
+
+                            var qtyField = tbody.rows[i].querySelector('input[name="qty' + newIndex + '"]');
+                            if (qtyField) qtyField.className = String(newIndex);
+
+                            var discountField = tbody.rows[i].querySelector('input[name="discount_percent' + newIndex + '"]');
+                            if (discountField) discountField.setAttribute("onkeyup", "validate_item_discount(" + newIndex + ")");
                         }
+
+                        document.getElementById("hdnrowcnt").value = tbody.rows.length;
                         getGross();
                     }
 
