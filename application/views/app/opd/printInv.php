@@ -267,8 +267,8 @@
 </div>
 
 <div class="signatures">
-  <div class="signature"><div><div>ហត្ថលេខារបស់អ្នកបង់ថ្លៃសេវា</div><div class="signature-line"></div></div><div class="signature-date">កាលបរិច្ឆេទ: ____ / ____ / ______</div></div>
-  <div class="signature"><div><div>ហត្ថលេខារបស់អ្នកទទួលប្រាក់</div><div class="signature-line"></div></div><div class="signature-date">កាលបរិច្ឆេទ: ____ / ____ / ______</div></div>
+  <!-- <div class="signature"><div><div>ហត្ថលេខារបស់អ្នកបង់ថ្លៃសេវា</div><div class="signature-line"></div></div><div class="signature-date">កាលបរិច្ឆេទ: ____ / ____ / ______</div></div> -->
+  <div class="signature"><div><div>ហត្ថលេខារបស់អ្នកទទួលប្រាក់</div><div class="signature-line"></div></div></div>
 </div>
 
 </div>
