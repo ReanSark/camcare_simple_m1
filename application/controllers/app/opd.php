@@ -685,6 +685,26 @@ class Opd extends General{
 		$this->data['headerInv'] = $this->billing_model->headerInv2($InvNo);
 		$this->data['detailsInv'] = $this->billing_model->detailsInv2($InvNo);
 		
+		// The exchange rate is captured on the receipt when payment is made in KHR.
+		$this->data['paymentReceipt'] = $this->billing_model->OR_num($InvNo);
+		$this->data['exchangeRateDisplay'] = null;
+		$this->data['totalAmountKhr'] = null;
+		
+		$paymentReceipt = $this->data['paymentReceipt'];
+		if (
+			$paymentReceipt &&
+			isset($paymentReceipt->payment_currency, $paymentReceipt->exchange_rate) &&
+			strtoupper(trim((string)$paymentReceipt->payment_currency)) === 'KHR' &&
+			is_numeric($paymentReceipt->exchange_rate) &&
+			(float)$paymentReceipt->exchange_rate > 0
+		) {
+			$exchangeRate = (float)$paymentReceipt->exchange_rate;
+			$totalAmountUsd = round((float)$this->data['headerInv']->total_amount, 2);
+			$this->data['exchangeRateDisplay'] = $exchangeRate;
+			// Match the payment calculation: round the payable amount to the nearest 100 KHR.
+			$this->data['totalAmountKhr'] = round(($totalAmountUsd * $exchangeRate) / 100) * 100;
+		}
+		
 		$this->load->view("app/opd/printInv",$this->data);	
 		
 	}
