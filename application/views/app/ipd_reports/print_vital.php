@@ -93,6 +93,7 @@ body{
     <th style="border-bottom:1px #999 solid">Blood Pressure</th>
     <th style="border-bottom:1px #999 solid">Respiration</th>
     <th style="border-bottom:1px #999 solid">Weight</th>
+    <th style="border-bottom:1px #999 solid">SaO</th>
 	<th style="border-bottom:1px #999 solid">Prepared by</th>
 </tr>
 <?php foreach($getVital as $rows){?>
@@ -104,6 +105,7 @@ body{
                                                 <td align="center"><?php echo $rows->bp?> mm of Hg</td>
                                                 <td align="center"><?php echo $rows->respiration?>/min</td>
                                                 <td align="center"><?php echo $rows->weight?>Kg</td>
+                                                <td align="center"><?php echo $rows->sao2?>%</td>
                                                 <td align="center"><?php 
 												$ci_obj = & get_instance();
 												$ci_obj->load->model('app/general_model');

@@ -67,18 +67,18 @@ class Patient_model extends CI_Model{
 		return $query->row();
 	}
 	
-	public function validate_email(){
-		$this->db->where(array(
-			'email_address'		=>		$this->input->post('email'),
-			'InActive'			=>		0
-		));
-		$query = $this->db->get("patient_personal_info");
-		if($query->num_rows() > 0){
-			return true;
-		}else{
-			return false;
-		}
-	}
+	// public function validate_email(){
+	// 	$this->db->where(array(
+	// 		'email_address'		=>		$this->input->post('email'),
+	// 		'InActive'			=>		0
+	// 	));
+	// 	$query = $this->db->get("patient_personal_info");
+	// 	if($query->num_rows() > 0){
+	// 		return true;
+	// 	}else{
+	// 		return false;
+	// 	}
+	// }
 	
 	public function validate_patient(){
 		$this->db->where(array(
@@ -166,19 +166,19 @@ class Patient_model extends CI_Model{
 		}
 	}
 	
-	public function validate_email_edit(){
-		$this->db->where(array(
-			'email_address'		=>		$this->input->post('email'),
-			'patient_no !='		=>		$this->input->post('id'),
-			'InActive'			=>		0
-		));
-		$query = $this->db->get("patient_personal_info");
-		if($query->num_rows() > 0){
-			return true;
-		}else{
-			return false;
-		}
-	}
+	// public function validate_email_edit(){
+	// 	$this->db->where(array(
+	// 		'email_address'		=>		$this->input->post('email'),
+	// 		'patient_no !='		=>		$this->input->post('id'),
+	// 		'InActive'			=>		0
+	// 	));
+	// 	$query = $this->db->get("patient_personal_info");
+	// 	if($query->num_rows() > 0){
+	// 		return true;
+	// 	}else{
+	// 		return false;
+	// 	}
+	// }
 	
 	public function update(){
 		$age = 0;

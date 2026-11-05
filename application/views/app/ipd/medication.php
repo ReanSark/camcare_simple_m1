@@ -199,16 +199,19 @@
                                            <?php if($getOPDPatient->nStatus == "Pending"){?>
                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add Medication</a>
                                            <?php }}?>
-                                           <a href="<?php echo base_url()?>app/ipd_print/print_medication/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-default" target="_blank"><i class="fa fa-print"></i> Print</a>
-                                           <a href="<?php echo base_url()?>app/ipd_print/pdf_medication/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> PDF</a>
+                                           <div class="table-responsive">
                                            <table class="table table-hover table-striped">
                                            <thead>
-                                           		<tr>
-                                                	<th>Medicine Name</th>
+                                                <tr>
+                                                    <th>Medicine Name</th>
+                                                    <th>Schedule (per administration)</th>
+                                                    <th>Days</th>
+                                                    <th>Total Qty</th>
+                                                    <th>Measurement</th>
+                                                    <th>Meal</th>
+                                                    <th>Method</th>
                                                     <th>Instruction</th>
                                                     <th>Advice</th>
-                                                    <th>Days</th>
-                                                    <th>Qty</th>
                                                     <th>Prepared by</th>
                                                     <th></th>
                                                 </tr>
@@ -216,22 +219,32 @@
                                            <tbody>
                                            <?php foreach($patientMedication as $rows){?>
                                            <tr>
-                                           		<td><?php echo $rows->drug_name?></td>
-                                                <td><?php echo $rows->instruction?></td>
-                                                <td><?php echo $rows->advice?></td>
+                                                <td><?php echo $rows->drug_name?></td>
+                                                <td>
+                                                    <strong>Morning:</strong> <?php echo (isset($rows->morning) && $rows->morning !== '') ? $rows->morning : '-'; ?><br>
+                                                    <strong>Afternoon:</strong> <?php echo (isset($rows->afternoon) && $rows->afternoon !== '') ? $rows->afternoon : '-'; ?><br>
+                                                    <strong>Evening:</strong> <?php echo (isset($rows->evening) && $rows->evening !== '') ? $rows->evening : '-'; ?><br>
+                                                    <strong>Night:</strong> <?php echo (isset($rows->night) && $rows->night !== '') ? $rows->night : '-'; ?>
+                                                </td>
                                                 <td><?php echo $rows->days?></td>
                                                 <td><?php echo $rows->total_qty?></td>
+                                                <td><?php echo (isset($rows->measurement) && $rows->measurement !== '') ? $rows->measurement : '-'; ?></td>
+                                                <td><?php echo (isset($rows->meal) && $rows->meal !== '') ? $rows->meal : '-'; ?></td>
+                                                <td><?php echo (isset($rows->method) && $rows->method !== '') ? $rows->method : '-'; ?></td>
+                                                <td><?php echo $rows->instruction?></td>
+                                                <td><?php echo $rows->advice?></td>
                                                 <td><?php echo $rows->name?></td>
                                                 <td>
-                                                <?php if($this->session->userdata('emr_viewing') == ""){?>	
+                                                <?php if($this->session->userdata('emr_viewing') == ""){?>
                                                 <?php if($getOPDPatient->nStatus == "Pending"){?>
                                                 <a href="<?php echo base_url()?>app/ipd/delete_medication/<?php echo $rows->iop_med_id?>/<?php echo $getOPDPatient->IO_ID?>/<?php echo $getOPDPatient->patient_no?>" onClick="return confirm('Are you sure you want to remove?');">Remove</a>
                                                 <?php }}?>
                                                 </td>
                                            </tr>
-                                           <?php }?> 
+                                           <?php }?>
                                            </tbody>
                                            </table>
+                                           </div>
                                             
                                             <br><br><br><br><br><br><br>
                                             <br><br><br><br><br><br><br>
@@ -344,6 +357,37 @@ xmlhttp.send();
                                         <tr>
                                         	<td>Qty</td>
                                             <td><input type="text" name="qty" placeholder="Qty" class="form-control input-sm" style="width: 250px;" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"><strong>Dosage Schedule (quantity per administration)</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Morning</td>
+                                            <td><input type="number" name="morning" min="0" step="any" placeholder="e.g. 1 or 0.5" class="form-control input-sm" style="width: 250px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Afternoon</td>
+                                            <td><input type="number" name="afternoon" min="0" step="any" placeholder="e.g. 1 or 0.5" class="form-control input-sm" style="width: 250px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Evening</td>
+                                            <td><input type="number" name="evening" min="0" step="any" placeholder="e.g. 1 or 0.5" class="form-control input-sm" style="width: 250px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Night</td>
+                                            <td><input type="number" name="night" min="0" step="any" placeholder="e.g. 1 or 0.5" class="form-control input-sm" style="width: 250px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Measurement</td>
+                                            <td><input type="text" name="measurement" placeholder="e.g. tablet, ml, drop" class="form-control input-sm" style="width: 250px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Meal</td>
+                                            <td><input type="text" name="meal" placeholder="e.g. Before meal / After meal" class="form-control input-sm" style="width: 250px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Method</td>
+                                            <td><input type="text" name="method" placeholder="e.g. Oral" class="form-control input-sm" style="width: 250px;"></td>
                                         </tr>
                                         <tr>
                                         	<td>Instruction</td>

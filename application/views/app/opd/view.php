@@ -169,7 +169,7 @@
                                     <li><a href="<?php echo base_url()?>app/opd/complain/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Complain</a></li>
                                     <li><a href="<?php echo base_url()?>app/opd/vitalSign/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Vital Sign</a></li>
                                     <li><a href="<?php echo base_url()?>app/opd/patientHistory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Patient History</a></li>
-                                    <li><a href="<?php echo base_url()?>app/opd/laboratory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Laboratory</a></li>
+                                    <li><a href="<?php echo base_url()?>app/opd/laboratory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Paraclinical</a></li>
                                     <li><a href="<?php echo base_url()?>app/opd/discharge_summary/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Discharge Summary</a></li>
                                     
                                     
@@ -211,6 +211,14 @@
                                             <tr>
                                             	<td>Consultant Doctor</td>
                                                 <td><?php echo $getOPDPatient->con_doctor;?></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <a href="<?php echo base_url();?>app/opd/printPrescription/<?php echo rawurlencode($getOPDPatient->IO_ID);?>/<?php echo rawurlencode($getOPDPatient->patient_no);?>" target="_blank" rel="noopener" class="btn btn-primary">
+                                                        <i class="fa fa-print"></i> Print Prescription
+                                                    </a>
+                                                </td>
                                             </tr>
                                             
                                             </thead>

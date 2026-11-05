@@ -193,6 +193,7 @@ class Opd_model extends CI_Model{
 			'bp'						=>		$this->input->post('bp'),
 			'respiration'				=>		$this->input->post('respiration'),
 			'weight'					=>		$this->input->post('weight'),
+			'sao2'						=>		$this->input->post('sao2'),
 			'nStatus'					=>		'Pending',
 			'InActive'					=>		0
 		);	
@@ -211,6 +212,7 @@ class Opd_model extends CI_Model{
 			'bp'						=>		$this->input->post('bp'),
 			'respiration'				=>		$this->input->post('respiration'),
 			'weight'					=>		$this->input->post('weight'),
+			'sao2'						=>		$this->input->post('sao2'),
 			'InActive'					=>		0
 		);	
 		
@@ -244,6 +246,7 @@ class Opd_model extends CI_Model{
 				A.bp,
 				A.respiration,
 				A.weight,
+				A.sao2,
 				A.allergies,
 				A.warnings,
 				A.social_history,
@@ -349,6 +352,13 @@ class Opd_model extends CI_Model{
 						A.advice,
 						A.days,
 						A.total_qty,
+						A.morning,
+						A.afternoon,
+						A.evening,
+						A.night,
+						A.meal,
+						A.method,
+						A.measurement,
 						concat(D.cValue,' ',C.firstname,' ',C.middlename,' ',C.lastname) as name
 						",false);
 		$this->db->order_by("A.iop_med_id","asc");

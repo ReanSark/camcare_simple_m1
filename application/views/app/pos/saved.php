@@ -185,26 +185,7 @@
 													}
 												}
                                                 </script>
-                                        
-                                        		<?php
-													
-													$receipt_no = $receipt_no2->receipt_no;
-													$receipt_no2 = $receipt_no2->receipt_no;
-													if(strlen($receipt_no) == 1){
-														$receipt_no = "00000".$receipt_no;
-													}else if(strlen($receipt_no) == 2){
-														$receipt_no= "0000".$receipt_no;
-													}else if(strlen($receipt_no) == 3){
-														$receipt_no = "000".$receipt_no;
-													}else if(strlen($receipt_no) == 4){
-														$receipt_no = "00".$receipt_no;
-													}else if(strlen($receipt_no) == 5){
-														$receipt_no = "0".$receipt_no;
-													}else if(strlen($receipt_no) == 6){
-														$receipt_no = $receipt_no;
-													}
-												?>
-                                <div class="form-group">
+<div class="form-group">
                                 	<label for="exampleInputEmail1">Date</label>
                                      <input type="text" value="<?php echo $headerInv->dDate;?>" readonly name="dDate22222" id="dDate22222" class="form-control input-sm">
                                 </div>
@@ -213,7 +194,6 @@
                                      <input type="text" value="<?php echo $headerInv->invoice_no;?>" readonly name="invoiceno" id="invoiceno" class="form-control input-sm">
                                 </div>
                                 
-                                <input type="hidden" value="<?php echo $OR_number;?>" readonly name="receipt_no" id="receipt_no" class="form-control input-sm">
                                 
                                 
                                 <div class="form-group">
@@ -228,17 +208,21 @@
                                 
                                 <script>
                                 function validate_discount(val){
-									if(val == ""){
-										alert('Invalid discount');
-										document.getElementById("discount").value = "0";
-									}
-									getGross();	
-								}
+                                    var percent = Number(val);
+                                    if (val === "" || !isFinite(percent) || percent < 0 || percent > 100) {
+                                        document.getElementById("discount_percent").value = "0";
+                                    }
+                                    getGross();
+                                }
                                 </script>
                                 
                                 <div class="form-group">
-                                	<label for="exampleInputEmail1">Discount</label>
-                                     <input type="text" name="discount" id="discount" value="<?php echo $headerInv->discount;?>" onKeyUp="validate_discount(this.value)" class="form-control input-sm" onkeypress="return isNumberKey(event)" >
+                                    <label>Invoice Discount (%)</label>
+                                    <input type="text" name="discount_percent" id="discount_percent" value="<?php echo isset($headerInv->discount_percent) ? $headerInv->discount_percent : 0;?>" onkeyup="validate_discount(this.value)" class="form-control input-sm" onkeypress="return isNumberKey(event)" <?php echo ($OR_number != "-") ? 'readonly="readonly"' : ''; ?>>
+                                </div>
+                                <div class="form-group">
+                                    <label>Discount Amount (USD)</label>
+                                    <input type="text" readonly name="discount_amount" id="discount_amount" value="<?php echo number_format((float)$headerInv->discount, 2, '.', '');?>" class="form-control input-sm">
                                 </div>
                                 
                                 <div class="form-group">
@@ -248,7 +232,7 @@
                                 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Reason for Discount</label>
-                                    <select name="reason_dicount" id="reason_dicount" class="form-control input-sm">
+                                    <select name="reason_dicount" id="reason_dicount" class="form-control input-sm" <?php echo ($OR_number != "-") ? 'disabled="disabled"' : ''; ?>>
                                     	<option value="">- Reason for Discount -</option>
                                         <?php foreach($reason_dicount as $reason_dicount){?>
                                         <option value="<?php echo $reason_dicount->param_id?>" <?php if($headerInv->reason_discount == $reason_dicount->param_id){ echo "selected";}?>><?php echo $reason_dicount->cValue?></option>
@@ -258,7 +242,7 @@
                                                 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Remarks</label>
-                                	<textarea placeholder="Remarks" class="form-control input-sm" name="remarks" id="remarks" rows="3"><?php echo $headerInv->remarks;?></textarea>
+                                	<textarea placeholder="Remarks" class="form-control input-sm" name="remarks" id="remarks" rows="3" <?php echo ($OR_number != "-") ? 'readonly="readonly"' : ''; ?>><?php echo $headerInv->remarks;?></textarea>
                                 </div>
                             </div>
                         </div>
@@ -286,9 +270,10 @@
                                     	<th width="3%">No.</th>
                                         <th width="42%">Particular Name</th>
                                         <th width="7%">Qty</th>
-                                        <th width="10%">Rate</th>
+                                        <th width="9%">Rate</th>
+                                        <th width="9%">Discount (%)</th>
                                         <th width="10%">Amount</th>
-                                        <th width="25%">Note</th>
+                                        <th width="22%">Note</th>
                                         <th width="3%"></th>
                                     </tr>
                                 </thead>
@@ -299,13 +284,14 @@
 												$num = $num + 1;
 												?>
                                             	<tr>
-                                                	<td><input type="hidden" name="isPackage<?php echo $num;?>" id="isPackage<?php echo $num;?>" value="<?php echo $detailsInv->isPackage?>"><input type="text" size="7" style="width:98%; background-color:#F9F9f9; border:1px solid #ccc; text-align:right" name="id<?php echo $num;?>" id="id<?php echo $num;?>" value="<?php echo $num;?>. " readonly="true"></td>
+                                                	<td><input type="hidden" name="isPackage<?php echo $num;?>" id="isPackage<?php echo $num;?>" value="<?php echo $detailsInv->isPackage?>"><input type="hidden" name="item_type<?php echo $num;?>" id="item_type<?php echo $num;?>" value="<?php echo html_escape($detailsInv->item_type);?>"><input type="hidden" name="item_id<?php echo $num;?>" id="item_id<?php echo $num;?>" value="<?php echo (int)$detailsInv->item_id;?>"><input type="text" size="7" style="width:98%; background-color:#F9F9f9; border:1px solid #ccc; text-align:right" name="id<?php echo $num;?>" id="id<?php echo $num;?>" value="<?php echo $num;?>. " readonly="true"></td>
                                                     <td><input type="text" size="7" style="width:98%; background-color:#F9F9f9; border:1px solid #ccc;" name="bill_name<?php echo $num;?>" id="bill_name<?php echo $num;?>" value="<?php echo $detailsInv->bill_name?>" readonly="true"></td>
-                                                    <td><input type="text" size="7" style="width:98%; text-align:right" name="qty<?php echo $num;?>" id="qty<?php echo $num;?>" class="<?php echo $num;?>" value="<?php echo $detailsInv->qty?>" onBlur="return validate_input(this.className,'qty')" onkeyup="validate_gross(this.className,'qty')" onkeypress="return isNumberKey(event)" ></td>
-                                                    <td><input type="text" size="7" style="width:98%; text-align:right" name="rate<?php echo $num;?>" id="rate<?php echo $num;?>" class="<?php echo $num;?>" value="<?php echo $detailsInv->rate?>" onBlur="return validate_input(this.className,'rate')" onkeyup="validate_gross(this.className,'rate')" onkeypress="return isNumberKey(event)"></td>
+                                                    <td><input type="text" size="7" style="width:98%; text-align:right" name="qty<?php echo $num;?>" id="qty<?php echo $num;?>" class="<?php echo $num;?>" value="<?php echo $detailsInv->qty?>" onBlur="return validate_input(this.className,'qty')" onkeyup="validate_gross(this.className,'qty')" onkeypress="return isNumberKey(event)" <?php echo ($OR_number != "-") ? 'readonly="readonly"' : ''; ?> ></td>
+                                                    <td><input type="text" size="7" style="width:98%; text-align:right" name="rate<?php echo $num;?>" id="rate<?php echo $num;?>" class="<?php echo $num;?>" value="<?php echo $detailsInv->rate?>" readonly></td>
+                                                    <td><input type="text" size="7" style="width:98%; text-align:right" name="discount_percent<?php echo $num;?>" id="discount_percent<?php echo $num;?>" value="<?php echo isset($detailsInv->discount_percent) ? $detailsInv->discount_percent : 0;?>" onkeyup="validate_item_discount(<?php echo $num;?>)" onkeypress="return isNumberKey(event)" <?php echo ($OR_number != "-") ? 'readonly="readonly"' : ''; ?>></td>
                                                     <td><input type="text" size="7" style="width:98%; background-color:#F9F9f9; border:1px solid #ccc; text-align:right" name="amount<?php echo $num;?>" id="amount<?php echo $num;?>" value="<?php echo $detailsInv->amount?>" readonly="true"></td>
-                                                    <td><input type="text" size="7" style="width:98%;" name="note<?php echo $num;?>" id="note<?php echo $num;?>" value="<?php echo $detailsInv->note?>"></td>
-                                                    <td><img src="<?php echo base_url()?>public/img/b_drop.png" onclick="deleteRow(this)" style="cursor:pointer;"></td>
+                                                    <td><input type="text" size="7" style="width:98%;" name="note<?php echo $num;?>" id="note<?php echo $num;?>" value="<?php echo $detailsInv->note?>" <?php echo ($OR_number != "-") ? 'readonly="readonly"' : ''; ?>></td>
+                                                    <td><?php if ($OR_number == "-") { ?><img src="<?php echo base_url()?>public/img/b_drop.png" onclick="deleteRow(this)" style="cursor:pointer;"><?php } ?></td>
                                                 </tr>
                                                 <?php }?>
                                     		</tbody>
@@ -326,21 +312,17 @@
                         	<div class="box-body">
                             	<a class="btn btn-app" href="<?php echo base_url()?>app/pos/saved/<?php echo $patientDetials->IO_ID?>/<?php echo $patientDetials->patient_no?>/<?php echo $headerInv->invoice_no;?>"><i class="fa fa-refresh"></i> Refresh</a>
                                 <a class="btn btn-app" href="<?php echo base_url()?>app/pos/"><i class="fa fa-file-o"></i> New Invoice</a>
+                                <?php if($OR_number != "-" && !empty($paymentReceipt)){ ?>
+                                    <span class="label label-success" style="font-size:14px; padding:8px 12px; display:inline-block; margin:10px 8px;">PAID</span>
+                                    <span style="display:inline-block; margin:10px 8px;">Paid on: <?php echo html_escape(date('d/m/Y H:i', strtotime($paymentReceipt->dDate))); ?></span>
+                                <?php } ?>
                                 <?php if($OR_number == "-"){?>
                                 	<a class="btn btn-app" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add Item</a>
                                     <a href="#" class="btn btn-app" onClick="return getPatientMedication()"><i class="fa fa-hand-o-down"></i> 1-Click Billed</a>
                                 	<button type="submit" class="btn btn-app"><i class="fa fa-save"></i> Save</button>
                                 	<a class="btn btn-app" data-toggle="modal" data-target="#paymentModal"><i class="fa fa-credit-card"></i> Payment</a>
-                                	<a class="btn btn-app" href="<?php echo base_url()?>app/opd/printInv/<?php echo $getOPDPatient->IO_ID?>/<?php echo $patientInfo->patient_no?>/<?php echo $headerInv->invoice_no?>" target="_blank"><i class="fa fa-print"></i> Print Invoice</a>
-                                	<a class="btn btn-app" onClick="alert('Invoice not already paid. Print Receipt disable.');"><i class="fa fa-print"></i> Print Receipt</a>
-                                <?php }else{?>
-                                	<a class="btn btn-app" onClick="alert('Invoice has already receipt.You cannot modify this transaction.');"><i class="fa fa-plus"></i> Add Item</a>
-                                    <a class="btn btn-app" onClick="alert('Invoice has already receipt.You cannot modify this transaction.');"><i class="fa fa-hand-o-down"></i> 1-Click Billed</a>
-                                	<a class="btn btn-app" onClick="alert('Invoice has already receipt.You cannot modify this transaction.');"><i class="fa fa-save"></i> Save</a>
-                                	<a class="btn btn-app" onClick="alert('Invoice has already receipt.You cannot modify this transaction.');"><i class="fa fa-credit-card"></i> Payment</a>
-                                	<a class="btn btn-app" href="<?php echo base_url()?>app/opd/printInv/<?php echo $getOPDPatient->IO_ID?>/<?php echo $patientInfo->patient_no?>/<?php echo $headerInv->invoice_no?>" target="_blank"><i class="fa fa-print"></i> Print Invoice</a>
-                                	<a class="btn btn-app" href="<?php echo base_url()?>app/opd/printOR/<?php echo $getOPDPatient->IO_ID?>/<?php echo $patientInfo->patient_no?>/<?php echo $headerInv->invoice_no?>" target="_blank"><i class="fa fa-print"></i> Print Receipt</a>
-                                <?php }?>
+                                <?php } ?>
+                                <a class="btn btn-app" href="<?php echo base_url()?>app/opd/printInv/<?php echo $getOPDPatient->IO_ID?>/<?php echo $patientInfo->patient_no?>/<?php echo $headerInv->invoice_no?>" target="_blank"><i class="fa fa-print"></i> Print Invoice</a>
                             
                             	
                                 
@@ -496,29 +478,27 @@ xmlhttp.send();
         					<!-- / payment modal -->   
                             <script language="javascript">
                             function validate_payment(){
-								var amountPaid,totalAmount
-								amountPaid = document.getElementById("amountPaid").value;
-								totalAmount = document.getElementById("totalAmount").value;
-								if(amountPaid == ""){
-									alert('Enter a valid Amount Paid.');
-									return false;
-								}else if(eval(totalAmount) > eval(amountPaid)){
-									alert('Invalid Input!\nAmount Paid must be greater than or equal to Total Amount.');
-									return false;
-								}else{
-									if(confirm('Are you sure you want to save?')){
-										return true;
-									}else{
-										return false;
-									}
-								}
-							}
+                                var amountPaid = document.getElementById("amountPaid").value;
+                                var totalAmount = document.getElementById("totalAmount").value;
+                                if (amountPaid === "" || isNaN(Number(amountPaid)) || Number(amountPaid) <= 0) {
+                                    alert('Enter a valid Amount Paid.');
+                                    return false;
+                                }
+                                if (Number(amountPaid) < Number(totalAmount)) {
+                                    alert('Invalid Input!\\nAmount Paid must be greater than or equal to Total Amount.');
+                                    return false;
+                                }
+                                if (document.getElementById("paymentType").value === "other" && document.getElementById("otherPaymentMethod").value.trim() === "") {
+                                    alert('Please describe the other payment method.');
+                                    return false;
+                                }
+                                return confirm('Are you sure you want to save?');
+                            }
                             </script>
                             <form method="post" action="<?php echo base_url()?>app/pos/save_payment" onSubmit="return validate_payment()">
         					<input type="hidden" name="opd_no" id="opd_no" value="<?php echo $patientDetials->IO_ID?>">
                 			<input type="hidden" name="patient_no" id="patient_no" value="<?php echo $patientDetials->patient_no?>">
                             <input type="hidden" value="<?php echo $headerInv->invoice_no;?>" readonly name="invoiceno" id="invoiceno" class="form-control input-sm">
-                            <input type="hidden" name="totalItem" id="totalItem" value="<?php echo $headerInv->total_purchased;?>" class="form-control input-sm">
                             <input type="hidden" name="hasOR" id="hasOR" value="<?php echo $hasOR?>">
                             <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -530,50 +510,78 @@ xmlhttp.send();
                                         <div class="modal-body">
                                         
                                         		<div class="form-group">
-                                            		<label for="exampleInputEmail1">Receipt No.</label>
-                                            		 <input type="text" value="OR-<?php echo $receipt_no;?>" readonly name="receiptno" id="receiptno" class="form-control input-sm">
-                                        			<input type="hidden" name="receipt_no2" id="receipt_no2" value="<?php echo $receipt_no2?>">
-                                                </div>
-                                        
-                                        		<div class="form-group">
-                                            		<label for="exampleInputEmail1">Mode of Payment</label>
-                                                    <input type="text" value="cash" placeholder="Mode of Payment" readonly name="paymentType" id="paymentType" class="form-control input-sm">
-                                            		<!--<select name="paymentType" id="paymentType" class="form-control input-sm" onChange="setTitle(this.value)" readonly>
-                                     					<option value="">- Mode of Payment -</option>
-                                     					<option value="cash">Cash</option>
-                                     					<option value="credit">Credit</option>
-                                     					<option value="insurance">Insurance Company</option>
-                                     				</select>-->
-                                        		</div>
+                                            <label for="paymentType">Mode of Payment</label>
+                                            <select name="paymentType" id="paymentType" class="form-control input-sm" onChange="toggleOtherPaymentMethod()" required>
+                                                <option value="cash">Cash</option>
+                                                <option value="bank_transfer">Bank Transfer</option>
+                                                <option value="khqr">QR Payment (KHQR)</option>
+                                                <option value="card">Credit/Debit Card</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" id="otherPaymentMethodGroup" style="display:none;">
+                                            <label for="otherPaymentMethod">Specify Other Payment Method</label>
+                                            <input type="text" name="otherPaymentMethod" id="otherPaymentMethod" maxlength="100" class="form-control input-sm" placeholder="Enter payment method">
+                                        </div>
                                                 
                                                 <script language="javascript">
+                                                function toggleOtherPaymentMethod(){
+                                                    var isOther = document.getElementById("paymentType").value === "other";
+                                                    var otherGroup = document.getElementById("otherPaymentMethodGroup");
+                                                    var otherInput = document.getElementById("otherPaymentMethod");
+                                                    otherGroup.style.display = isOther ? "block" : "none";
+                                                    otherInput.required = isOther;
+                                                    if (!isOther) otherInput.value = "";
+                                                }
+                                                function updatePaymentCurrency(){
+                                                    var currency = document.getElementById("paymentCurrency").value;
+                                                    var isKhr = currency === "KHR";
+                                                    document.getElementById("exchangeRateGroup").style.display = isKhr ? "block" : "none";
+                                                    document.getElementById("exchangeRate").required = isKhr;
+                                                    document.getElementById("paymentAmountLabel").innerHTML = "Amount Received (" + currency + ")";
+                                                    document.getElementById("paymentChangeLabel").innerHTML = "Change (" + currency + ")";
+                                                    document.getElementById("paymentDueCurrency").innerHTML = currency;
+                                                    compute();
+                                                }
                                                 function compute(){
-													var change,totalAmount,amountPaid;
-													change = eval(document.getElementById("amountPaid").value) - eval(document.getElementById("totalAmount").value);
-													document.getElementById("change").value = change;	
-												}
+                                                    var currency = document.getElementById("paymentCurrency").value;
+                                                    var dueUsd = Number(document.getElementById("totalAmount").value || 0);
+                                                    var rate = Number(document.getElementById("exchangeRate").value || 0);
+                                                    var paid = Number(document.getElementById("amountPaid").value || 0);
+                                                    var due = currency === "KHR" ? Math.round((dueUsd * rate) / 100) * 100 : dueUsd;
+                                                    document.getElementById("paymentDue").value = currency === "KHR" ? due.toFixed(0) : due.toFixed(2);
+                                                    document.getElementById("change").value = Math.max(0, paid - due).toFixed(currency === "KHR" ? 0 : 2);
+                                                }
                                                 </script>
                                                 
+                                                <div class="form-group">
+                                                    <label for="paymentCurrency">Payment Currency</label>
+                                                    <select name="paymentCurrency" id="paymentCurrency" class="form-control input-sm" onchange="updatePaymentCurrency()" required>
+                                                        <option value="USD">USD</option>
+                                                        <option value="KHR">KHR</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group" id="exchangeRateGroup" style="display:none;">
+                                                    <label for="exchangeRate">Exchange Rate (KHR per 1 USD)</label>
+                                                    <input type="text" name="exchangeRate" id="exchangeRate" value="4100" onkeyup="compute()" onkeypress="return isNumberKey(event)" class="form-control input-sm">
+                                                </div>
                                                 <div class="form-group" id="lbltotalAmount">
-                                            		<label for="exampleInputEmail1">Total Amount</label>
-                                            		 <input type="text" value="<?php echo $headerInv->total_amount;?>" placeholder="Total Amount" readonly name="totalAmount" id="totalAmount" class="form-control input-sm">
-                                                     <input type="hidden" name="discount" id="discount" value="<?php echo $headerInv->discount;?>">
-                                                     <input type="hidden" name="nGross" id="nGross" value="<?php echo $headerInv->sub_total;?>">
-                                        		</div>
-                                                
-                                               
-                                                
+                                                    <label>Invoice Total (USD)</label>
+                                                    <input type="text" value="<?php echo $headerInv->total_amount;?>" readonly name="totalAmount" id="totalAmount" class="form-control input-sm">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Amount Due (<span id="paymentDueCurrency">USD</span>)</label>
+                                                    <input type="text" value="<?php echo number_format((float)$headerInv->total_amount, 2, '.', '');?>" readonly id="paymentDue" class="form-control input-sm">
+                                                </div>
                                                 <div class="form-group" id="lblchange">
-                                            		<label for="exampleInputEmail1">Change</label>
-                                            		 <input type="text" placeholder="0.00" name="change" readonly id="change" class="form-control input-sm">
-                                        		</div>
-                                                
-                                                 <div class="form-group" id="lblamountPaid">
-                                            		<label for="exampleInputEmail1">Amount Paid</label>
-                                            		 <input type="text" style=" font-size:24px; height:auto;" onKeyUp="compute()" onkeypress="return isNumberKey(event)"  placeholder="0.00" name="amountPaid" id="amountPaid" class="form-control input-sm">
-                                        		</div>
-                                                
-                               					<div class="form-group" id="credit" style=" display:none;">
+                                                    <label id="paymentChangeLabel" for="change">Change (USD)</label>
+                                                    <input type="text" placeholder="0.00" name="change" readonly id="change" class="form-control input-sm">
+                                                </div>
+                                                <div class="form-group" id="lblamountPaid">
+                                                    <label id="paymentAmountLabel" for="amountPaid">Amount Received (USD)</label>
+                                                    <input type="text" style="font-size:24px;height:auto;" onkeyup="compute()" onkeypress="return isNumberKey(event)" placeholder="0.00" name="amountPaid" id="amountPaid" class="form-control input-sm" required>
+                                                </div>
+                                                <div class="form-group" id="credit" style=" display:none;">
                                             		<label for="exampleInputEmail1">Credit Card No.</label>
                                             		 <input type="text" placeholder="Credit Card No." name="creditCardNo" id="creditCardNo" class="form-control input-sm">
                                         		</div>
@@ -785,12 +793,12 @@ xmlhttp2.send();
                                         </tr>
                                         <tr>
                                         	<td>
-                                            <span id="particular">Paricular Category</span>
+                                            <span id="particular">Particular Category</span>
                                             <span id="medicine" style="display: none">Medicine Category</span>
                                             </td>
                                             <td>
                                             				<select name="category" onChange="showDrugName(this.value);" id="category" class="form-control input-sm" style="width: 250px;" required>
-                                                            	<option value="">- Paricular Category -</option>
+                                                            	<option value="">- Particular Category -</option>
 																<?php 
 																foreach($particular_cat as $particular_cat){?>
                                                             	<option value="<?php echo $particular_cat->group_id;?>"><?php echo $particular_cat->group_name;?></option>
@@ -808,13 +816,13 @@ xmlhttp2.send();
                                         </tr>
                                         <tr>
                                         	<td>
-                                            <span id="particular_item">Paricular Item</span>
+                                            <span id="particular_item">Particular Item</span>
                                             <span id="drug_name" style="display: none">Drug Name</span>
                                             </td>
                                             <td>
                                             <span id="showCategories">
                         					<select name="item" id="item" class="form-control input-sm" style="width: 250px;" required>
-                        						<option value="">- Paricular Item -</option>
+                        						<option value="">- Particular Item -</option>
                         					</select>
                                             </span>
                                             
@@ -891,176 +899,176 @@ xmlhttp2.send();
        				}
 	   
                     function addItem(){
-						
-						if(document.getElementById("bill_category").value == "particular"){
-							if(document.getElementById("particular_name").value == ""){
-								alert("Please select Paricular Category");
-								return false;
-							}else if(document.getElementById("bill_name").value == ""){
-								alert("Please select Paricular Item");
-								return false;
-							}else if(document.getElementById("qty").value == ""){
-								alert("Please enter a valid Qty");
-								return false;
-							}else if(document.getElementById("rate").value == ""){
-								alert("Please enter a valid Rate");
-								return false;
-							}
-						}else if(document.getElementById("bill_category").value == "medicine"){
-							if(document.getElementById("medicine_name").value == ""){
-								alert("Please select Medicine Category");
-								return false;
-							}else if(document.getElementById("drug_name_a").value == ""){
-								alert("Please select Drug Name");
-								return false;
-							}else if(document.getElementById("qty").value == ""){
-								alert("Please enter a valid Qty");
-								return false;
-							}else if(document.getElementById("drug_rate").value == ""){
-								alert("Please enter a valid Rate");
-								return false;
-							}
-						}
-							
-						
-						
-						var tbl = document.getElementById('myTable').getElementsByTagName('tr');
-						var lastRow = tbl.length;	
-						
-						var category,particular,qty,rate,note,amount;
-						qty = document.getElementById("qty").value;
-						note = document.getElementById("note").value;
-						
-						if(document.getElementById("bill_category").value == "particular"){
-							category = document.getElementById("particular_name").value;
-							particular = document.getElementById("bill_name").value;
-							rate = document.getElementById("rate").value;
-						}else if(document.getElementById("bill_category").value == "medicine"){
-							category = document.getElementById("medicine_name").value;
-							particular = document.getElementById("drug_name_a").value;
-							rate = document.getElementById("drug_rate").value;
-						}
-						
-						
-						amount = eval(qty) * eval(rate);
-						amount = amount.toFixed(2); 
-			
-						
-						var a=document.getElementById('myTable').insertRow(-1);
-						var b=a.insertCell(0);
-						var c=a.insertCell(1);
-						var d=a.insertCell(2);
-						var e=a.insertCell(3);
-						var f=a.insertCell(4);
-						var g=a.insertCell(5);
-						var h=a.insertCell(6);
-						
-						b.innerHTML = "<input type=\"hidden\" name=\"isPackage" + lastRow + "\" id=\"isPackage" + lastRow + "\" value=\"0\"><input type=\"text\" size = \"7\" style=\"width:98%; background-color:#F9F9f9; border:1px solid #ccc; text-align:right\" name=\"id" + lastRow + "\" id=\"id" + lastRow + "\" value=\""+ lastRow + ". \" readonly=\"true\">";
-						c.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%; background-color:#F9F9f9; border:1px solid #ccc;\" name=\"bill_name" + lastRow + "\" id=\"bill_name" + lastRow + "\" value=\""+ particular + "\" readonly=\"true\">";
-						d.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%; text-align:right\" name=\"qty" + lastRow + "\" id=\"qty" + lastRow + "\" class=\"" + lastRow + "\" value=\""+ qty + "\" onBlur=\"return validate_input(this.className,'qty')\" onkeyup=\"validate_gross(this.className,'qty')\" onkeypress=\"return isNumberKey(event)\" >";
-						e.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%; text-align:right\" name=\"rate" + lastRow + "\" id=\"rate" + lastRow + "\" class=\"" + lastRow + "\" value=\""+ rate + "\" onBlur=\"return validate_input(this.className,'rate')\" onkeyup=\"validate_gross(this.className,'rate')\" onkeypress=\"return isNumberKey(event)\">";
-						f.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%; background-color:#F9F9f9; border:1px solid #ccc; text-align:right\" name=\"amount" + lastRow + "\" id=\"amount" + lastRow + "\" value=\""+ amount + "\" readonly=\"true\">";
-						g.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%;\" name=\"note" + lastRow + "\" id=\"note" + lastRow + "\" value=\""+ note + "\">";
-						h.innerHTML = "<img src=\"<?php echo base_url()?>public/img/b_drop.png\" onclick=\"deleteRow(this)\" style=\"cursor:pointer;\">";
-						
-						document.getElementById("hdnrowcnt").value = lastRow;
-						
-						getGross();
-						
-						$('#myModal').modal('hide');
-						return true;	
-					
-						
-					}
-					
+                        var billCategory = document.getElementById("bill_category").value;
+                        var qty = document.getElementById("qty").value.trim();
+                        var note = document.getElementById("note").value;
+                        var itemSelect, itemId, itemType, particular, rate, rateInput;
+
+                        if (!/^\d+$/.test(qty) || parseInt(qty, 10) < 1) {
+                            alert("Please enter a positive whole-number quantity.");
+                            return false;
+                        }
+
+                        if (billCategory === "particular") {
+                            itemSelect = document.querySelector('#showCategories select');
+                            rateInput = document.querySelector('#showRate input');
+                            itemType = "particular";
+                        } else if (billCategory === "medicine") {
+                            itemSelect = document.querySelector('#showDrugListItem select');
+                            rateInput = document.querySelector('#showDrugRate input');
+                            itemType = "medicine";
+                        } else {
+                            alert("Please select a valid item type.");
+                            return false;
+                        }
+
+                        itemId = itemSelect ? itemSelect.value : "";
+                        if (!itemId || !rateInput || rateInput.value.trim() === "") {
+                            alert("Please select an item and wait for its catalogue price to load.");
+                            return false;
+                        }
+
+                        // AJAX-loaded item views provide the authoritative display name
+                        // in a hidden input. Fall back to the selected option text.
+                        var nameInput = billCategory === "particular"
+                            ? document.querySelector('#showCategories input[name="bill_name"]')
+                            : document.querySelector('#showDrugListItem input[name="drug_name_a"]');
+                        particular = nameInput && nameInput.value
+                            ? nameInput.value
+                            : itemSelect.options[itemSelect.selectedIndex].text;
+                        rate = parseFloat(rateInput.value);
+
+                        if (!particular || !isFinite(rate) || rate < 0) {
+                            alert("Unable to read the selected item's name or catalogue price. Please select it again.");
+                            return false;
+                        }
+
+                        var tbl = document.getElementById('myTable');
+                        var lastRow = parseInt(document.getElementById("hdnrowcnt").value, 10) + 1;
+                        var amount = (parseInt(qty, 10) * rate).toFixed(2);
+                        var row = tbl.insertRow(-1);
+                        var b = row.insertCell(0);
+                        var c = row.insertCell(1);
+                        var d = row.insertCell(2);
+                        var e = row.insertCell(3);
+                        var f = row.insertCell(4);
+                        var g = row.insertCell(5);
+                        var h = row.insertCell(6);
+                        var j = row.insertCell(7);
+
+                        b.innerHTML = "<input type=\"hidden\" name=\"isPackage" + lastRow + "\" id=\"isPackage" + lastRow + "\" value=\"0\"><input type=\"hidden\" name=\"item_type" + lastRow + "\" id=\"item_type" + lastRow + "\" value=\"" + itemType + "\"><input type=\"hidden\" name=\"item_id" + lastRow + "\" id=\"item_id" + lastRow + "\" value=\"" + itemId + "\"><input type=\"text\" size=\"7\" style=\"width:98%; background-color:#F9F9f9; border:1px solid #ccc; text-align:right\" name=\"id" + lastRow + "\" id=\"id" + lastRow + "\" value=\"" + lastRow + ". \" readonly=\"true\">";
+                        c.innerHTML = "<input type=\"text\" size=\"7\" style=\"width:98%; background-color:#F9F9f9; border:1px solid #ccc;\" name=\"bill_name" + lastRow + "\" id=\"bill_name" + lastRow + "\" value=\"\" readonly=\"true\">";
+                        c.firstChild.value = particular;
+                        d.innerHTML = "<input type=\"text\" size=\"7\" style=\"width:98%; text-align:right\" name=\"qty" + lastRow + "\" id=\"qty" + lastRow + "\" class=\"" + lastRow + "\" value=\"" + qty + "\" onBlur=\"return validate_input(this.className,'qty')\" onkeyup=\"validate_gross(this.className,'qty')\" onkeypress=\"return isNumberKey(event)\">";
+                        e.innerHTML = "<input type=\"text\" size=\"7\" style=\"width:98%; text-align:right\" name=\"rate" + lastRow + "\" id=\"rate" + lastRow + "\" class=\"" + lastRow + "\" value=\"" + rate.toFixed(2) + "\" readonly>";
+                        f.innerHTML = "<input type=\"text\" style=\"width:98%;text-align:right\" name=\"discount_percent" + lastRow + "\" id=\"discount_percent" + lastRow + "\" value=\"0\" onkeyup=\"validate_item_discount(" + lastRow + ")\" onkeypress=\"return isNumberKey(event)\">";
+                        g.innerHTML = "<input type=\"text\" style=\"width:98%;background:#F9F9F9;text-align:right\" name=\"amount" + lastRow + "\" id=\"amount" + lastRow + "\" value=\"" + amount + "\" readonly>";
+                        h.innerHTML = "<input type=\"text\" style=\"width:98%;\" name=\"note" + lastRow + "\" id=\"note" + lastRow + "\" value=\"\">";
+                        h.firstChild.value = note;
+                        j.innerHTML = "<img src=\"<?php echo base_url()?>public/img/b_drop.png\" onclick=\"deleteRow(this)\" style=\"cursor:pointer;\">";
+
+                        document.getElementById("hdnrowcnt").value = lastRow;
+                        getGross();
+                        $('#myModal').modal('hide');
+                        return true;
+                    }
+
 					function closeModal(){
 						$('#myModal').modal('hide');	
 					}
 					
 					function deleteRow(r){
-						var tbl = document.getElementById('myTable').getElementsByTagName('tr');
-						var lastRow = tbl.length;	
-						
-						var i=r.parentNode.parentNode.rowIndex;
-						if (lastRow > 2) {
-							document.getElementById('myTable').deleteRow(i);
- 							document.getElementById('hdnrowcnt').value = lastRow - 2;
- 							var lastRow = tbl.length;
-							var z;
-							for (z=i+1; z<=lastRow; z++){
-								
-								var id = document.getElementById('id' + z);
-								var isPackage = document.getElementById('isPackage' + z);
-								var bill_name = document.getElementById('bill_name' + z);
-								var qty = document.getElementById('qty' + z);
-								var rate = document.getElementById('rate' + z);
-								var amount = document.getElementById('amount' + z);
-								var note = document.getElementById('note' + z);
-								
-								
-								var x = z-1;
-								
-								id.value = x;
-								id.id = "id" + x;
-								id.name = "id" + x;	
-								
-								isPackage.id = "isPackage" + x;
-								isPackage.name = "isPackage" + x;	
-								
-								bill_name.id = "bill_name" + x;
-								bill_name.name = "bill_name" + x;	
-								
-								qty.id = "qty" + x;
-								qty.name = "qty" + x;	
-								qty.className = x;
-								
-								rate.id = "rate" + x;
-								rate.name = "rate" + x;	
-								rate.className = x;
-								
-								amount.id = "amount" + x;
-								amount.name = "amount" + x;	
-								
-								note.id = "note" + x;
-								note.name = "note" + x;	
-								
-								//alert(bill_name.name + " - " + rate.value);
-							}
-							getGross();
-						}else{
- 							alert("Minimum of one row per transaction.");
- 						}
-					}
-					
-					function getGross()
-					{
-						var len;
-						var nGross = 0;
-						var nTotal = 0;
-						len = document.getElementById("hdnrowcnt").value;
-							for (i=1; i<=len; i++) {
-								nGross += parseFloat(document.getElementById("amount" + i).value-0);
-							}
-						nGross = nGross.toFixed(2); 
-						document.getElementById("nGross").value = nGross;
-						nTotal = eval(nGross) - eval(document.getElementById("discount").value);
-						nTotal = nTotal.toFixed(2); 
-						document.getElementById("total_amount").value = nTotal;
-					}
-					
-					function validate_gross(id,nName){
-						var qty,rate,amount;
-						qty = document.getElementById("qty"+id).value;	
-						rate = document.getElementById("rate"+id).value;
-						
-						amount = eval(qty) * eval(rate);
-						amount = amount.toFixed(2); 
-						
-						document.getElementById("amount"+id).value = amount;
-						
-						getGross();			
-					}
-					
+                        var table = document.getElementById("myTable");
+                        var tbody = table.tBodies[0];
+                        var row = r.parentNode.parentNode;
+
+                        if (!tbody || tbody.rows.length <= 1) {
+                            alert("Minimum of one row per transaction.");
+                            return;
+                        }
+
+                        tbody.deleteRow(row.sectionRowIndex);
+
+                        // Re-index the rows that actually remain in the table.
+                        // Do not shift IDs by looking up old numeric IDs: that can
+                        // create duplicate IDs when a middle row is deleted.
+                        var fields = ["id", "isPackage", "item_type", "item_id", "bill_name", "qty", "rate", "discount_percent", "amount", "note"];
+
+                        for (var i = 0; i < tbody.rows.length; i++) {
+                            var newIndex = i + 1;
+                            var inputs = tbody.rows[i].getElementsByTagName("input");
+
+                            for (var j = 0; j < inputs.length; j++) {
+                                var input = inputs[j];
+
+                                for (var k = 0; k < fields.length; k++) {
+                                    var prefix = fields[k];
+                                    var suffix = input.name.substring(prefix.length);
+
+                                    if (input.name.indexOf(prefix) === 0 && /^\d+$/.test(suffix)) {
+                                        input.name = prefix + newIndex;
+                                        input.id = prefix + newIndex;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            var numField = tbody.rows[i].querySelector('input[name="id' + newIndex + '"]');
+                            if (numField) numField.value = newIndex + ". ";
+
+                            var qtyField = tbody.rows[i].querySelector('input[name="qty' + newIndex + '"]');
+                            if (qtyField) qtyField.className = String(newIndex);
+
+                            var discountField = tbody.rows[i].querySelector('input[name="discount_percent' + newIndex + '"]');
+                            if (discountField) discountField.setAttribute("onkeyup", "validate_item_discount(" + newIndex + ")");
+                        }
+
+                        document.getElementById("hdnrowcnt").value = tbody.rows.length;
+                        getGross();
+                    }
+
+                    function calculateItemAmount(id) {
+                        var qty = Number(document.getElementById("qty" + id).value);
+                        var rate = Number(document.getElementById("rate" + id).value);
+                        var discountField = document.getElementById("discount_percent" + id);
+                        var percent = Number(discountField.value);
+                        if (!isFinite(percent) || percent < 0 || percent > 100) {
+                            percent = 0;
+                            discountField.value = "0";
+                        }
+                        var gross = Math.round((qty * rate + Number.EPSILON) * 100) / 100;
+                        var discountAmount = Math.round((gross * percent / 100 + Number.EPSILON) * 100) / 100;
+                        document.getElementById("amount" + id).value = Math.max(0, gross - discountAmount).toFixed(2);
+                    }
+
+                    function validate_item_discount(id) {
+                        var field = document.getElementById("discount_percent" + id);
+                        if (field.value === "" || !isFinite(Number(field.value)) || Number(field.value) < 0 || Number(field.value) > 100) field.value = "0";
+                        calculateItemAmount(id);
+                        getGross();
+                    }
+
+                    function getGross() {
+                        var len = Number(document.getElementById("hdnrowcnt").value);
+                        var subtotal = 0;
+                        for (var i = 1; i <= len; i++) {
+                            var amountField = document.getElementById("amount" + i);
+                            if (amountField) subtotal += Number(amountField.value) || 0;
+                        }
+                        subtotal = Math.round((subtotal + Number.EPSILON) * 100) / 100;
+                        var percent = Number(document.getElementById("discount_percent").value);
+                        if (!isFinite(percent) || percent < 0 || percent > 100) percent = 0;
+                        var invoiceDiscount = Math.round((subtotal * percent / 100 + Number.EPSILON) * 100) / 100;
+                        document.getElementById("nGross").value = subtotal.toFixed(2);
+                        document.getElementById("discount_amount").value = invoiceDiscount.toFixed(2);
+                        document.getElementById("total_amount").value = Math.max(0, subtotal - invoiceDiscount).toFixed(2);
+                    }
+
+                    function validate_gross(id,nName){
+                        calculateItemAmount(id);
+                        getGross();
+                    }
+
 					function validate_input(id,name){
 						//alert(document.getElementById(name+""+id).value);
 						if(document.getElementById(name+""+id).value == "" || eval(document.getElementById(name+""+id).value) <= 0){
@@ -1076,32 +1084,42 @@ xmlhttp2.send();
 					}
 					
 					function validate_form(){
-						
-						
-						if(document.getElementById("hdnrowcnt").value == "0"){
-							alert('Minimum of one row per transaction.');
-							return false;
-						}else{
-							var len;
-							len = document.getElementById("hdnrowcnt").value;	
-							for (i=1; i<=len; i++) {
-							if(eval(document.getElementById("amount"+i).value) <= 0){
-								alert("Transaction cannot be saved. There are still some items without amount.");
-								return false;
-							}else{
-								if(confirm('Are you sure you want to save?')){
-									return true;
-								}else{
-									return false;	
-								}
-							}
-						}
-						}
-						
-						
-					}
-					
-					function stopEnterKey(evt) {
+                        var rowCount = parseInt(document.getElementById("hdnrowcnt").value, 10);
+
+                        if (!rowCount || rowCount < 1) {
+                            alert('Minimum of one row per transaction.');
+                            return false;
+                        }
+
+                        for (var i = 1; i <= rowCount; i++) {
+                            var qtyField = document.getElementById("qty" + i);
+                            var rateField = document.getElementById("rate" + i);
+                            var discountField = document.getElementById("discount_percent" + i);
+                            var amountField = document.getElementById("amount" + i);
+
+                            if (!qtyField || !rateField || !discountField || !amountField) {
+                                alert("Unable to validate item row " + i + ". Please refresh the invoice and try again.");
+                                return false;
+                            }
+
+                            var qty = Number(qtyField.value);
+                            var rate = Number(rateField.value);
+                            var discountPercent = Number(discountField.value);
+                            var amount = Number(amountField.value);
+
+                            if (!isFinite(qty) || qty <= 0 || Math.floor(qty) !== qty ||
+                                !isFinite(rate) || rate < 0 ||
+                                !isFinite(discountPercent) || discountPercent < 0 || discountPercent > 100 ||
+                                !isFinite(amount) || amount < 0) {
+                                alert("Please check the quantity, rate, discount, and amount on item row " + i + ".");
+                                return false;
+                            }
+                        }
+
+                        return confirm('Are you sure you want to save?');
+                    }
+
+                    function stopEnterKey(evt) {
         				var evt = (evt) ? evt : ((event) ? event : null);
         				var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
         				if ((evt.keyCode == 13) && (node.type == "text")) { return false; }

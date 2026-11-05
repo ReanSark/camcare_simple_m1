@@ -294,21 +294,21 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td width="14%">Phone No (Office)</td>
+                                                    	<td width="14%">Phone Number <font color="#FF0000">*</font></td>
                                                         <td width="86%">
-                                                        <?php echo form_input('phone_office',set_value('phone_office'),'id="phone_office" class="form-control input-sm" placeholder="Phone No (Office)" style="width: 250px;"');?>
+                                                        <?php echo form_input('phone',set_value('phone'),'id="phone" class="form-control input-sm" placeholder="Phone Number" style="width: 250px;"');?>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td width="14%">Phone No (Home)</td>
+                                                    	<td width="14%">Phone No (2nd)</td>
                                                         <td width="86%">
-                                                        <?php echo form_input('phone',set_value('phone'),'id="phone" class="form-control input-sm" placeholder="Phone No (Work)" style="width: 250px;"');?>
+                                                        <?php echo form_input('phone_office',set_value('phone_office'),'id="phone_office" class="form-control input-sm" placeholder="Phone No (2nd)" style="width: 250px;"');?>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                    	<td width="14%">Phone No (Mobile)</td>
+                                                    	<td width="14%">Phone No (3rd)</td>
                                                         <td width="86%"> 
-                                                        <?php echo form_input('mobile',set_value('mobile'),'id="mobile" class="form-control input-sm" placeholder="Phone No (Mobile)" style="width: 250px;"');?>
+                                                        <?php echo form_input('mobile',set_value('mobile'),'id="mobile" class="form-control input-sm" placeholder="Phone No (3rd)" style="width: 250px;"');?>
                                                         </td>
                                                     </tr>
                                                     <tr>

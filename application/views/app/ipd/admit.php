@@ -154,7 +154,7 @@
 														$userID = $userID;
 													}
 													?>
-                 <form method="post" action="<?php echo base_url();?>app/ipd/save_ipd" onSubmit="return validate_form();">
+                 <form id="ipdRegistrationForm" method="post" action="<?php echo base_url();?>app/ipd/save_ipd" onSubmit="return validate_form();">
                  <input type="hidden" name="patient_no" value="<?php echo $patientInfo->patient_no?>">
                  <input type="hidden" name="iopNo2" value="<?php echo $userID2?>">
                  <input type="hidden" name="room_idfor" id="room_idfor">
@@ -250,77 +250,83 @@
                                 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Provosional Diagnosis</label>
-                                    <textarea class="form-control input-sm" name="prov_diagnosis" id="prov_diagnosis" rows="4" placeholder="Provosional Diagnosis"></textarea>
+                                    <textarea class="form-control input-sm" name="prov_diagnosis" id="prov_diagnosis" placeholder="Provosional Diagnosis"></textarea>
                                 </div>
                                 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Complaint</label>
-                                    <textarea class="form-control input-sm" name="complaint" id="complaint" rows="4" placeholder="Complaint"></textarea>
+                                    <textarea class="form-control input-sm" name="complaint" id="complaint" placeholder="Complaint"></textarea>
                                 </div>
                                 
                                 <!-- sune addition add allergies -->
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Allergies</label>
-                                    <textarea class="form-control input-sm" name="allergies" id="allergies" rows="4" placeholder="Allergies"></textarea>
+                                    <textarea class="form-control input-sm" name="allergies" id="allergies" placeholder="Allergies"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Warnings</label>
-                                    <textarea class="form-control input-sm" name="warnings" id="warnings" rows="4" placeholder="Warnings"></textarea>
+                                    <textarea class="form-control input-sm" name="warnings" id="warnings" placeholder="Warnings"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Social History</label>
-                                    <textarea class="form-control input-sm" name="social_history" id="social_history" rows="4" placeholder="Social History"></textarea>
+                                    <textarea class="form-control input-sm" name="social_history" id="social_history" placeholder="Social History"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Family History</label>
-                                    <textarea class="form-control input-sm" name="family_history" id="family_history" rows="4" placeholder="Family History"></textarea>
+                                    <textarea class="form-control input-sm" name="family_history" id="family_history" placeholder="Family History"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Personal History</label>
-                                    <textarea class="form-control input-sm" name="personal_history" id="personal_history" rows="4" placeholder="Personal History"></textarea>
+                                    <textarea class="form-control input-sm" name="personal_history" id="personal_history" placeholder="Personal History"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Past Medical History</label>
-                                    <textarea class="form-control input-sm" name="past_medical_history" id="past_medical_history" rows="4" placeholder="Past Medical History"></textarea>
+                                    <textarea class="form-control input-sm" name="past_medical_history" id="past_medical_history" placeholder="Past Medical History"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Pulse Rate</label>
-                                    <textarea class="form-control input-sm" name="pulse_rate" id="pulse_rate" rows="4" placeholder="Pulse Rate"></textarea>
+                                    <textarea class="form-control input-sm" name="pulse_rate" id="pulse_rate" placeholder="Pulse Rate"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Temperature</label>
-                                    <textarea class="form-control input-sm" name="temperature" id="temperature" rows="4" placeholder="Temperature"></textarea>
+                                    <textarea class="form-control input-sm" name="temperature" id="temperature" placeholder="Temperature"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Height</label>
-                                    <textarea class="form-control input-sm" name="height" id="height" rows="4" placeholder="Height"></textarea>
+                                    <textarea class="form-control input-sm" name="height" id="height" placeholder="Height"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Bp</label>
-                                    <textarea class="form-control input-sm" name="bp" id="bp" rows="4" placeholder="Bp"></textarea>
+                                    <textarea class="form-control input-sm" name="bp" id="bp" placeholder="Bp"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Respiration</label>
-                                    <textarea class="form-control input-sm" name="respiration" id="respiration" rows="4" placeholder="Respiration"></textarea>
+                                    <textarea class="form-control input-sm" name="respiration" id="respiration" placeholder="Respiration"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                 	<label for="exampleInputEmail1">Weight</label>
-                                    <textarea class="form-control input-sm" name="weight" id="weight" rows="4" placeholder="Weight"></textarea>
+                                    <textarea class="form-control input-sm" name="weight" id="weight" placeholder="Weight"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                	<label for="exampleInputEmail1">SaO</label>
+                                    <textarea class="form-control input-sm" name="sao2" id="sao2" placeholder="SaO"></textarea>
                                 </div>
                                 <!-- END of sune addition add allergies -->
                                 
                                  <div class="form-group">
+                                    <button class="btn btn-info" type="button" id="btnPrintIPD"><i class="fa fa-print"></i> Print</button>
                                 <button class="form-control btn btn-primary" name="btnSubmit" id="btnSubmit" type="submit"><i class="fa fa-save"></i> Save</button>
                                 </div>
                                 
@@ -522,6 +528,62 @@
         </script>
         <!-- END BDAY -->
         
+        <!-- PRINT -->
+        <script type="text/javascript">
+            document.getElementById('btnPrintIPD').addEventListener('click', function () {
+            var form = document.getElementById('ipdRegistrationForm');
+            var printWindow = window.open('', 'ipdPrintWindow');
+
+            if (!printWindow) {
+                alert('Please allow pop-ups for this website.');
+                return;
+            }
+
+            var printForm = document.createElement('form');
+            printForm.method = 'POST';
+            printForm.action = '<?php echo base_url();?>app/ipd/print_ipd_registration';
+            printForm.target = 'ipdPrintWindow';
+
+            var formData = new FormData(form);
+
+            formData.forEach(function(value, key) {
+                if (typeof value === 'string') {
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    printForm.appendChild(input);
+                }
+            });
+
+            function addPrintField(name, value) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = value;
+                printForm.appendChild(input);
+            }
+
+            function getSelectedText(id) {
+                var select = document.getElementById(id);
+
+                if (!select || select.selectedIndex < 0) {
+                    return '';
+                }
+
+                return select.options[select.selectedIndex].text;
+            }
+
+            // Pass the displayed names instead of database IDs.
+            addPrintField('department_name', getSelectedText('department'));
+            addPrintField('doctor_name', getSelectedText('doctor'));
+
+            document.body.appendChild(printForm);
+            printForm.submit();
+            document.body.removeChild(printForm);
+            });
+        </script>
+        <!-- END OF PRINT -->
         
     </body>
 </html>

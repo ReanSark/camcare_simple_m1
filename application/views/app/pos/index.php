@@ -4,7 +4,7 @@
 <head>
 
         <meta charset="UTF-8">
-        <title>Hospital Management System</title>
+        <title>CamCare Clinic POS</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
@@ -108,6 +108,11 @@
 </script>
 </div>
     <body class="skin-blue" onLoad="autoload();">
+        <?php if ($this->session->flashdata('message')): ?>
+            <div style="margin: 15px;">
+                <?php echo $this->session->flashdata('message'); ?>
+            </div>
+        <?php endif; ?>
         <!-- header logo: style can be found in header.less -->
         <?php require_once(APPPATH.'views/include/header.php');?>
         		<form method="post" action="<?php echo base_url()?>app/billing/save_invoice" onSubmit="return validate_form();">
@@ -263,12 +268,12 @@
                                 
                                 <script>
                                 function validate_discount(val){
-									if(val == ""){
-										alert('Invalid discount');
-										document.getElementById("discount").value = "0";
-									}
-									getGross();	
-								}
+                                    var percent = Number(val);
+                                    if (val === "" || !isFinite(percent) || percent < 0 || percent > 100) {
+                                        document.getElementById("discount_percent").value = "0";
+                                    }
+                                    getGross();
+                                }
                                 </script>
                                 
                                 <div class="form-group">
@@ -277,8 +282,12 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                	<label for="exampleInputEmail1">Discount</label>
-                                     <input type="text" name="discount" id="discount" value="0" onKeyUp="validate_discount(this.value)" class="form-control input-sm" onkeypress="return isNumberKey(event)" >
+                                	<label for="exampleInputEmail1">Invoice Discount (%)</label>
+                                     <input type="text" name="discount_percent" id="discount_percent" value="0" onKeyUp="validate_discount(this.value)" class="form-control input-sm" onkeypress="return isNumberKey(event)" >
+                                </div>
+                                <div class="form-group">
+                                	<label for="exampleInputEmail1">Discount Amount (USD)</label>
+                                     <input type="text" readonly name="discount_amount" id="discount_amount" value="0.00" class="form-control input-sm">
                                 </div>
                                 
                                 <div class="form-group">
@@ -329,9 +338,10 @@
                                     	<th width="3%">No.</th>
                                         <th width="42%">Particular Name</th>
                                         <th width="7%">Qty</th>
-                                        <th width="10%">Rate</th>
+                                        <th width="9%">Rate</th>
+                                        <th width="9%">Discount (%)</th>
                                         <th width="10%">Amount</th>
-                                        <th width="25%">Note</th>
+                                        <th width="22%">Note</th>
                                         <th width="3%"></th>
                                     </tr>
                                 </thead>
@@ -1036,180 +1046,196 @@ xmlhttp2.send();
           				return true;
        				}
 	   
-                    function addItem(){
-						
-						
-						if(document.getElementById("bill_category").value == "particular"){
-							if(document.getElementById("particular_name").value == ""){
-								alert("Please select Paricular Category");
-								return false;
-							}else if(document.getElementById("bill_name").value == ""){
-								alert("Please select Paricular Item");
-								return false;
-							}else if(document.getElementById("qty").value == ""){
-								alert("Please enter a valid Qty");
-								return false;
-							}else if(document.getElementById("rate").value == ""){
-								alert("Please enter a valid Rate");
-								return false;
-							}
-						}else if(document.getElementById("bill_category").value == "medicine"){
-							if(document.getElementById("medicine_name").value == ""){
-								alert("Please select Medicine Category");
-								return false;
-							}else if(document.getElementById("drug_name_a").value == ""){
-								alert("Please select Drug Name");
-								return false;
-							}else if(document.getElementById("qty").value == ""){
-								alert("Please enter a valid Qty");
-								return false;
-							}else if(document.getElementById("drug_rate").value == ""){
-								alert("Please enter a valid Rate");
-								return false;
-							}
-						}
-						
-						
-						
-							
-						
-						
-						var tbl = document.getElementById('myTable').getElementsByTagName('tr');
-						var lastRow = tbl.length;	
-						
-						var category,particular,qty,rate,note,amount;
-						
-						qty = document.getElementById("qty").value;
-						note = document.getElementById("note").value;
-						
-						if(document.getElementById("bill_category").value == "particular"){
-							category = document.getElementById("particular_name").value;
-							particular = document.getElementById("bill_name").value;
-							rate = document.getElementById("rate").value;
-						}else if(document.getElementById("bill_category").value == "medicine"){
-							category = document.getElementById("medicine_name").value;
-							particular = document.getElementById("drug_name_a").value;
-							rate = document.getElementById("drug_rate").value;
-						}
-						
-						amount = eval(qty) * eval(rate);
-						amount = amount.toFixed(2); 
-			
-						
-						var a=document.getElementById('myTable').insertRow(-1);
-						var b=a.insertCell(0);
-						var c=a.insertCell(1);
-						var d=a.insertCell(2);
-						var e=a.insertCell(3);
-						var f=a.insertCell(4);
-						var g=a.insertCell(5);
-						var h=a.insertCell(6);
-						
-						b.innerHTML = "<input type=\"hidden\" name=\"isPackage" + lastRow + "\" id=\"isPackage" + lastRow + "\" value=\"0\"><input type=\"text\" size = \"7\" style=\"width:98%; background-color:#F9F9f9; border:1px solid #ccc; text-align:right\" name=\"id" + lastRow + "\" id=\"id" + lastRow + "\" value=\""+ lastRow + ". \" readonly=\"true\">";
-						c.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%; background-color:#F9F9f9; border:1px solid #ccc;\" name=\"bill_name" + lastRow + "\" id=\"bill_name" + lastRow + "\" value=\""+ particular + "\" readonly=\"true\">";
-						d.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%; text-align:right\" name=\"qty" + lastRow + "\" id=\"qty" + lastRow + "\" class=\"" + lastRow + "\" value=\""+ qty + "\" onBlur=\"return validate_input(this.className,'qty')\" onkeyup=\"validate_gross(this.className,'qty')\" onkeypress=\"return isNumberKey(event)\" >";
-						e.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%; text-align:right\" name=\"rate" + lastRow + "\" id=\"rate" + lastRow + "\" class=\"" + lastRow + "\" value=\""+ rate + "\" onBlur=\"return validate_input(this.className,'rate')\" onkeyup=\"validate_gross(this.className,'rate')\" onkeypress=\"return isNumberKey(event)\">";
-						f.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%; background-color:#F9F9f9; border:1px solid #ccc; text-align:right\" name=\"amount" + lastRow + "\" id=\"amount" + lastRow + "\" value=\""+ amount + "\" readonly=\"true\">";
-						g.innerHTML = "<input type=\"text\" size = \"7\" style=\"width:98%;\" name=\"note" + lastRow + "\" id=\"note" + lastRow + "\" value=\""+ note + "\">";
-						h.innerHTML = "<img src=\"<?php echo base_url()?>public/img/b_drop.png\" onclick=\"deleteRow(this)\" style=\"cursor:pointer;\">";
-						
-						document.getElementById("hdnrowcnt").value = lastRow;
-						
-						getGross();
-						
-						$('#myModal').modal('hide');
-						return true;	
-					
-						
-					}
-					
+                    
+                    function addItem() {
+                        var isMedicine = document.getElementById("bill_category").value === "medicine";
+
+                        // Get the selected catalogue item from the AJAX-loaded dropdown.
+                        var itemSelect = isMedicine
+                            ? document.querySelector('#showDrugListItem select[name="drug_name"]')
+                            : document.querySelector('#showCategories select[name="particular"]');
+
+                        var sourceId = itemSelect ? itemSelect.value : "";
+
+                        // Get the selected item's name.
+                        var nameInput = document.getElementById(
+                            isMedicine ? "drug_name_a" : "bill_name"
+                        );
+                        var particular = nameInput ? nameInput.value : "";
+
+                        // Get the catalogue price.
+                        var rateInput = document.getElementById(
+                            isMedicine ? "drug_rate" : "rate"
+                        );
+                        var rate = rateInput ? rateInput.value : "";
+
+                        var qty = document.getElementById("qty").value;
+                        var note = document.getElementById("note").value;
+
+                        // Validate item selection and quantity.
+                        if (!sourceId || !particular) {
+                            alert("Please select an item.");
+                            return false;
+                        }
+
+                        if (
+                            qty === "" ||
+                            !isFinite(Number(qty)) ||
+                            Number(qty) <= 0 ||
+                            Math.floor(Number(qty)) !== Number(qty)
+                        ) {
+                            alert("Please enter a positive whole-number quantity.");
+                            return false;
+                        }
+
+                        if (rate === "" || !isFinite(Number(rate)) || Number(rate) < 0) {
+                            alert("Catalogue price could not be loaded.");
+                            return false;
+                        }
+
+                        var tbl = document.getElementById("myTable").getElementsByTagName("tr");
+                        var lastRow = tbl.length;
+
+                        var grossAmount = Number(qty) * Number(rate);
+                        var itemDiscountPercent = 0;
+                        var itemDiscountAmount = 0;
+                        var amount = grossAmount.toFixed(2);
+                        var itemType = isMedicine ? "medicine" : "particular";
+
+                        var a = document.getElementById("myTable").insertRow(-1);
+
+                        var b = a.insertCell(0);
+                        var c = a.insertCell(1);
+                        var d = a.insertCell(2);
+                        var e = a.insertCell(3);
+                        var f = a.insertCell(4);
+                        var g = a.insertCell(5);
+                        var h = a.insertCell(6);
+                        var i = a.insertCell(7);
+
+                        // Escape text before inserting it into HTML.
+                        var safeName = $("<div>").text(particular).html();
+                        var safeNote = $("<div>").text(note).html();
+
+                        b.innerHTML =
+                            '<input type="hidden" name="isPackage' + lastRow + '" id="isPackage' + lastRow + '" value="0">' +
+                            '<input type="hidden" name="item_type' + lastRow + '" id="item_type' + lastRow + '" value="' + itemType + '">' +
+                            '<input type="hidden" name="item_id' + lastRow + '" id="item_id' + lastRow + '" value="' + sourceId + '">' +
+                            '<input type="text" style="width:98%;text-align:right" name="id' + lastRow + '" id="id' + lastRow + '" value="' + lastRow + '." readonly>';
+
+                        c.innerHTML =
+                            '<input type="text" style="width:98%" name="bill_name' + lastRow + '" id="bill_name' + lastRow + '" value="' + safeName + '" readonly>';
+
+                        d.innerHTML =
+                            '<input type="text" style="width:98%;text-align:right" name="qty' + lastRow + '" id="qty' + lastRow + '" class="' + lastRow + '" value="' + qty + '" onBlur="return validate_input(this.className,\'qty\')" onkeyup="validate_gross(this.className,\'qty\')" onkeypress="return isNumberKey(event)">';
+
+                        e.innerHTML =
+                            '<input type="text" style="width:98%;text-align:right;background:#F9F9F9" name="rate' + lastRow + '" id="rate' + lastRow + '" value="' + Number(rate).toFixed(2) + '" readonly>';
+
+                        f.innerHTML =
+                            '<input type="text" style="width:98%;text-align:right" name="discount_percent' + lastRow + '" id="discount_percent' + lastRow + '" value="0" onkeyup="validate_item_discount(' + lastRow + ')" onkeypress="return isNumberKey(event)">';
+
+                        g.innerHTML =
+                            '<input type="text" style="width:98%;text-align:right;background:#F9F9F9" name="amount' + lastRow + '" id="amount' + lastRow + '" value="' + amount + '" readonly>';
+
+                        h.innerHTML =
+                            '<input type="text" style="width:98%" name="note' + lastRow + '" id="note' + lastRow + '" value="' + safeNote + '">';
+
+                        i.innerHTML =
+                            '<img src="<?php echo base_url()?>public/img/b_drop.png" onclick="deleteRow(this)" style="cursor:pointer;">';
+
+                        document.getElementById("hdnrowcnt").value = lastRow;
+
+                        getGross();
+
+                        $("#myModal").modal("hide");
+
+                        return true;
+                    }
+
+
 					function closeModal(){
 						$('#myModal').modal('hide');	
 					}
 					
 					function deleteRow(r){
-						var tbl = document.getElementById('myTable').getElementsByTagName('tr');
-						var lastRow = tbl.length;	
-						
-						var i=r.parentNode.parentNode.rowIndex;
-						if (lastRow > 2) {
-							document.getElementById('myTable').deleteRow(i);
- 							document.getElementById('hdnrowcnt').value = lastRow - 2;
- 							var lastRow = tbl.length;
-							var z;
-							for (z=i+1; z<=lastRow; z++){
-								
-								var id = document.getElementById('id' + z);
-								var isPackage = document.getElementById('isPackage' + z);
-								var bill_name = document.getElementById('bill_name' + z);
-								var qty = document.getElementById('qty' + z);
-								var rate = document.getElementById('rate' + z);
-								var amount = document.getElementById('amount' + z);
-								var note = document.getElementById('note' + z);
-								
-								var x = z-1;
-								
-								id.value = x;
-								id.id = "id" + x;
-								id.name = "id" + x;	
-								
-								isPackage.id = "isPackage" + x;
-								isPackage.name = "isPackage" + x;	
-								
-								bill_name.id = "bill_name" + x;
-								bill_name.name = "bill_name" + x;	
-								
-								qty.id = "qty" + x;
-								qty.name = "qty" + x;	
-								qty.className = x;
-								
-								rate.id = "rate" + x;
-								rate.name = "rate" + x;	
-								rate.className = x;
-								
-								amount.id = "amount" + x;
-								amount.name = "amount" + x;	
-								
-								note.id = "note" + x;
-								note.name = "note" + x;	
-								
-								//alert(bill_name.name + " - " + rate.value);
-							}
-							getGross();
-						}else{
- 							alert("Minimum of one row per transaction.");
- 						}
-					}
-					
-					function getGross()
-					{
-						var len;
-						var nGross = 0;
-						var nTotal = 0;
-						len = document.getElementById("hdnrowcnt").value;
-							for (i=1; i<=len; i++) {
-								nGross += parseFloat(document.getElementById("amount" + i).value-0);
-							}
-						nGross = nGross.toFixed(2); 
-						document.getElementById("nGross").value = nGross;
-						nTotal = eval(nGross) - eval(document.getElementById("discount").value);
-						nTotal = nTotal.toFixed(2); 
-						document.getElementById("total_amount").value = nTotal;
-					}
-					
-					function validate_gross(id,nName){
-						var qty,rate,amount;
-						qty = document.getElementById("qty"+id).value;	
-						rate = document.getElementById("rate"+id).value;
-						
-						amount = eval(qty) * eval(rate);
-						amount = amount.toFixed(2); 
-						
-						document.getElementById("amount"+id).value = amount;
-						
-						getGross();			
-					}
-					
+                        var table = document.getElementById("myTable");
+                        var rowIndex = r.parentNode.parentNode.rowIndex;
+                        if (table.rows.length <= 2) {
+                            alert("Minimum of one row per transaction.");
+                            return;
+                        }
+                        table.deleteRow(rowIndex);
+                        var rows = table.rows.length - 1;
+                        document.getElementById("hdnrowcnt").value = rows;
+                        for (var z = 1; z <= rows; z++) {
+                            var fields = ["id", "isPackage", "item_type", "item_id", "bill_name", "qty", "rate", "discount_percent", "amount", "note"];
+                            fields.forEach(function(prefix) {
+                                var field = document.getElementById(prefix + (z + 1));
+                                if (field) {
+                                    field.id = prefix + z;
+                                    field.name = prefix + z;
+                                }
+                            });
+                            var numberField = document.getElementById("id" + z);
+                            if (numberField) numberField.value = z + ".";
+                            var qtyField = document.getElementById("qty" + z);
+                            var rateField = document.getElementById("rate" + z);
+                            if (qtyField) qtyField.className = z;
+                            if (rateField) rateField.className = z;
+                            var discountField = document.getElementById("discount_percent" + z);
+                            if (discountField) discountField.setAttribute("onkeyup", "validate_item_discount(" + z + ")");
+                        }
+                        getGross();
+                    }
+
+                    function calculateItemAmount(id) {
+                        var qty = Number(document.getElementById("qty" + id).value);
+                        var rate = Number(document.getElementById("rate" + id).value);
+                        var discountField = document.getElementById("discount_percent" + id);
+                        var discountPercent = Number(discountField.value);
+                        if (!isFinite(discountPercent) || discountPercent < 0 || discountPercent > 100) {
+                            discountPercent = 0;
+                            discountField.value = "0";
+                        }
+                        var gross = Math.round((qty * rate + Number.EPSILON) * 100) / 100;
+                        var discountAmount = Math.round((gross * discountPercent / 100 + Number.EPSILON) * 100) / 100;
+                        var net = Math.max(0, Math.round((gross - discountAmount + Number.EPSILON) * 100) / 100);
+                        document.getElementById("amount" + id).value = net.toFixed(2);
+                    }
+
+                    function validate_item_discount(id) {
+                        var field = document.getElementById("discount_percent" + id);
+                        var value = field.value;
+                        if (value === "" || !isFinite(Number(value)) || Number(value) < 0 || Number(value) > 100) {
+                            field.value = "0";
+                        }
+                        calculateItemAmount(id);
+                        getGross();
+                    }
+
+                    function getGross() {
+                        var len = Number(document.getElementById("hdnrowcnt").value);
+                        var subtotal = 0;
+                        for (var i = 1; i <= len; i++) {
+                            var amountField = document.getElementById("amount" + i);
+                            if (amountField) subtotal += Number(amountField.value) || 0;
+                        }
+                        subtotal = Math.round((subtotal + Number.EPSILON) * 100) / 100;
+                        var invoicePercent = Number(document.getElementById("discount_percent").value);
+                        if (!isFinite(invoicePercent) || invoicePercent < 0 || invoicePercent > 100) invoicePercent = 0;
+                        var invoiceDiscount = Math.round((subtotal * invoicePercent / 100 + Number.EPSILON) * 100) / 100;
+                        var total = Math.max(0, Math.round((subtotal - invoiceDiscount + Number.EPSILON) * 100) / 100);
+                        document.getElementById("nGross").value = subtotal.toFixed(2);
+                        document.getElementById("discount_amount").value = invoiceDiscount.toFixed(2);
+                        document.getElementById("total_amount").value = total.toFixed(2);
+                    }
+
+                    function validate_gross(id,nName){
+                        calculateItemAmount(id);
+                        getGross();
+                    }
+
 					function validate_input(id,name){
 						//alert(document.getElementById(name+""+id).value);
 						if(document.getElementById(name+""+id).value == "" || eval(document.getElementById(name+""+id).value) <= 0){
@@ -1237,8 +1263,13 @@ xmlhttp2.send();
 							var len;
 							len = document.getElementById("hdnrowcnt").value;	
 							for (i=1; i<=len; i++) {
-							if(eval(document.getElementById("amount"+i).value) <= 0){
-								alert("Transaction cannot be saved. There are still some items without amount.");
+                            var itemDiscount = Number(document.getElementById("discount_percent" + i).value);
+                            if (!isFinite(itemDiscount) || itemDiscount < 0 || itemDiscount > 100) {
+                                alert("Item discount must be between 0 and 100%.");
+                                return false;
+                            }
+							if(Number(document.getElementById("qty"+i).value) <= 0 || Number(document.getElementById("rate"+i).value) < 0){
+								alert("Transaction cannot be saved. Please check item quantity and rate.");
 								return false;
 							}else{
 								if(confirm('Are you sure you want to save?')){

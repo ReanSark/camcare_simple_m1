@@ -139,7 +139,7 @@
 <section class="section">
   <div class="patient-grid">
     <div class="field"><div class="field-label">លេខវិក្កយបត្រ</div><div class="field-line"><?php echo $headerInv->invoice_no?></div></div>
-    <div class="field"><div class="field-label">អត្រាប្តូរប្រាក់</div><div class="field-line"></div></div>
+    <div class="field"><div class="field-label">អត្រាប្តូរប្រាក់</div><div class="field-line"><?php echo ($exchangeRateDisplay !== null) ? '1 USD = ' . number_format($exchangeRateDisplay, 4) . ' KHR' : '—'; ?></div></div>
     <div class="field"><div class="field-label">កាលបរិច្ឆេទនៃសេវាកម្ម (ថ្ងៃ / ខែ / ឆ្នាំ)</div><div class="field-line"><?php echo date("d M Y", strtotime($headerInv->dDate));?></div></div>
   </div>
 </section>
@@ -188,7 +188,7 @@
           </div>
           <div></div>
           <div>
-            <?php echo number_format($surgical_items->costs,2); ?>
+            <?php echo number_format($surgical_items->costs,4); ?>
           </div>
           <div></div>
           <div></div>
@@ -205,17 +205,17 @@
         </div>
 
         <div>
-          <?php echo number_format($detailsInv->qty,2); ?>
+          $ <?php echo number_format($detailsInv->qty,4); ?>
         </div>
 
         <div>
-          <?php echo number_format($detailsInv->rate,2); ?>
+          $ <?php echo number_format($detailsInv->rate,4); ?>
         </div>
 
         <div></div>
 
         <div>
-          <?php echo number_format($detailsInv->amount,2); ?>
+          $ <?php echo number_format($detailsInv->amount,4); ?>
         </div>
       </div>
 
@@ -239,7 +239,7 @@
 
 <div class="bottom-grid">
 <section class="panel">
-  <div class="panel-title"><span class="section-number">3</span><span>ជម្រើសទូទាត់</span></div>
+  <div class="panel-title"><span>ជម្រើសទូទាត់</span></div>
   <div class="checks">
     <div class="check"><span class="box"></span>សាច់ប្រាក់</div>
     <div class="check"><span class="box"></span>ការផ្ទេរប្រាក់តាមធនាគារ</div>
@@ -251,12 +251,12 @@
 </section>
 
 <section class="panel">
-  <div class="panel-title"><span class="section-number">4</span><span>សេចក្តីសង្ខេបនៃការទូទាត់</span></div>
-  <div class="total-row"><div class="total-label">សរុបរង</div><div class="total-value"><?php echo number_format($headerInv->sub_total,2)?></div></div>
-  <div class="total-row"><div class="total-label">Tax / VAT</div><div class="total-value"></div></div>
-  <div class="total-row"><div class="total-label">បញ្ចុះតម្លៃ</div><div class="total-value"><?php echo number_format($headerInv->discount,2)?></div></div>
-  <div class="total-row highlight"><div class="total-label">សរុបត្រូវបង់</div><div class="total-value"><?php echo number_format($headerInv->total_amount,2)?></div></div>
-  <div class="total-row bold"><div class="total-label">ចំនួនទឹកប្រាក់ដែលបានបង់</div><div class="total-value"></div></div>
+  <div class="panel-title"><span>សេចក្តីសង្ខេបនៃការទូទាត់</span></div>
+  <div class="total-row"><div class="total-label">សរុបរង USD</div><div class="total-value">$ <?php echo number_format($headerInv->sub_total,4)?></div></div>
+  <!-- <div class="total-row"><div class="total-label">Tax / VAT</div><div class="total-value"></div></div> -->
+  <div class="total-row"><div class="total-label">បញ្ចុះតម្លៃ USD</div><div class="total-value">$ <?php echo number_format($headerInv->discount,4)?></div></div>
+  <div class="total-row highlight"><div class="total-label">សរុបត្រូវបង់ USD</div><div class="total-value">$ <?php echo number_format($headerInv->total_amount,4)?></div></div>
+  <div class="total-row bold"><div class="total-label">សរុបត្រូវបង់ Riel</div><div class="total-value"><?php echo ($totalAmountKhr !== null) ? '៛ ' . number_format($totalAmountKhr, 0) : '—'; ?></div></div>
 </section>
 </div>
 
@@ -267,8 +267,8 @@
 </div>
 
 <div class="signatures">
-  <div class="signature"><div><div>ហត្ថលេខារបស់អ្នកបង់ថ្លៃសេវា</div><div class="signature-line"></div></div><div class="signature-date">កាលបរិច្ឆេទ: ____ / ____ / ______</div></div>
-  <div class="signature"><div><div>ហត្ថលេខារបស់អ្នកទទួលប្រាក់</div><div class="signature-line"></div></div><div class="signature-date">កាលបរិច្ឆេទ: ____ / ____ / ______</div></div>
+  <!-- <div class="signature"><div><div>ហត្ថលេខារបស់អ្នកបង់ថ្លៃសេវា</div><div class="signature-line"></div></div><div class="signature-date">កាលបរិច្ឆេទ: ____ / ____ / ______</div></div> -->
+  <div class="signature"><div><div>ហត្ថលេខារបស់អ្នកទទួលប្រាក់</div><div class="signature-line"></div></div></div>
 </div>
 
 </div>

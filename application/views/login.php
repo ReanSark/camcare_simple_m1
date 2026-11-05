@@ -111,7 +111,7 @@
 								<button class="button btn btn-primary btn-large">Log In</button>
 							</div> <!-- .actions -->
 						</form>
-						<p>Version 1.0 Official Version</p>
+						<p>Official Version 1.1 - Updated 4 November 2026</p>
 						
 					</div> <!-- /content -->
 					

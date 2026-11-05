@@ -174,9 +174,9 @@
                                     <li><a href="<?php echo base_url()?>app/opd/complain/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Complain</a></li>
                                     <li><a href="<?php echo base_url()?>app/opd/vitalSign/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Vital Sign</a></li>
                                     <li><a href="<?php echo base_url()?>app/opd/patientHistory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Patient History</a></li>
-                                    <li class="active"><a href="<?php echo base_url()?>app/opd/laboratory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Laboratory</a></li>
+                                    <li class="active"><a href="<?php echo base_url()?>app/opd/laboratory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Paraclinical</a></li>
                                     <li><a href="<?php echo base_url()?>app/opd/discharge_summary/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Discharge Summary</a></li>
-                                    <!--<li><a href="<?php echo base_url()?>app/opd/billing/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Admission Billing</a></li>-->
+                                    <!-- <li><a href="<?php echo base_url()?>app/opd/billing/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>"> Admission Billing</a></li> -->
                                     
                                     
                                  </ul>
@@ -188,23 +188,24 @@
                      <div class="col-md-9"> 
                                 <div class="nav-tabs-custom">
                                 	<ul class="nav nav-tabs">
-                                		<li class="active"><a href="#tab_1" data-toggle="tab">Laboratory</a></li>
+                                		<li class="active"><a href="#tab_1" data-toggle="tab">Paraclinical</a></li>
                                         
                                 	</ul>
                                     <div class="tab-content">
                                     	<div class="tab-pane active" id="tab_1">
                                         	<?php if($this->session->userdata('emr_viewing') == ""){?>	
                                         	<?php if($getOPDPatient->nStatus == "Pending"){?>
-                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add Laboratory</a>
+                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add Paraclinical</a>
                                             
                                             <?php }}?>
                                             <a href="<?php echo base_url()?>app/ipd_print/print_laboratory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-default" target="_blank"><i class="fa fa-print"></i> Print</a>
-                                            <a href="<?php echo base_url()?>app/ipd_print/pdf_laboratory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> PDF</a>
+                                            <!-- <a href="<?php echo base_url()?>app/ipd_print/pdf_laboratory/<?php echo $getOPDPatient->IO_ID;?>/<?php echo $getOPDPatient->patient_no;?>" class="btn btn-success" target="_blank"><i class="fa fa-print"></i> PDF</a> -->
                                            <table class="table table-hover table-striped">
                                            <thead>
                                            <tr>
                                            		<th>Date</th>
-                                                <th>Laboratory</th>
+                                                <th>Paraclinical</th>
+                                                <th>Item</th>
                                                 <th>Doctor In-Charge</th>
                                                 <th>Findings</th>
                                                 <th>Results</th>
@@ -215,6 +216,7 @@
                                            <?php foreach($patient_lab as $patient_lab){?>
                                            <tr>
                                            		<td><?php echo date("M d, Y h:i:s A",strtotime($patient_lab->dDateTime));?></td>
+                                                <td><?php echo $patient_lab->group_name?></td>
                                                 <td><?php echo $patient_lab->particular_name?></td>
                                                 <td><?php echo $patient_lab->doctor?></td>
                                                 <td><?php echo $patient_lab->findings?></td>
@@ -250,7 +252,7 @@
         
         
         <!-- Modal -->
-                            <form method="post" action="<?php echo base_url()?>app/opd/save_laboratory" onSubmit="return confirm('Are you sure you want to save?');">
+                            <form method="post" action="<?php echo base_url()?>app/opd/save_laboratory" onSubmit="">
                             <input type="hidden" name="opd_no" value="<?php echo $getOPDPatient->IO_ID?>">
                             <input type="hidden" name="patient_no" value="<?php echo $getOPDPatient->patient_no?>">
                             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -258,7 +260,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel">Laboratory</h4>
+                                            <h4 class="modal-title" id="myModalLabel">Paraclinical</h4>
                                         </div>
                                         <div class="modal-body">
                                         <table class="table table-hover">
@@ -276,7 +278,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                        	<td>Laboratory</td>
+                                        	<td>Paraclinical</td>
                                             <td>
                                            	<span id="showCategories">
                         					<select name="item" id="item" class="form-control input-sm" style="width: 100%;" required>
@@ -308,7 +310,7 @@
                                         <tr>
                                         	<td>Doctor</td>
                                             <td>
-                                            <select name="doctor" id="doctor" class="form-control input-sm" style="width: 100%;" required>
+                                            <select name="doctor" id="doctor" class="form-control input-sm" style="width: 100%;">
                                                             	<option value="">- Consultant Doctor -</option>
                                                             	<?php 
 																foreach($doctorList2 as $doctorList2){

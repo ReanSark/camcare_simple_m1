@@ -42,7 +42,7 @@ class Myprofile extends General{
 	function edit_user(){
 		$this->form_validation->set_rules("lastname","Last Name","trim|xss_clean|required|callback_validate_name_edit");	
 		$this->form_validation->set_rules("firstname","First Name","trim|xss_clean|required");	
-		$this->form_validation->set_rules("middlename","Middle Name","trim|xss_clean|required");
+		$this->form_validation->set_rules("middlename","Middle Name","trim|xss_clean");
 		$this->form_validation->set_rules("email","Email Address","trim|xss_clean|required|callback_validate_email_edit");
 		$this->form_validation->set_error_delimiters("<div class='alert alert-warning alert-dismissable'><i class='fa fa-warning'></i><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>","</div>");
 		

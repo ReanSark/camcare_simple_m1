@@ -163,6 +163,61 @@ class Ipd extends General{
 		$this->load->view("app/ipd/admit",$this->data);		
 	}
 
+	public function print_ipd_registration(){
+		$patient_no = $this->input->post('patient_no', TRUE);
+
+		if (empty($patient_no)) {
+			show_error('Patient number is required.', 400);
+			return;
+		}
+
+		$this->data['patientInfo'] =
+			$this->patient_model->getPatientInfo($patient_no);
+
+		if (empty($this->data['patientInfo'])) {
+			show_404();
+			return;
+		}
+
+		$fields = array(
+			'iopNo',
+			'department',
+			'doctor',
+			'room_name',
+			'bed_name',
+			'prov_diagnosis',
+			'complaint',
+			'allergies',
+			'warnings',
+			'social_history',
+			'family_history',
+			'personal_history',
+			'past_medical_history',
+			'pulse_rate',
+			'temperature',
+			'height',
+			'bp',
+			'respiration',
+			'weight',
+			'sao2',
+			'department_name',
+			'doctor_name'
+		);
+
+		$printData = array();
+
+		foreach ($fields as $field) {
+			$printData[$field] = $this->input->post($field, TRUE);
+		}
+
+		$this->data['printData'] = $printData;
+
+		$this->load->view(
+			'app/ipd/print_ipd_registration',
+			$this->data
+		);
+	}
+
 	public function getRoomMaster(){
 		
 		$roomType = $this->uri->segment("4");
@@ -258,6 +313,33 @@ class Ipd extends General{
 		$this->load->view("app/ipd/view",$this->data);	
 	}
 	
+	public function printPrescription(){
+		$iop_no = $this->uri->segment("4");
+		$patient_no = $this->uri->segment("5");
+
+		if (empty($iop_no) || empty($patient_no)) {
+			show_404();
+			return;
+		}
+
+		$this->data['getOPDPatient'] = $this->ipd_model->getIPDPatient($iop_no);
+		$this->data['patientInfo'] = $this->patient_model->getPatientInfo($patient_no);
+
+		// Ensure this admission belongs to the requested patient.
+		if (empty($this->data['getOPDPatient']) || empty($this->data['patientInfo']) ||
+			$this->data['getOPDPatient']->patient_no != $patient_no) {
+			show_404();
+			return;
+		}
+
+		// IPD diagnoses come from the IPD model; medication records use the
+		// shared medication query already used by the IPD medication page.
+		$this->data['patientDiagnosis'] = $this->ipd_model->patientDiagnosis($iop_no);
+		$this->data['patientMedication'] = $this->opd_model->patientMedication($iop_no);
+
+		$this->load->view("app/ipd/printPrescription", $this->data);
+	}
+
 	public function diagnosis(){
 		$iop_no = $this->uri->segment("4");
 		$patient_no = $this->uri->segment("5");
@@ -510,6 +592,13 @@ class Ipd extends General{
 			'advice'		=>		$this->input->post('advice'),
 			'days'			=>		$this->input->post('nDays'),
 			'total_qty'		=>		$this->input->post('qty'),
+			'morning'		=>		$this->input->post('morning'),
+			'afternoon'		=>		$this->input->post('afternoon'),
+			'evening'		=>		$this->input->post('evening'),
+			'night'			=>		$this->input->post('night'),
+			'meal'			=>		$this->input->post('meal'),
+			'method'		=>		$this->input->post('method'),
+			'measurement'	=>		$this->input->post('measurement'),
 			'cPreparedBy'	=>		$this->session->userdata('user_id'),
 			'dDate'			=>		date("Y-m-d h:i:s A"),
 			'InActive'		=>		0
@@ -591,6 +680,7 @@ class Ipd extends General{
 				'bp'			=>		$this->input->post('bp'),
 				'respiration'	=>		$this->input->post('respiration'),
 				'weight'		=>		$this->input->post('weight'),
+				'sao2'			=>		$this->input->post('sao2'),
 				'cPreparedBy'	=>		$this->session->userdata('user_id'),
 				'InActive'		=>		0
 			);
@@ -636,7 +726,8 @@ class Ipd extends General{
 			'height'			=>	$this->input->post('height'),
 			'bp'				=>	$this->input->post('bp'),
 			'respiration'		=>	$this->input->post('respiration'),
-			'weight'			=>	$this->input->post('weight')
+			'weight'			=>	$this->input->post('weight'),
+			'sao2'				=>	$this->input->post('sao2')
 		);
 		$this->db->where("IO_ID",$iop_no);
 		$this->db->update("patient_details_iop",$this->data);

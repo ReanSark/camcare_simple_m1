@@ -120,6 +120,59 @@ class Opd extends General{
 		$this->data['patientHistory'] = $this->patient_model->getPatientHistory($patient_no);
 		$this->load->view("app/opd/opdReg",$this->data);	
 	}
+
+	public function print_opd_registration(){
+    $patient_no = $this->input->post('patient_no', TRUE);
+
+    if (empty($patient_no)) {
+        show_error('Patient number is required.', 400);
+        return;
+    }
+
+    // Retrieve existing patient information
+    $this->data['patientInfo'] =
+        $this->patient_model->getPatientInfo($patient_no);
+
+    $this->data['patientHistory'] =
+        $this->patient_model->getPatientHistory($patient_no);
+
+    if (empty($this->data['patientInfo'])) {
+        show_404();
+        return;
+    }
+
+    // Capture current, potentially unsaved form values
+    $this->data['printData'] = array(
+        'opdNo'          => $this->input->post('opdNo', TRUE),
+        'refdoctor'      => $this->input->post('refdoctor', TRUE),
+        'department'     => $this->input->post('department', TRUE),
+        'doctor'         => $this->input->post('doctor', TRUE),
+
+		'refdoctor_name' => $this->input->post('refdoctor_name', TRUE),
+		'department_name' => $this->input->post('department_name', TRUE),
+		'doctor_name' => $this->input->post('doctor_name', TRUE),
+
+        'allergies'      => $this->input->post('allergies', TRUE),
+        'warnings'       => $this->input->post('warnings', TRUE),
+        'social_history' => $this->input->post('social_history', TRUE),
+        'family_history' => $this->input->post('family_history', TRUE),
+        'personal_history' => $this->input->post('personal_history', TRUE),
+        'past_medical_history' => $this->input->post('past_medical_history', TRUE),
+
+        'pulse_rate'     => $this->input->post('pulse_rate', TRUE),
+        'bp'             => $this->input->post('bp', TRUE),
+        'temperature'    => $this->input->post('temperature', TRUE),
+        'respiration'    => $this->input->post('respiration', TRUE),
+        'height'         => $this->input->post('height', TRUE),
+        'weight'         => $this->input->post('weight', TRUE),
+        'sao2'           => $this->input->post('sao2', TRUE)
+    );
+
+    $this->load->view(
+        'app/opd/print_opd_registration',
+        $this->data
+    );
+	}
 	
 	
 	public function index($offset = 0){
@@ -266,6 +319,31 @@ class Opd extends General{
 		
 		$this->load->view("app/opd/view",$this->data);	
 	}
+
+	public function printPrescription(){
+		$iop_no = $this->uri->segment("4");
+		$patient_no = $this->uri->segment("5");
+
+		if (empty($iop_no) || empty($patient_no)) {
+			show_404();
+			return;
+		}
+
+		$this->data['getOPDPatient'] = $this->opd_model->getOPDPatient($iop_no);
+		$this->data['patientInfo'] = $this->patient_model->getPatientInfo($patient_no);
+
+		// Ensure the requested OPD visit belongs to the requested patient.
+		if (empty($this->data['getOPDPatient']) || empty($this->data['patientInfo']) ||
+			$this->data['getOPDPatient']->patient_no != $patient_no) {
+			show_404();
+			return;
+		}
+
+		$this->data['patientDiagnosis'] = $this->opd_model->patientDiagnosis($iop_no);
+		$this->data['patientMedication'] = $this->opd_model->patientMedication($iop_no);
+
+		$this->load->view("app/opd/printPrescription", $this->data);
+	}
 	
 	public function diagnosis(){
 		$iop_no = $this->uri->segment("4");
@@ -383,6 +461,7 @@ class Opd extends General{
 				'bp'			=>		$this->input->post('bp'),
 				'respiration'	=>		$this->input->post('respiration'),
 				'weight'		=>		$this->input->post('weight'),
+				'sao2'			=>		$this->input->post('sao2'),
 				'InActive'		=>		0
 			);
 			$this->db->insert('iop_vital_parameters',$this->data);
@@ -471,7 +550,8 @@ class Opd extends General{
 			'height'			=>	$this->input->post('height'),
 			'bp'				=>	$this->input->post('bp'),
 			'respiration'		=>	$this->input->post('respiration'),
-			'weight'			=>	$this->input->post('weight')
+			'weight'			=>	$this->input->post('weight'),
+			'sao2'				=>	$this->input->post('sao2')
 		);
 		$this->db->where("IO_ID",$iop_no);
 		$this->db->update("patient_details_iop",$this->data);
@@ -527,6 +607,13 @@ class Opd extends General{
 			'advice'		=>		$this->input->post('advice'),
 			'days'			=>		$this->input->post('nDays'),
 			'total_qty'		=>		$this->input->post('qty'),
+			'morning'       => $this->input->post('morning', TRUE),
+			'afternoon'     => $this->input->post('afternoon', TRUE),
+			'evening'       => $this->input->post('evening', TRUE),
+			'night'         => $this->input->post('night', TRUE),
+			'meal'          => $this->input->post('meal', TRUE),
+			'method'        => $this->input->post('method', TRUE),
+			'measurement'   => $this->input->post('measurement', TRUE),
 			'InActive'		=>		0
 		);
 		$this->db->insert("iop_medication",$this->data);
@@ -597,6 +684,26 @@ class Opd extends General{
 		
 		$this->data['headerInv'] = $this->billing_model->headerInv2($InvNo);
 		$this->data['detailsInv'] = $this->billing_model->detailsInv2($InvNo);
+		
+		// The exchange rate is captured on the receipt when payment is made in KHR.
+		$this->data['paymentReceipt'] = $this->billing_model->OR_num($InvNo);
+		$this->data['exchangeRateDisplay'] = null;
+		$this->data['totalAmountKhr'] = null;
+		
+		$paymentReceipt = $this->data['paymentReceipt'];
+		if (
+			$paymentReceipt &&
+			isset($paymentReceipt->payment_currency, $paymentReceipt->exchange_rate) &&
+			strtoupper(trim((string)$paymentReceipt->payment_currency)) === 'KHR' &&
+			is_numeric($paymentReceipt->exchange_rate) &&
+			(float)$paymentReceipt->exchange_rate > 0
+		) {
+			$exchangeRate = (float)$paymentReceipt->exchange_rate;
+			$totalAmountUsd = round((float)$this->data['headerInv']->total_amount, 2);
+			$this->data['exchangeRateDisplay'] = $exchangeRate;
+			// Match the payment calculation: round the payable amount to the nearest 100 KHR.
+			$this->data['totalAmountKhr'] = round(($totalAmountUsd * $exchangeRate) / 100) * 100;
+		}
 		
 		$this->load->view("app/opd/printInv",$this->data);	
 		
